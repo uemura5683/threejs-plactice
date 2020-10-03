@@ -52,6 +52,13 @@
             color: 0xffffff
           });
 
+          // 円を作成
+          const geometrys = new THREE.CircleGeometry(300, 300, 300);
+          const materials = new THREE.MeshNormalMaterial();
+          const box = new THREE.Mesh(geometrys, materials);
+          scene.add(box);
+
+
           // 物体を作成
           const mesh = new THREE.Points(geometry, material);
           scene.add(mesh);
