@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
-  <script>
     // ページの読み込みを待つ
     window.addEventListener('load', init);
 
@@ -63,9 +57,3 @@
         requestAnimationFrame(tick);
       }
     }
-  </script>
-</head>
-<body>
-  <canvas id="myCanvas"></canvas>
-</body>
-</html>
