@@ -40,7 +40,7 @@
           // 配置する範囲
           const SIZE = 3000;
           // 配置する個数
-          const LENGTH = 500;
+          const LENGTH = 5000;
           for (let i = 0; i < LENGTH; i++) {
             s_geometry.vertices.push(
               new THREE.Vector3(
@@ -54,6 +54,7 @@
           const s_material = new THREE.PointsMaterial({
             // 一つ一つのサイズ
             size: 10,
+            transparent: true,
             // 色
             color: 0xffffff
           });
@@ -66,7 +67,7 @@
 
 
         // 平行光源
-        const directionalLight = new THREE.SpotLight(0xffffff, 1, 0, 100, 2, 100);
+        const directionalLight = new THREE.AmbientLight(0xffffff, 1.0);
         directionalLight.position.set(2000, 2000, 2000);
         // シーンに追加
         scene.add(directionalLight);
