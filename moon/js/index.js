@@ -18,7 +18,7 @@
 
         // シーンを作成
         const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0xffff00, 50, 2000);
+        scene.fog = new THREE.Fog(0xffffaa, 50, 2000);
 
         // カメラを作成
         const camera = new THREE.PerspectiveCamera(45, width / height);
@@ -26,7 +26,7 @@
 
         // 月を作成
         const m_Geometry = new THREE.SphereGeometry(400, 40, 40);
-        const m_texture = new THREE.TextureLoader().load('img/earthmap1k.jpg');
+        const m_texture = new THREE.TextureLoader().load('img/moon.jpg');
         const m_materials = new THREE.MeshStandardMaterial( { map:m_texture } );
         const m_box = new THREE.Mesh(m_Geometry, m_materials);
         scene.add(m_box);
@@ -40,7 +40,7 @@
           // 配置する範囲
           const SIZE = 3000;
           // 配置する個数
-          const LENGTH = 5000;
+          const LENGTH = 1500;
           for (let i = 0; i < LENGTH; i++) {
             s_geometry.vertices.push(
               new THREE.Vector3(
