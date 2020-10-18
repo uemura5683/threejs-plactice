@@ -18,7 +18,7 @@
 
         // シーンを作成
         const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0xffffaa, 50, 2000);
+        scene.fog = new THREE.Fog(0xffffaa, 50, 4000);
 
         // カメラを作成
         const camera = new THREE.PerspectiveCamera(45, width / height);
@@ -30,6 +30,12 @@
         const m_materials = new THREE.MeshStandardMaterial( { map:m_texture } );
         const m_box = new THREE.Mesh(m_Geometry, m_materials);
         scene.add(m_box);
+
+        // 雲を作成
+        const c_texture = new THREE.TextureLoader().load('https://82mou.github.io/threejs/img/crowd.png');
+        const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
+        const c_box = new THREE.Mesh(m_Geometry, c_materials);
+        scene.add(c_box);
 
         // 星屑を作成します
         createStarField();
@@ -54,7 +60,7 @@
           const s_material = new THREE.PointsMaterial({
             // 一つ一つのサイズ
             size: 10,
-            transparent: true,
+            blending: THREE.AdditiveBlending,
             // 色
             color: 0xffffff
           });
@@ -67,10 +73,15 @@
 
 
         // 平行光源
-        const directionalLight = new THREE.AmbientLight(0xffffff, 1.0);
-        directionalLight.position.set(2000, 2000, 2000);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        directionalLight.position.set(100, 130, 80);
         // シーンに追加
         scene.add(directionalLight);
+
+        // 環境光源を作る
+        const ambient = new THREE.AmbientLight(0x222222);
+        // シーンに追加
+        scene.add(ambient);
 
         tick();
 
@@ -90,7 +101,7 @@
           // 1秒で45°回転する
           m_box.rotation.x = 500 * (Math.PI / 1);
           m_box.rotation.z = 500 * (Math.PI / 1);
-
+          c_box.rotation.x = 5000 * (Math.PI / 1);
 
           // 原点方向を見つめる
           camera.lookAt(new THREE.Vector3(0, 0, 0));
