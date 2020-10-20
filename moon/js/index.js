@@ -1,127 +1,95 @@
-     // ページの読み込みを待つ
-      window.addEventListener('load', init);
+window.addEventListener( 'load', init );
 
-      function init() {
-        // サイズを指定
-        const width = 960;
-        const height = 540;
-        let rot = 0;
+function init() {
 
-        // レンダラーを作成
-        const renderer = new THREE.WebGLRenderer({
-          canvas: document.querySelector('#myCanvas')
-        });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(width, height);
-        renderer.setClearColor(0x0E2255);
-        renderer.shadowMap.enabled = true;
+  let width = 960;
+  let height = 540;
+  let rot = 0;
 
-        // シーンを作成
-        const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer( {
+    canvas: document.querySelector( '#myCanvas' )
+  } );
+  renderer.setPixelRatio( window.devicePixelRatio );
+  renderer.setSize( width, height );
+  renderer.setClearColor( 0x000000 );
+  renderer.shadowMap.enabled = true;
 
-        // カメラを作成
-        const camera = new THREE.PerspectiveCamera(45, width / height);
-        camera.position.set(400, 350, 1000);
+  const scene = new THREE.Scene();
 
-        // 地球を作成
-        const e_Geometry = new THREE.SphereGeometry(200, 64, 64);
-        const e_texture = new THREE.TextureLoader().load('img/earch.jpg');
-        const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
-        const e_box = new THREE.Mesh(e_Geometry, e_materials);
-        scene.add(e_box);
+  const camera = new THREE.PerspectiveCamera( 45, width / height );
+  camera.position.set( 400, 350, 1000 );
 
-        // 月を作成
-        const m_Geometry = new THREE.SphereGeometry(34, 64, 64);
-        const m_texture = new THREE.TextureLoader().load('img/moon.jpg');
-        const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
-        const m_box = new THREE.Mesh(m_Geometry, m_materials);
-        scene.add(m_box);
+  const e_Geometry = new THREE.SphereGeometry( 200, 64, 64 );
+  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/earch.jpg');
+  const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
+  const e_box = new THREE.Mesh(e_Geometry, e_materials);
+  scene.add(e_box);
 
-        // 雲を作成
-        const c_texture = new THREE.TextureLoader().load('img/crowd.png');
-        const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
-        const c_box = new THREE.Mesh(m_Geometry, c_materials);
-        scene.add(c_box);
+  const m_Geometry = new THREE.SphereGeometry( 34, 64, 64 );
+  const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/moon.jpg');
+  const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
+  const m_box = new THREE.Mesh( m_Geometry, m_materials );
+  scene.add(m_box);
 
-        // 星屑を作成します
-        createStarField();
+  const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
+  const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/crowd.png');
+  const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
+  const c_box = new THREE.Mesh( c_Geometry, c_materials );
+  scene.add(c_box);
 
-        function createStarField() {
-          // 形状データを作成
-          const s_geometry = new THREE.SphereGeometry( 5, 32, 32 );
-          // 配置する範囲
-          const SIZE = 3000;
-          // 配置する個数
-          const LENGTH = 1500;
-          for (let i = 0; i < LENGTH; i++) {
-            s_geometry.vertices.push(
-              new THREE.Vector3(
-                SIZE * (Math.random() - 0.5),
-                SIZE * (Math.random() - 0.5),
-                SIZE * (Math.random() - 0.5)
-              )
-            );
-          }
-          // マテリアルを作成
-          const s_material = new THREE.PointsMaterial({
-            // 一つ一つのサイズ
-            size: 10,
-            blending: THREE.AdditiveBlending,
-            // 色
-            color: 0xffffff
-          });
+  createStarField();
 
-          // 物体を作成
-          const s_box = new THREE.Points(s_geometry, s_material);
-          scene.add(s_box);
+  function createStarField() {
+    const s_geometry = new THREE.SphereGeometry( 5, 32, 32 );
+    const size = 3000;
+    const length = 1500;
+    for ( let i = 0; i < length; i++ ) {
+      s_geometry.vertices.push(
+        new THREE.Vector3(
+          size * ( Math.random() - 0.5 ),
+          size * ( Math.random() - 0.5 ),
+          size * ( Math.random() - 0.5 )
+        )
+      );
+    }
+    const s_material = new THREE.PointsMaterial( {
+      size: 10,
+      blending: THREE.AdditiveBlending,
+      color: 0xffffff
+    } );
+    const s_box = new THREE.Points( s_geometry, s_material );
+    scene.add( s_box );
+  }
 
-        }
+  const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+  directionalLight.position.set( 1000, 1300, 80 );
+  scene.add( directionalLight );
 
+  const ambient = new THREE.AmbientLight( 0x222222 );
+  scene.add( ambient );
 
-        // 平行光源
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1000, 1300, 80);
-        // シーンに追加
-        scene.add(directionalLight);
+  tick();
 
-        // 環境光源を作る
-        const ambient = new THREE.AmbientLight(0x222222);
-        // シーンに追加
-        scene.add(ambient);
+  function tick() {
+    rot += .5;
 
-        tick();
+    renderer.render( scene, camera );
 
-        // 毎フレーム時に実行されるループイベントです
-        function tick() {
-          rot += .5;
+    const radian = ( rot * Math.PI ) / 1000;          
+    camera.position.x = 1000 * Math.sin( radian );
+    camera.position.z = 1000 * Math.cos( radian );
 
-          // レンダリング
-          renderer.render(scene, camera);
+    const m_radian = ( rot * Math.PI ) / 100;
+    m_box.position.x = 300 * Math.sin( m_radian );
+    m_box.position.y = 50;
+    m_box.position.z = 300 * Math.cos( m_radian );
 
-          // ラジアンに変換する
-          const radian = (rot * Math.PI) / 320;
+    e_box.rotation.x = 500 * ( Math.PI / 1 );
+    e_box.rotation.z = 500 * ( Math.PI / 1 );
+    c_box.rotation.x = 8000 * ( Math.PI / 1 );
 
-          camera.position.x = 1000 * Math.sin(radian);
-          camera.position.z = 1000 * Math.cos(radian);
+    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
-          const radian_m = (rot * Math.PI) / 60;
-
-          // 角度に応じてカメラの位置を設定
-          m_box.position.x = 300 * Math.sin(radian_m);
-          m_box.position.y = 50;
-          m_box.position.z = 300 * Math.cos(radian_m);
-
-
-          // 1秒で45°回転する
-          e_box.rotation.x = 500 * (Math.PI / 1);
-          e_box.rotation.z = 500 * (Math.PI / 1);
-          c_box.rotation.x = 8000 * (Math.PI / 1);
-
-
-          // 原点方向を見つめる
-          camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-
-          requestAnimationFrame(tick);
-        }
-      }
+    requestAnimationFrame( tick );
+  }
+}
