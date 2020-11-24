@@ -11,7 +11,7 @@ function init() {
   } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( width, height );
-  renderer.setClearColor( 0x000000 );
+  renderer.setClearColor( 0x000000, 1.0 );
   renderer.shadowMap.enabled = true;
 
   const scene = new THREE.Scene();
@@ -44,14 +44,14 @@ function init() {
   t_Geometry.computeVertexNormals();
 
   //マテリアル（材質）の宣言と生成
-  var material =  new THREE.MeshBasicMaterial({ color: 0xffffff });
+  var material =  new THREE.MeshBasicMaterial({ color: 0x000000 });
   var Triangle =  new THREE.Mesh(t_Geometry,material);
 
   //シーンオブジェクトに追加 
   scene.add(Triangle);  
 
-  const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-  directionalLight.position.set( 1000, 1300, 80 );
+  const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
+  directionalLight.position.set( 400, 200, -800 );
   scene.add( directionalLight );
 
   const ambient = new THREE.AmbientLight( 0xffffff );
