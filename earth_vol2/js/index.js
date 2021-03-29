@@ -37,6 +37,12 @@ function init() {
   const c_box = new THREE.Mesh( c_Geometry, c_materials  );
   scene.add(c_box);
 
+  const s_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
+  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/moon.jpg');
+  const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
+  const s_box = new THREE.Mesh( s_Geometry, s_materials );
+  scene.add(s_box);
+
   createStarField();
 
   function createStarField() {
@@ -95,6 +101,12 @@ function init() {
     m_box.position.x = 300 * Math.sin( m_radian );
     m_box.position.y = 50;
     m_box.position.z = 300 * Math.cos( m_radian );
+
+    const s_radian = ( rot * Math.PI ) / 100;
+    s_box.position.x = 1000 * Math.sin( s_radian );
+    s_box.position.y = 50;
+    s_box.position.z = 1000 * Math.cos( s_radian );
+
 
     e_box.rotation.x = 500 * ( Math.PI / 1 );
     e_box.rotation.z = 500 * ( Math.PI / 1 );
