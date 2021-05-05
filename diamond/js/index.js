@@ -107,7 +107,7 @@ function init() {
     /**
     * set
     **/
-    const t = Date.now() / 11500
+    const t = 11500
         , r = 3000.0
         , lx = r * Math.cos(t)
         , lz = r * Math.sin(t)
