@@ -1,82 +1,86 @@
-window.addEventListener( 'load', init );
+
+// ページの読み込みを待つ
+window.addEventListener('load', init);
 
 function init() {
+  // サイズを指定
+  const width = 960;
+  const height = 540;
 
-  let width = 960
-    , height = 540
-    , rot = 0;
-
-  /**
-  * render
-  **/
-  const renderer = new THREE.WebGLRenderer( {
-    canvas: document.querySelector( '#myCanvas' ),
-    alpha: true
-  } );
+  // レンダラーを作成
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector('#myCanvas'),
+    alpha: true,
+  });
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( width, height );
   renderer.shadowMap.enabled = true;
 
+  // シーンを作成
   const scene = new THREE.Scene();
 
-  /**
-  * camera
-  **/
-  const camera = new THREE.PerspectiveCamera( 45, width / height );
-  camera.position.set( 0, 0, 1000 );
+  // カメラを作成
+  const camera = new THREE.PerspectiveCamera(45, width / height);
+  camera.position.set(0, 0, +1000);
+
+
+    // マテリアルを作成
+
+  let geometry = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
+  let material = new THREE.MeshStandardMaterial({ color: 0x6699ff});
+  // メッシュを作成
+  let mesh = new THREE.Mesh(geometry, material);
+  mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+
+  // 3D空間にメッシュを追加
+  scene.add(mesh);
 
   /**
-  * earch
+  * sun
   **/
-  const geometry = new THREE.ConeGeometry( 50, 260, 320 );
-  const material = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
-  const cone = new THREE.Mesh( geometry, material );
-  scene.add( cone );
+  const s_Geometry = new THREE.SphereGeometry( 64, 64, 64 );
+  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
+  const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
+  const s_box = new THREE.Mesh( s_Geometry, s_materials );
+  scene.add(s_box);
 
-  /**
-  * light
-  **/
-  const light = new THREE.SpotLight(0x494067, 5, 0, 60, 2, 10);
-  light.castShadow = false;
-  scene.add(light);
+
+  // 平行光源
+  const directionalLight = new THREE.DirectionalLight(0xffffff);
+  directionalLight.position.set(1, 1, 1);
+  scene.add(directionalLight);
+
+  // // ポイント光源
+  const pointLight = new THREE.PointLight(0xffffff, 2, 1000);
+  scene.add(pointLight);
+  const pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
+  scene.add(pointLightHelper);
 
   tick();
+  rotateCristal();
 
+  cristal_step = 0;
+  function rotateCristal() {
+    mesh.rotation.x = 1;
+    mesh.rotation.y += 0.01;
+
+    s_box.rotation.x += 0.01;
+    s_box.rotation.y += 0.01;
+    // rotateCristal()関数をループで呼び出す
+    requestAnimationFrame(rotateCristal);
+  }
+
+  // 毎フレーム時に実行されるループイベントです
   function tick() {
-    rot += .5;
-    renderer.render( scene, camera );
 
-    /**
-    * set
-    **/
-    const t = 11500
-        , r = 3000.0
-        , lx = r * Math.cos(t)
-        , lz = r * Math.sin(t)
-        , ly = 0;
+    pointLight.position.set(
+      500 * Math.sin(Date.now() / 500),
+      500 * Math.sin(Date.now() / 500),
+      500 * Math.cos(Date.now() / 500)
+    );
 
-    /**
-    * camera
-    **/
-    const radian = ( rot * Math.PI ) / 1000;          
-    camera.position.x = 1000 * Math.sin( radian );
-    camera.position.z = 1000 * Math.cos( radian );
-
-    /**
-    * light
-    **/
-    light.position.set(lx, ly, lz);
-    light.lookAt(new THREE.Vector3(0, 0, 0));
-
-    /**
-    * earch
-    **/
-    cone.rotation.x = 500 * ( Math.PI / 1 );
-    cone.position.y = 0;
-    cone.rotation.z = 500 * ( Math.PI / 1 );
-
-    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-
-    requestAnimationFrame( tick );
+    // レンダリング
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
   }
 }
