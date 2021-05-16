@@ -4,8 +4,8 @@ window.addEventListener('load', init);
 
 function init() {
   // サイズを指定
-  const width = 960;
-  const height = 540;
+  const width = 900;
+  const height = 450;
 
   // レンダラーを作成
   const renderer = new THREE.WebGLRenderer({
@@ -24,63 +24,42 @@ function init() {
   camera.position.set(0, 0, +1000);
 
 
-    // マテリアルを作成
+  // 光の輪を作成
 
-  let geometry = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
+  let c_texture = new THREE.TextureLoader().load('img/swirl.png');
   let material = new THREE.MeshBasicMaterial({
-    color: 0xEEF7FC,
+    map: c_texture,
+    color: 0x007eff,
     transparent: true,
     blending: THREE.AdditiveBlending,
-    side: THREE.FrontSide
+    side: THREE.DoubleSide
   });
+
+  let geometry = new THREE.TorusGeometry( (Math.random() + .5) * 400, 20, 2, 200);
   let mesh = new THREE.Mesh(geometry, material)
   mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh);
 
-  let geometry2 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
-  let material2 = new THREE.MeshBasicMaterial({
-    color: 0xEEF7FC,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    side: THREE.FrontSide
-  });
-  let mesh2 = new THREE.Mesh(geometry2, material2)
+  let geometry2 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 20, 2, 200);
+
+  let mesh2 = new THREE.Mesh(geometry2, material)
   mesh2.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh2);
 
-  let geometry3 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
-  let material3 = new THREE.MeshBasicMaterial({
-    color: 0xEEF7FC,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    side: THREE.FrontSide
-  });
-  let mesh3 = new THREE.Mesh(geometry3, material3)
+  let geometry3 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 20, 2, 200);
+  let mesh3 = new THREE.Mesh(geometry3, material)
   mesh3.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh3);
 
-  let geometry4 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
-  let material4 = new THREE.MeshBasicMaterial({
-    color: 0xEEF7FC,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    side: THREE.FrontSide
-  });
-  let mesh4 = new THREE.Mesh(geometry4, material4)
+  let geometry4 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 20, 2, 200);
+  let mesh4 = new THREE.Mesh(geometry4, material)
   mesh4.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh4);
 
-  let geometry5 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 5, 24, 200);
-  let material5 = new THREE.MeshBasicMaterial({
-    color: 0xEEF7FC,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    side: THREE.FrontSide
-  });
-  let mesh5 = new THREE.Mesh(geometry5, material5)
+  let geometry5 = new THREE.TorusGeometry( (Math.random() + .5) * 400, 20, 2, 200);
+  let mesh5 = new THREE.Mesh(geometry5, material)
   mesh5.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh5);
-
 
   /**
   * sun
@@ -91,20 +70,33 @@ function init() {
   const s_box = new THREE.Mesh( s_Geometry, s_materials );
   scene.add(s_box);
 
+  /**
+  * 光を作成
+  **/
+  const sp_texture = new THREE.TextureLoader().load('img/particle.png');
+  const sp_material = new THREE.SpriteMaterial({
+    color: 0x007eff,
+    map: sp_texture,
+    transparent: true,
+    blending: THREE.AdditiveBlending
+  });
+  const sprite = new THREE.Sprite(sp_material);
+  scene.add(sprite);
+
   // 平行光源
   const directionalLight = new THREE.DirectionalLight(0xffffff);
   directionalLight.position.set(1, 1, 1);
   scene.add(directionalLight);
 
+  const light = new THREE.AmbientLight(0xFFFFFF, 1.0);
+  scene.add(light);
+
   // // ポイント光源
-  const pointLight = new THREE.PointLight(0xffffff, 2, 1000);
+  const pointLight = new THREE.PointLight(0xffffff, 1, 0, 1);
   scene.add(pointLight);
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, 0);
-  // scene.add(pointLightHelper);
 
   tick();
   rotatemesh();
-  rotatesun();
 
   cristal_step = 0;
   function rotatemesh() {
@@ -123,23 +115,15 @@ function init() {
     mesh5.rotation.x -= 0.01;
     mesh5.rotation.y -= 0.01;
 
-    requestAnimationFrame(rotatemesh);
-  }
+    sprite.position.y += 0.1;
+    //sp_material.opacity -= 0.01;
 
-  function rotatesun() {
-    s_box.rotation.x += 0.01;
-    s_box.rotation.y += 0.01;
-    requestAnimationFrame(rotatesun);
+    requestAnimationFrame(rotatemesh);
+    
   }
 
   // 毎フレーム時に実行されるループイベントです
   function tick() {
-
-    pointLight.position.set(
-      500 * Math.sin(Date.now() / 500),
-      500 * Math.sin(Date.now() / 500),
-      500 * Math.cos(Date.now() / 500)
-    );
 
     // レンダリング
     renderer.render(scene, camera);
