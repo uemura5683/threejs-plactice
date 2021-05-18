@@ -25,7 +25,6 @@ function init() {
 
 
   // 光の輪を作成
-
   let c_texture = new THREE.TextureLoader().load('img/swirl.png');
   let material = new THREE.MeshBasicMaterial({
     map: c_texture,
@@ -61,27 +60,6 @@ function init() {
   mesh5.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(mesh5);
 
-  /**
-  * sun
-  **/
-  const s_Geometry = new THREE.SphereGeometry( 64, 64, 64 );
-  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
-  const s_materials = new THREE.MeshStandardMaterial( { color: 0xfffffff, map:s_texture } );
-  const s_box = new THREE.Mesh( s_Geometry, s_materials );
-  scene.add(s_box);
-
-  // 平行光源
-  const directionalLight = new THREE.DirectionalLight(0xfffffff);
-  directionalLight.position.set(1, 1, 1);
-  scene.add(directionalLight);
-
-  const light = new THREE.AmbientLight(0xFFFFFfF, 1.0);
-  scene.add(light);
-
-  // // ポイント光源
-  const pointLight = new THREE.PointLight(0xfffffff, 1, 0, 1);
-  scene.add(pointLight);
-
   // 光を作成
   let sp_texture = new THREE.TextureLoader().load('img/particle.png');
 
@@ -106,11 +84,202 @@ function init() {
     group.add(sprite);
   }
 
+  var cristal;
+  function createCristal() {
+    var dark_color = 0x007a8c;
+    var light_color = 0x96f4ff;
+    var x_left = 70;
+    var x_right = -x_left;
+    var x_middle = x_right - x_right;
+    var y_bottom = 20;
+    var y_middle = y_bottom + 150;
+    var y_top = y_middle + 90;
+    var z_back = 70;
+    var z_front = -z_back;
+    var z_middle = z_front - z_front;
+  
+    // 表面用のマテリアル生成
+    var material_normal = new THREE.MeshPhongMaterial({
+      vertexColors: THREE.VertexColors,
+      specular: 0xffffff,
+      shininess: 10,
+      transparent: true,
+      opacity: 0.85
+    });
+    // 裏面用のマテリアル生成
+    var material_back = new THREE.MeshPhongMaterial({
+      side: THREE.BackSide,
+      vertexColors: THREE.VertexColors,
+      specular: 0xffffff,
+      shininess: 10,
+      transparent: true,
+      opacity: 0.85
+    });
+  
+    // クリスタルオブジェクト生成
+    cristal = new THREE.Object3D();
+  
+    // 1つ目のオブジェクト作成
+    var front_left_top_g = new THREE.Geometry();
+    front_left_top_g.vertices = [
+      new THREE.Vector3(x_left, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_top, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_front)
+    ];
+    var front_left_top_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    front_left_top_g.faces[0] = new THREE.Face3(0, 1, 2, null, front_left_top_c);
+    front_left_top_g.computeFaceNormals();
+    var front_left_top = new THREE.Mesh(front_left_top_g, material_back);
+    cristal.add(front_left_top);
+  
+    // 2つ目のオブジェクト作成
+    var back_left_top_g = new THREE.Geometry();
+    back_left_top_g.vertices = [
+      new THREE.Vector3(x_left, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_top, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_back)
+    ];
+    var back_left_top_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    back_left_top_g.faces[0] = new THREE.Face3(0, 1, 2, null, back_left_top_c);
+    back_left_top_g.computeFaceNormals();
+    
+    var back_left_top = new THREE.Mesh(back_left_top_g, material_normal);
+    cristal.add(back_left_top);
+
+    // 3つ目のオブジェクト作成
+    var front_right_top_g = new THREE.Geometry();
+    front_right_top_g.vertices = [
+      new THREE.Vector3(x_right, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_top, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_front)
+    ];
+    var front_right_top_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    front_right_top_g.faces[0] = new THREE.Face3(0, 1, 2, null, front_right_top_c);
+    front_right_top_g.computeFaceNormals();
+    var front_right_top = new THREE.Mesh(front_right_top_g, material_back);
+    cristal.add(front_right_top);
+  
+    // 4つ目のオブジェクト作成
+    var back_right_top_g = new THREE.Geometry();
+    back_right_top_g.vertices = [
+      new THREE.Vector3(x_right, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_top, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_back)
+    ];
+    var back_right_top_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    back_right_top_g.faces[0] = new THREE.Face3(0, 1, 2, null, back_right_top_c);
+    back_right_top_g.computeFaceNormals();
+    
+    var back_right_top = new THREE.Mesh(back_right_top_g, material_normal);
+    cristal.add(back_right_top);
+
+    // 5つ目のオブジェクト作成
+    var front_left_bottom_g = new THREE.Geometry();
+    front_left_bottom_g.vertices = [
+      new THREE.Vector3(x_left, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_bottom, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_front)
+    ];
+    var front_left_bottom_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    front_left_bottom_g.faces[0] = new THREE.Face3(0, 1, 2, null, front_left_bottom_c);
+    front_left_bottom_g.computeFaceNormals();
+    var front_left_bottom = new THREE.Mesh(front_left_bottom_g, material_back);
+    cristal.add(front_left_bottom);
+  
+    // 6つ目のオブジェクト作成
+    var back_left_bottom_g = new THREE.Geometry();
+    back_left_bottom_g.vertices = [
+      new THREE.Vector3(x_left, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_bottom, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_back)
+    ];
+    var back_left_bottom_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    back_left_bottom_g.faces[0] = new THREE.Face3(0, 1, 2, null, back_left_bottom_c);
+    back_left_bottom_g.computeFaceNormals();
+    
+    var back_left_bottom = new THREE.Mesh(back_left_bottom_g, material_normal);
+    cristal.add(back_left_bottom);
+
+    // 7つ目のオブジェクト作成
+    var front_right_bottom_g = new THREE.Geometry();
+    front_right_bottom_g.vertices = [
+      new THREE.Vector3(x_right, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_bottom, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_front)
+    ];
+    var front_right_bottom_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    front_right_bottom_g.faces[0] = new THREE.Face3(0, 1, 2, null, front_right_bottom_c);
+    front_right_bottom_g.computeFaceNormals();
+    var front_right_bottom = new THREE.Mesh(front_right_bottom_g, material_back);
+    cristal.add(front_right_bottom);
+  
+    // 8つ目のオブジェクト作成
+    var back_right_bottom_g = new THREE.Geometry();
+    back_right_bottom_g.vertices = [
+      new THREE.Vector3(x_right, y_middle, z_middle),
+      new THREE.Vector3(x_middle, y_bottom, z_middle),
+      new THREE.Vector3(x_middle, y_middle, z_back)
+    ];
+    var back_right_bottom_c = [
+      new THREE.Color(dark_color),
+      new THREE.Color(light_color),
+      new THREE.Color(dark_color)
+    ];
+    back_right_bottom_g.faces[0] = new THREE.Face3(0, 1, 2, null, back_right_bottom_c);
+    back_right_bottom_g.computeFaceNormals();
+    
+    var back_right_bottom = new THREE.Mesh(back_right_bottom_g, material_normal);
+    cristal.add(back_right_bottom);
+
+
+    // // クリスタルの位置座標
+    cristal.position.set(0, -150, 0);
+    // クリスタルをシーンへ追加
+    scene.add(cristal);
+  }
+
+  // 平行光源
+  const directionalLight = new THREE.DirectionalLight(0xfffffff);
+  directionalLight.position.set(1, 1, 1);
+  scene.add(directionalLight);
+
+  const light = new THREE.AmbientLight(0xFFFFFfF, 1.0);
+  scene.add(light);
+
+  createCristal();
+  
   rotatemesh();
 
-  cristal_step = 0;
   function rotatemesh() {
-    
+
     mesh.rotation.x = 1;
     mesh.rotation.y += 0.01;
 
@@ -126,12 +295,9 @@ function init() {
     mesh5.rotation.x -= 0.01;
     mesh5.rotation.y -= 0.01;
 
-    // 徐々に上へ
-    // 徐々に薄く
     group.rotation.x -= 0.01;
     group.rotation.y -= 0.01;
     group.rotation.z -= 0.01;
-    sp_texture.opacity 
 
     // レンダリング
     renderer.render(scene, camera);
