@@ -21,14 +21,14 @@ function init() {
 
   // カメラを作成
   const camera = new THREE.PerspectiveCamera(45, width / height);
-  camera.position.set(0, 0, +1000);
+  camera.position.set(0, 0, 1000);
 
 
   // 光の輪を作成
   let c_texture = new THREE.TextureLoader().load('img/swirl.png');
   let material = new THREE.MeshBasicMaterial({
     map: c_texture,
-    color: 0xffffff,
+    color: 0x96f4ff,
     transparent: true,
     blending: THREE.AdditiveBlending,
     side: THREE.DoubleSide
@@ -69,7 +69,7 @@ function init() {
 
   for (let i = 0; i < 200; i++) {
     let sp_material = new THREE.SpriteMaterial({
-      color: 0xffffff,
+      color: 0x96f4ff,
       map: sp_texture,
       transparent: true,
       blending: THREE.AdditiveBlending
@@ -259,12 +259,11 @@ function init() {
     var back_right_bottom = new THREE.Mesh(back_right_bottom_g, material_normal);
     cristal.add(back_right_bottom);
 
-
-    // // クリスタルの位置座標
-    cristal.position.set(0, -150, 0);
-    // クリスタルをシーンへ追加
+    cristal.position.set(0, -200, 0);
     scene.add(cristal);
   }
+
+  createCristal();
 
   // 平行光源
   const directionalLight = new THREE.DirectionalLight(0xfffffff);
@@ -274,35 +273,33 @@ function init() {
   const light = new THREE.AmbientLight(0xFFFFFfF, 1.0);
   scene.add(light);
 
-  createCristal();
-  
   rotatemesh();
 
-  function rotatemesh() {
 
+  var cristal_step = 0;
+  function rotatemesh() {
+    // cristal_step += 0.02;
+    // cristal.rotation.set(0, cristal_step, 0);
     mesh.rotation.x = 1;
     mesh.rotation.y += 0.01;
-
     mesh2.rotation.x += 0.01;
     mesh2.rotation.y -= 0.01;
-
     mesh3.rotation.x += 0.01;
     mesh3.rotation.y += 0.01;
-
     mesh4.rotation.x -= 0.01;
     mesh4.rotation.y += 0.01;
-
     mesh5.rotation.x -= 0.01;
     mesh5.rotation.y -= 0.01;
-
     group.rotation.x -= 0.01;
     group.rotation.y -= 0.01;
     group.rotation.z -= 0.01;
-
-    // レンダリング
-    renderer.render(scene, camera);
-    
+    draw();
     requestAnimationFrame(rotatemesh);
-    
   }
+
+  // レンダリング
+  function draw() {
+    renderer.render(scene, camera);
+  }
+
 }
