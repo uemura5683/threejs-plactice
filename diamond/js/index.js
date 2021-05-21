@@ -23,46 +23,48 @@ function init() {
   const camera = new THREE.PerspectiveCamera(45, width / height);
   camera.position.set(0, 0, 1000);
 
-
   // 光の輪を作成
-  let material = new THREE.MeshBasicMaterial({
-    color: 0x88FFFF
-  });
+  let c_geometry_one = new THREE.TorusGeometry( (Math.random() + .5) * 400, 10, 2, 200)
+    , c_ring_one = new THREE.MeshBasicMaterial({color: 0X3CA3D2})
+    , c_ring_mesh = new THREE.Mesh(c_geometry_one, c_ring_one);
+    c_ring_mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  scene.add(c_ring_mesh);
 
-  let geometry = new THREE.TorusGeometry( (Math.random() + .5) * 400, 10, 2, 200);
-  let mesh = new THREE.Mesh(geometry, material)
-  mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(mesh);
+  let c_geometry_two = new THREE.TorusGeometry( (Math.random() + .55) * 400, 12, 2, 200)
+    , c_ring_two = new THREE.MeshBasicMaterial({color: 0X05296F})
+    , c_ring_mesh_two = new THREE.Mesh(c_geometry_two, c_ring_two);
+    c_ring_mesh_two.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  scene.add(c_ring_mesh_two);
 
-  let geometry2 = new THREE.TorusGeometry( (Math.random() + .55) * 400, 12, 2, 200);
-  let mesh2 = new THREE.Mesh(geometry2, material)
-  mesh2.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(mesh2);
+  let c_geometry_three = new THREE.TorusGeometry( (Math.random() + .6) * 400, 14, 2, 200)
+    , c_ring_three = new THREE.MeshBasicMaterial({color: 0X5EE1F1})
+    , c_ring_mesh_three = new THREE.Mesh(c_geometry_three, c_ring_three)
+    c_ring_mesh_three.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  scene.add(c_ring_mesh_three);
 
-  let geometry3 = new THREE.TorusGeometry( (Math.random() + .6) * 400, 14, 2, 200);
-  let mesh3 = new THREE.Mesh(geometry3, material)
-  mesh3.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(mesh3);
+  let c_geometry_four = new THREE.TorusGeometry( (Math.random() + .65) * 400, 16, 2, 200)
+    , c_ring_four = new THREE.MeshBasicMaterial({color: 0X015D8F})
+    , c_ring_mesh_four = new THREE.Mesh(c_geometry_four, c_ring_four)
+    c_ring_mesh_four.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  scene.add(c_ring_mesh_four);
 
-  let geometry4 = new THREE.TorusGeometry( (Math.random() + .65) * 400, 16, 2, 200);
-  let mesh4 = new THREE.Mesh(geometry4, material)
-  mesh4.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(mesh4);
+  let c_geometry_five = new THREE.TorusGeometry( (Math.random() + .7) * 400, 18, 2, 200)
+    , c_ring_five = new THREE.MeshBasicMaterial({color: 0X0ADBF8})
+    , c_ring_mesh_five = new THREE.Mesh(c_geometry_five, c_ring_five);
+    c_ring_mesh_five.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  scene.add(c_ring_mesh_five);
 
-  let geometry5 = new THREE.TorusGeometry( (Math.random() + .7) * 400, 18, 2, 200);
-  let mesh5 = new THREE.Mesh(geometry5, material)
-  mesh5.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(mesh5);
-
-  const group = new THREE.Group();
-  // 3D空間にグループを追加する
-  scene.add(group);
-
-  for (let i = 0; i < 300; i++) {
+  //　クリスタルの粒を作成する
+  const c_group = new THREE.Group();
+  scene.add(c_group);
+  for (let i = 0; i < 1000; i++) {
     let geometry = new THREE.SphereBufferGeometry(4, 3, 4),
-        size = 1;
+        size = 1,
+        christal = [0xFFA5FF, 0X3CA3D2, 0X05296F, 0X5EE1F1, 0X015D8F, 0X033161, 0X0ADBF8]
+        christalNo = Math.floor( Math.random() * christal.length);
+
     let m_material = new THREE.MeshPhongMaterial({
-      color: 0xCBF5FD,
+      color: christal[christalNo],
       flatShading: true
     })
     const mesh = new THREE.Mesh(geometry, m_material)
@@ -70,63 +72,63 @@ function init() {
     mesh.position.multiplyScalar(Math.random() * 800)
     mesh.rotation.set(Math.random() * 4, Math.random() * 2, Math.random() * 2)
     mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 2
-    group.add(mesh)
+    c_group.add(mesh)
   }
 
+  // クリスタルを作成
   let c_geometry = new THREE.Geometry();
-  c_geometry.vertices.push(new THREE.Vector3(0, 0, 100));
-  c_geometry.vertices.push(new THREE.Vector3(100, 0, 0));
-  c_geometry.vertices.push(new THREE.Vector3(0, -200, 0));
-  c_geometry.vertices.push(new THREE.Vector3(-100, 0, 0));
-  c_geometry.vertices.push(new THREE.Vector3(0, 100, 0));
-  c_geometry.vertices.push(new THREE.Vector3(0, 0, -100));
-  c_geometry.faces.push(new THREE.Face3( 0, 2, 1));
-  c_geometry.faces.push(new THREE.Face3( 0, 3, 2));
-  c_geometry.faces.push(new THREE.Face3( 0, 4, 3));
-  c_geometry.faces.push(new THREE.Face3( 0, 1, 4));
-  c_geometry.faces.push(new THREE.Face3( 5, 1, 2));
-  c_geometry.faces.push(new THREE.Face3( 5, 2, 3));
-  c_geometry.faces.push(new THREE.Face3( 5, 3, 4));
-  c_geometry.faces.push(new THREE.Face3( 5, 4, 1));
-  c_geometry.computeFaceNormals();
-  c_geometry.computeVertexNormals();
-  let c_material = new THREE.MeshPhongMaterial({color: 0x88FFFF});
-  let c_mesh = new THREE.Mesh(c_geometry, c_material);
+      c_geometry.vertices.push(new THREE.Vector3(0, 0, 100));
+      c_geometry.vertices.push(new THREE.Vector3(100, 0, 0));
+      c_geometry.vertices.push(new THREE.Vector3(0, -200, 0));
+      c_geometry.vertices.push(new THREE.Vector3(-100, 0, 0));
+      c_geometry.vertices.push(new THREE.Vector3(0, 100, 0));
+      c_geometry.vertices.push(new THREE.Vector3(0, 0, -100));
+      c_geometry.faces.push(new THREE.Face3( 0, 2, 1));
+      c_geometry.faces.push(new THREE.Face3( 0, 3, 2));
+      c_geometry.faces.push(new THREE.Face3( 0, 4, 3));
+      c_geometry.faces.push(new THREE.Face3( 0, 1, 4));
+      c_geometry.faces.push(new THREE.Face3( 5, 1, 2));
+      c_geometry.faces.push(new THREE.Face3( 5, 2, 3));
+      c_geometry.faces.push(new THREE.Face3( 5, 3, 4));
+      c_geometry.faces.push(new THREE.Face3( 5, 4, 1));
+      c_geometry.computeFaceNormals();
+      c_geometry.computeVertexNormals();
+      c_material = new THREE.MeshPhongMaterial({color: 0x022492});
+      c_mesh = new THREE.Mesh(c_geometry, c_material);
   scene.add(c_mesh);
 
-  let wire = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true});
+  let wire = new THREE.MeshBasicMaterial({color: 0x0376c4, wireframe: true});
   let wireMesh = new THREE.Mesh(c_geometry,wire);//同じ形状からワイヤーも作成
   scene.add(wireMesh);
 
   // 平行光源
-  const directionalLight = new THREE.DirectionalLight(0xfffffff);
+  const directionalLight = new THREE.DirectionalLight(0x7AFDFF);
   directionalLight.position.set(1, 1, 1);
   scene.add(directionalLight);
 
-  const light = new THREE.AmbientLight(0xFFFFFfF, 1.0);
+  const light = new THREE.AmbientLight(0x7AFDFF, 1.0);
   scene.add(light);
 
   rotatemesh();
-
 
   var cristal_step = 0;
   function rotatemesh() {
     cristal_step += 0.02;
     c_mesh.rotation.set(0, cristal_step, 0);
     wireMesh.rotation.set(0, cristal_step, 0);
-    mesh.rotation.x = 1;
-    mesh.rotation.y += 0.01;
-    mesh2.rotation.x += 0.01;
-    mesh2.rotation.y -= 0.01;
-    mesh3.rotation.x += 0.01;
-    mesh3.rotation.y += 0.01;
-    mesh4.rotation.x -= 0.01;
-    mesh4.rotation.y += 0.01;
-    mesh5.rotation.x -= 0.01;
-    mesh5.rotation.y -= 0.01;
-    group.rotation.x -= 0.01;
-    group.rotation.y -= 0.01;
-    group.rotation.z -= 0.01;
+    c_ring_mesh.rotation.x = 1;
+    c_ring_mesh.rotation.y += 0.01;
+    c_ring_mesh_two.rotation.x += 0.01;
+    c_ring_mesh_two.rotation.y -= 0.01;
+    c_ring_mesh_three.rotation.x += 0.01;
+    c_ring_mesh_three.rotation.y += 0.01;
+    c_ring_mesh_four.rotation.x -= 0.01;
+    c_ring_mesh_four.rotation.y += 0.01;
+    c_ring_mesh_five.rotation.x -= 0.01;
+    c_ring_mesh_five.rotation.y -= 0.01;
+    c_group.rotation.x -= 0.01;
+    c_group.rotation.y -= 0.01;
+    c_group.rotation.z -= 0.01;
     draw();
     requestAnimationFrame(rotatemesh);
   }
