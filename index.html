@@ -3,185 +3,185 @@
   <head>
     <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript">
-		window.addEventListener( 'load', init );
+        window.addEventListener( 'load', init );
 
-		function init() {
+        function init() {
 
-		  let width = 960
-		    , height = 540
-		    , rot = 0;
+          let width = 960
+            , height = 540
+            , rot = 0;
 
-		  /**
-		  * render
-		  **/
-		  const renderer = new THREE.WebGLRenderer( {
-		    canvas: document.querySelector( '#myCanvas' ),
-		    alpha: true
-		  } );
-		  renderer.setPixelRatio( window.devicePixelRatio );
-		  renderer.setSize( width, height );
-		  renderer.shadowMap.enabled = true;
+          /**
+          * render
+          **/
+          const renderer = new THREE.WebGLRenderer( {
+            canvas: document.querySelector( '#myCanvas' ),
+            alpha: true
+          } );
+          renderer.setPixelRatio( window.devicePixelRatio );
+          renderer.setSize( width, height );
+          renderer.shadowMap.enabled = true;
 
-		  const scene = new THREE.Scene();
+          const scene = new THREE.Scene();
 
-		  /**
-		  * camera
-		  **/
-		  const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
-		  camera.position.set( 400, 350, 5000 );
+          /**
+          * camera
+          **/
+          const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
+          camera.position.set( 400, 350, 5000 );
 
-		  /**
-		  * earch
-		  **/
-		  const e_Geometry = new THREE.SphereGeometry( 200, 64, 64 );
-		  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
-		  const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
-		  const e_box = new THREE.Mesh(e_Geometry, e_materials );
-		  scene.add(e_box);
+          /**
+          * earch
+          **/
+          const e_Geometry = new THREE.SphereGeometry( 200, 64, 64 );
+          const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
+          const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
+          const e_box = new THREE.Mesh(e_Geometry, e_materials );
+          scene.add(e_box);
 
-		  /**
-		  * moon
-		  **/
-		  const m_Geometry = new THREE.SphereGeometry( 34, 64, 64 );
-		  const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/moon.jpg');
-		  const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
-		  const m_box = new THREE.Mesh( m_Geometry, m_materials );
-		  scene.add(m_box);
+          /**
+          * moon
+          **/
+          const m_Geometry = new THREE.SphereGeometry( 34, 64, 64 );
+          const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/moon.jpg');
+          const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
+          const m_box = new THREE.Mesh( m_Geometry, m_materials );
+          scene.add(m_box);
 
-		  /**
-		  * cloud
-		  **/
-		  const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
-		  const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/crowd.png');
-		  const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
-		  const c_box = new THREE.Mesh( c_Geometry, c_materials  );
-		  scene.add(c_box);
+          /**
+          * cloud
+          **/
+          const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
+          const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/crowd.png');
+          const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
+          const c_box = new THREE.Mesh( c_Geometry, c_materials  );
+          scene.add(c_box);
 
-		  /**
-		  * sun
-		  **/
-		  const s_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
-		  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
-		  const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
-		  const s_box = new THREE.Mesh( s_Geometry, s_materials );
-		  scene.add(s_box);
+          /**
+          * sun
+          **/
+          const s_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
+          const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
+          const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
+          const s_box = new THREE.Mesh( s_Geometry, s_materials );
+          scene.add(s_box);
 
-		  /**
-		  * fragment
-		  **/
-		  createStarField();
+          /**
+          * fragment
+          **/
+          createStarField();
 
-		  function createStarField() {
-		    const geometry = new THREE.SphereBufferGeometry(4, 3, 4),
-		          size = 1;
-		    for (let i = 0; i < 1000; i++) {
-		      const material = new THREE.MeshPhongMaterial({
-		        color: 0xffffff,
-		        flatShading: true
-		      })
-		      const mesh = new THREE.Mesh(geometry, material)
-		      mesh.position.set(size * Math.random() - 0.5, size * Math.random() - 0.5, size * Math.random() - 0.5).normalize()
-		      mesh.position.multiplyScalar(Math.random() * 800)
-		      mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2)
-		      mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 2
-		      scene.add(mesh)
-		    }
-		  }
+          function createStarField() {
+            const geometry = new THREE.SphereBufferGeometry(4, 3, 4),
+                  size = 1;
+            for (let i = 0; i < 1000; i++) {
+              const material = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                flatShading: true
+              })
+              const mesh = new THREE.Mesh(geometry, material)
+              mesh.position.set(size * Math.random() - 0.5, size * Math.random() - 0.5, size * Math.random() - 0.5).normalize()
+              mesh.position.multiplyScalar(Math.random() * 800)
+              mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2)
+              mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 2
+              scene.add(mesh)
+            }
+          }
 
-		  /**
-		  * light
-		  **/
-		  const light = new THREE.SpotLight(0x494067, 5, 0, 60, 2, 10);
-		  light.castShadow = false;
-		  scene.add(light);
+          /**
+          * light
+          **/
+          const light = new THREE.SpotLight(0x494067, 5, 0, 60, 2, 10);
+          light.castShadow = false;
+          scene.add(light);
 
-		  /**
-		  * light part2
-		  **/
-		  const lightd = new THREE.SpotLight(0x494067, 1, 0, 120, 2, 10);
-		  lightd.castShadow = false;
-		  scene.add(lightd);
+          /**
+          * light part2
+          **/
+          const lightd = new THREE.SpotLight(0x494067, 1, 0, 120, 2, 10);
+          lightd.castShadow = false;
+          scene.add(lightd);
 
 
-		  tick();
+          tick();
 
-		  function tick() {
-		    rot += .5;
-		    renderer.render( scene, camera );
+          function tick() {
+            rot += .5;
+            renderer.render( scene, camera );
 
-		    /**
-		    * set
-		    **/
-		    const t = Date.now() / 11500
-		        , r = 3000.0
-		        , lx = r * Math.cos(t)
-		        , lz = r * Math.sin(t)
-		        , ly = 0;
+            /**
+            * set
+            **/
+            const t = Date.now() / 11500
+                , r = 3000.0
+                , lx = r * Math.cos(t)
+                , lz = r * Math.sin(t)
+                , ly = 0;
 
-		    /**
-		    * camera
-		    **/
-		    const radian = ( rot * Math.PI ) / 1000;          
-		    camera.position.x = 1000 * Math.sin( radian );
-		    camera.position.z = 1000 * Math.cos( radian );
+            /**
+            * camera
+            **/
+            const radian = ( rot * Math.PI ) / 1000;          
+            camera.position.x = 1000 * Math.sin( radian );
+            camera.position.z = 1000 * Math.cos( radian );
 
-		    /**
-		    * light
-		    **/
-		    light.position.set(lx, ly, lz);
-		    light.lookAt(new THREE.Vector3(0, 0, 0));
+            /**
+            * light
+            **/
+            light.position.set(lx, ly, lz);
+            light.lookAt(new THREE.Vector3(0, 0, 0));
 
-		    /**
-		    * light back
-		    **/
-		    lightd.position.set(-lx, -ly, -lz);
-		    lightd.lookAt(new THREE.Vector3(0, 0, 0));
+            /**
+            * light back
+            **/
+            lightd.position.set(-lx, -ly, -lz);
+            lightd.lookAt(new THREE.Vector3(0, 0, 0));
 
-		    /**
-		    * moon
-		    **/
-		    const m_radian = ( rot * Math.PI ) / 100;
-		    m_box.position.x = 300 * Math.sin( m_radian );
-		    m_box.position.y = 0;
-		    m_box.position.z = 300 * Math.cos( m_radian );
+            /**
+            * moon
+            **/
+            const m_radian = ( rot * Math.PI ) / 100;
+            m_box.position.x = 300 * Math.sin( m_radian );
+            m_box.position.y = 0;
+            m_box.position.z = 300 * Math.cos( m_radian );
 
-		    /**
-		    * sun
-		    **/
-		    const s_radian = - (( rot * Math.PI ) / 1000);
-		    s_box.position.x = 5000 * Math.sin( s_radian );
-		    s_box.position.y = 0;
-		    s_box.position.z = 5000 * Math.cos( s_radian );
+            /**
+            * sun
+            **/
+            const s_radian = - (( rot * Math.PI ) / 1000);
+            s_box.position.x = 5000 * Math.sin( s_radian );
+            s_box.position.y = 0;
+            s_box.position.z = 5000 * Math.cos( s_radian );
 
-		    /**
-		    * earch
-		    **/
-		    e_box.rotation.x = 500 * ( Math.PI / 1 );
-		    e_box.position.y = 0;
-		    e_box.rotation.z = 500 * ( Math.PI / 1 );
+            /**
+            * earch
+            **/
+            e_box.rotation.x = 500 * ( Math.PI / 1 );
+            e_box.position.y = 0;
+            e_box.rotation.z = 500 * ( Math.PI / 1 );
 
-		    /**
-		    * cloud
-		    **/
-		    c_box.rotation.x = 500 * ( Math.PI / 1 );
-		    c_box.position.y = 0;
-		    c_box.rotation.z = 500 * ( Math.PI / 1 );
+            /**
+            * cloud
+            **/
+            c_box.rotation.x = 500 * ( Math.PI / 1 );
+            c_box.position.y = 0;
+            c_box.rotation.z = 500 * ( Math.PI / 1 );
 
-		    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+            camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
-		    requestAnimationFrame( tick );
-		  }
-		}
+            requestAnimationFrame( tick );
+          }
+        }
     </script>
     <style type="text/css">
       body {
-      	margin: 0;
+          margin: 0;
       }
-	  *::before, *::after {
-		content: '';
-	  }
+      *::before, *::after {
+        content: '';
+      }
       canvas{
         background-image: 
           radial-gradient(#494067, #030D14);
@@ -201,14 +201,14 @@
         font-size: 3.0rem;
         margin: 0 0 1rem;
         word-break: break-all;
-		text-align: center;
+        text-align: center;
       }
       .wrapper:before {
-		width: 100%;
-		height: 100vh;
-		background: black;
-		position: fixed;
-		opacity: .6;
+        width: 100%;
+        height: 100vh;
+        background: black;
+        position: fixed;
+        opacity: .6;
      }
       #container {
         position: absolute;
@@ -230,9 +230,9 @@
         font-size: 1.6rem;
       }
       .card-wrap {
-		margin: .5rem;
-		width: calc(99.9% / 3 - 1rem);
-		text-align: center;
+        margin: .5rem;
+        width: calc(99.9% / 3 - 1rem);
+        text-align: center;
       }
       @media (min-width: 980px) {
         html {
@@ -243,44 +243,86 @@
         }
       }
       @media (max-width: 767px) {
-		.wrapper {
-			overflow: hidden;
-			clear: both;
-			width: 100%;
-			height: 100vh;
-		}
-		.wrapper:before {
-			z-index: 1000;
-		}
-		#container {
-			z-index: 1100;
-		}
-		canvas {
-			top: 0;
-			left: -50%;
-			position: fixed;
-			width: 200% !important;
-		}
-	  }
+        .wrapper {
+            overflow: hidden;
+            clear: both;
+            width: 100%;
+            height: 100vh;
+        }
+        .wrapper:before {
+            z-index: 1000;
+        }
+        #container {
+            z-index: 1100;
+        }
+        canvas {
+            top: 0;
+            left: -50%;
+            position: fixed;
+            width: 200% !important;
+        }
+      }
     </style>
   </head>
   <body>
-	<div class="wrapper">
-		<div id="container">
-			<div class="container-inner">
-				<h1>Three.js</h1>
-				<div class="card-wrap-list">
-				<div class="card-wrap"><a href="sqare/index.html" style="pointer-events: none; opacity: .7;">正方形</a></div>
-				<div class="card-wrap"><a href="diamond/index.html">クリスタル</a></div>
-				<div class="card-wrap"><a href="earth_vol2/index.html">地球・月.2</a></div>
-				<div class="card-wrap"><a href="earth/index.html">地球・月.1</a></div>
-				<div class="card-wrap"><a href="sample/index.html">サンプル.1</a></div>
-				<div class="card-wrap"><a href="sample2/index.html">サンプル.2</a></div>
-				<div class="card-wrap"><a href="sample3/index.html">サンプル.3</a></div>
-    			</div>
-			</div>
-		</div>
-	</div>
+    <div class="wrapper">
+        <div id="container">
+            <div class="container-inner">
+                <h1>Three.js</h1>
+                <div class="card-wrap-list">
+                <div class="card-wrap">
+                    <a
+                        href="mainvisual/index.html"
+                        style="pointer-events: none; opacity: .7;">
+                        Nu-blog メインビジュアル
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a
+                        href="animation/index.html"
+                        style="pointer-events: none; opacity: .7;">
+                        アニメーション
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="scroll/index.html">
+                        スクロール
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="diamond/index.html">
+                        クリスタル
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="earth_vol2/index.html">
+                        地球・月.2
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="earth/index.html">
+                        地球・月.1
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="sample/index.html">
+                        サンプル.1
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="sample2/index.html">
+                        サンプル.2
+                    </a>
+                </div>
+                <div class="card-wrap">
+                    <a href="sample3/index.html">
+                        サンプル.3
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <canvas id="myCanvas"></canvas>
   </body>
 </html>

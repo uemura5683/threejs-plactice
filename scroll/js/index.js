@@ -3,27 +3,31 @@ window.addEventListener('load', threescroll);
 function threescroll() {
       const scene = new THREE.Scene();
       const canvas = document.getElementById('myCanvas');
-      const renderer = new THREE.WebGLRenderer({ canvas });
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(new THREE.Color(0x5863aa), 1.0);
 
       const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 500);
 
-      const sphereGeom = new THREE.SphereGeometry();
+      const sphereGeom = new THREE.CircleGeometry(1, 100);
 
-      const brown = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial({ color: new THREE.Color(0x453f23) }));
-      scene.add(brown);
-      const blue = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial({ color: new THREE.Color(0x064fff) }));
-      scene.add(blue);
-      const pink = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial({ color: new THREE.Color(0xd33aff) }));
-      scene.add(pink);
+      const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
+      const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
+      const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/moon.jpg');
+      
+      const earch = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial( { color: 0xffffff, map:e_texture } ) );
+      const moon = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial( { color: 0xffffff, map:s_texture } ) );
+      const sun = new THREE.Mesh(sphereGeom, new THREE.MeshBasicMaterial( { color: 0xffffff, map:m_texture } ) );
+
+      scene.add(earch);
+      scene.add(moon);
+      scene.add(sun);
 
       const interval = 5.0;
-            brown.position.y = -0.5 * interval;
-            blue.position.y = -1.5 * interval;
-            pink.position.y = -2.5 * interval;
+            earch.position.y = -0.5 * interval;
+            moon.position.y  = -1.5 * interval;
+            sun.position.y   = -2.5 * interval;
 
       const viewVerticalRange = 3.0 * interval;
 
