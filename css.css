@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+}
+*::before, *::after {
+  content: '';
+}
+canvas{
+  background-image: 
+    radial-gradient(#494067, #030D14);
+  width: 100% !important;
+  height: 100%  !important;
+}
+html {
+  font-size: 50%;
+}
+a {
+  color: white;
+}
+h1 {
+  border-bottom: 1px solid #868686;
+  padding: 1rem;
+  font-weight: normal;
+  font-size: 3.0rem;
+  margin: 0 0 1rem;
+  word-break: break-all;
+  text-align: center;
+}
+.wrapper:before {
+  width: 100%;
+  height: 100vh;
+  background: black;
+  position: fixed;
+  opacity: .6;
+}
+#container {
+  position: absolute;
+  color: white;
+  align-content: center;
+  justify-content: center;
+  padding: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.container-inner {  
+  width: 90vw;
+}
+.card-wrap-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -.5rem;
+  font-size: 1.6rem;
+}
+.card-wrap {
+  margin: .5rem;
+  width: calc(99.9% / 3 - 1rem);
+  text-align: center;
+}
+@media (min-width: 980px) {
+  html {
+    font-size: 62.5%;
+  }
+  .container-inner {  
+    width: auto;
+  }
+}
+@media (max-width: 767px) {
+  .wrapper {
+      overflow: hidden;
+      clear: both;
+      width: 100%;
+      height: 100vh;
+  }
+  .wrapper:before {
+      z-index: 1000;
+  }
+  #container {
+      z-index: 1100;
+  }
+  canvas {
+      top: 0;
+      left: -50%;
+      position: fixed;
+      width: 200% !important;
+  }
+}
