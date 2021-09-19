@@ -1,0 +1,6 @@
+/**
+* text
+**/
+https://threejs.org/docs/#api/en/geometries/TextGeometry
+
+https://codepen.io/lucgenti/pen/ppZZRg?editors=1010
