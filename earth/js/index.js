@@ -20,19 +20,19 @@ function init() {
   camera.position.set( 400, 350, 1000 );
 
   const e_Geometry = new THREE.SphereGeometry( 200, 64, 64 );
-  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/earch.jpg');
+  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
   const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
   const e_box = new THREE.Mesh(e_Geometry, e_materials);
   scene.add(e_box);
 
   const m_Geometry = new THREE.SphereGeometry( 34, 64, 64 );
-  const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/moon.jpg');
+  const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/moon.jpg');
   const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
   const m_box = new THREE.Mesh( m_Geometry, m_materials );
   scene.add(m_box);
 
   const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
-  const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/moon/img/crowd.png');
+  const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/crowd.png');
   const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
   const c_box = new THREE.Mesh( c_Geometry, c_materials );
   scene.add(c_box);
