@@ -1,11 +1,12 @@
   window.addEventListener('load', Resize);
   window.addEventListener('resize', Resize);
   
-  let width = 100, height = 100; mycanvas = document.querySelector('#myCanvas');
+  let width = 100, height = 100;
 
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
+
 
   function Resize() {
 
@@ -16,8 +17,8 @@
     * renderer
     **/
     let renderer = new THREE.WebGLRenderer({
-                       canvas: mycanvas,
-                       alpha: true
+                      canvas: document.querySelector('#myCanvas'),
+                      alpha: true
                    });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(width, height);
@@ -30,10 +31,7 @@
     /**
     * camera
     **/
-    let camera = new THREE.PerspectiveCamera(
-                     45,
-                     width / height
-                 );
+    let camera = new THREE.PerspectiveCamera(45, width / height);
     camera.position.set(0, 0, 1500);
 
     /**
@@ -41,7 +39,7 @@
     **/
     let controls = new THREE.OrbitControls(
                        camera,
-                       mycanvas
+                       document.querySelector('#myCanvas')
                    );
 
     /**
