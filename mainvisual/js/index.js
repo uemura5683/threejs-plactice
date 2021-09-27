@@ -43,10 +43,10 @@
                    );
 
     /**
-    * circle
+    * BoxGeometry
     **/
-    let circle_size = 950;
-    let circle = new THREE.SphereGeometry(
+    let circle_size = 1500;
+    let circle = new THREE.BoxGeometry(
                           circle_size,
                           circle_size,
                           circle_size
@@ -65,7 +65,7 @@
     * texts
     **/
     let loader = new THREE.FontLoader();
-    loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+    loader.load( 'https://threejs-plactice.vercel.app/mainvisual/fonts/helvetiker_regular.typeface.json', function ( font ) {
       let matDark = new THREE.LineBasicMaterial( {
         color: 0x000000,
         opacity: .7,

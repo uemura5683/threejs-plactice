@@ -154,7 +154,7 @@
     * plane
     **/
     const plane = new THREE.PlaneGeometry(3000, 3000, 64, 64);
-    const map1 = THREE.ImageUtils.loadTexture('https://threejs-plactice.vercel.app/moon_viewing/floor.jpg');
+    const map1 = THREE.ImageUtils.loadTexture('floor.jpg');
     const plane_box =  new THREE.Mesh( plane, new THREE.MeshLambertMaterial( { map: map1 } ) );
     plane_box.position.set(0, -150, 0);
     plane_box.rotation.set(-Math.PI/2, 0, 0);
