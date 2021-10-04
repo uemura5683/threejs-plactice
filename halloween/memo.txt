@@ -1,0 +1,70 @@
+/*
+function init() {
+  width = window.innerWidth,
+  height = window.innerHeight;
+  
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+  camera.position.set(30, 0, 10);
+  camera.lookAt(scene.position);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(width, height);
+  renderer.setClearColor(0xF2A9B4);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    
+  raycaster = new THREE.Raycaster();
+  mouse = new THREE.Vector2();
+  
+  drawFly();
+  
+  document.getElementById('world').appendChild(renderer.domElement);
+  
+}
+
+function drawFly() {
+  fly = new Fly();
+  scene.add(fly.group);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  render();
+}
+
+function render() {
+  fly.moveFly();
+  renderer.render(scene, camera);
+}
+
+class Fly {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 12.71, 19.08);
+    
+    this.wingAngle = 0;
+    
+    this.drawBody();
+  }
+  drawBody() {
+    const flyGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const flyMaterial = new THREE.MeshStandardMaterial({
+      color: 0x3F3F3F,
+      roughness: 1,
+      shading: THREE.FlatShading,
+    });
+    const fly = new THREE.Mesh(flyGeometry, flyMaterial);
+    this.group.add(fly);
+  }
+  moveFly() {
+    const timer = Date.now() * 0.0001;
+    this.group.position.x = 4 * Math.cos(timer * 1);
+    this.group.position.y = 5 * Math.sin(timer * 2);
+  }
+}
+
+init();
+animate();
+*/
