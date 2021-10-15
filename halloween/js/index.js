@@ -1,18 +1,6 @@
 'use strict';
 
-let scene,
-    camera,
-    renderer,
-    controls;
-
-let pumpkin,
-    branch,
-    moon,
-    floor,
-    fly;
-
-let width,
-    height;
+let scene, camera, renderer, controls, pumpkin, moon, floor, coffin, fly, width, height;
 
 function init() {
   width = window.innerWidth,
@@ -21,7 +9,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(45, width / height);
-  camera.position.set(0, 160, 1000);
+  camera.position.set(0, 160, +1100);
 
   renderer = new THREE.WebGLRenderer({
     alpha: true
@@ -35,10 +23,11 @@ function init() {
   
   addLights();
   drawPumpkin();
-  drawFloor();
   drawMoon();
   drawFly();
-  
+  drawCoffin();
+  drawFloor();
+
   document
     .getElementById('myCanvas')
     .appendChild(renderer.domElement);
@@ -59,6 +48,11 @@ function addLights() {
 function drawPumpkin() {
   pumpkin = new Pumpkin();
   scene.add(pumpkin.group);
+}
+
+function drawCoffin() {
+  coffin = new Coffin();
+  scene.add(coffin.group);
 }
 
 function drawFloor() {
@@ -110,11 +104,104 @@ function render() {
   renderer.render(scene, camera);
 }
 
+class Coffin {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(-100, 0, 350);
+    this.drawBody();
+    this.drawBody2();
+    this.drawBody3();
+    this.drawBody4();
+    this.drawBody5();
+    this.drawBody6();
+  }
+  drawBody() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, 500 )
+        , ciffines.lineTo( 200, 700)
+        , ciffines.lineTo( 400, 500)
+        , ciffines.lineTo( 300, -200)
+        , ciffines.lineTo( 100, -200)
+        , ciffines.lineTo( 0, 500)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(400, 0, 0);
+    ciffines_box.rotation.set(rad(-90), 0, 0);
+    this.group.add(ciffines_box);
+  }
+  drawBody2() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, -100 )
+        , ciffines.lineTo( 200, -100)
+        , ciffines.lineTo( 200, 0)
+        , ciffines.lineTo( 0, 0)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(500, 0, 200);
+    ciffines_box.rotation.set(0, 0, 0);
+    this.group.add(ciffines_box);
+  }
+  drawBody3() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, -100 )
+        , ciffines.lineTo( -705, -100)
+        , ciffines.lineTo( -705, 0)
+        , ciffines.lineTo( 0, 0)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(500, 0, 200);
+    ciffines_box.rotation.set(0, rad(-82), 0);
+    this.group.add(ciffines_box);
+  }
+  drawBody4() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, -100 )
+        , ciffines.lineTo( 705, -100)
+        , ciffines.lineTo( 705, 0)
+        , ciffines.lineTo( 0, 0)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(700, 0, 200);
+    ciffines_box.rotation.set(0, rad(82), 0);
+    this.group.add(ciffines_box);
+  }
+  drawBody5() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, -100 )
+        , ciffines.lineTo( 285, -100)
+        , ciffines.lineTo( 285, 0)
+        , ciffines.lineTo( 0, 0)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(600, 0, -700);
+    ciffines_box.rotation.set(0, rad(-135), 0);
+    this.group.add(ciffines_box);
+  }
+  drawBody6() {
+    const ciffin_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+        , ciffines = new THREE.Shape();
+          ciffines.moveTo( 0, -100 )
+        , ciffines.lineTo( -285, -100)
+        , ciffines.lineTo( -285, 0)
+        , ciffines.lineTo( 0, 0)
+    const ciffin_geometry = new THREE.ShapeGeometry( ciffines )
+        , ciffines_box = new THREE.Mesh( ciffin_geometry, ciffin_material );
+    ciffines_box.position.set(600, 0, -700);
+    ciffines_box.rotation.set(0, rad(135), 0);
+    this.group.add(ciffines_box);
+  }
+}
+
 class Floor {
   constructor() {
     this.group = new THREE.Group();
     this.group.position.set(0, -150, 0);
-    this.group.rotation.set(-Math.PI/2, 0, 0);
+    this.group.rotation.set(rad(-90), 0, 0);
     this.wingAngle = 0;
     this.drawBody();
   }
@@ -129,7 +216,7 @@ class Floor {
 class Moon {
   constructor() {
     this.group = new THREE.Group();
-    this.group.position.set(100, 400, -1000);
+    this.group.position.set(100, 400, -900);
     this.wingAngle = 0;
     this.drawBody();
   }
@@ -145,6 +232,7 @@ class Moon {
 class Pumpkin {
   constructor() {
     this.group = new THREE.Group();
+    this.bodyAngle = 0;
     this.group.position.set(0, 0, 0);
     this.group.rotation.set(0, 0, 0);
     this.drawHead();
@@ -160,7 +248,6 @@ class Pumpkin {
     this.drawmouth(100, 0,  -50, 0,  -50, -50, 40, 0,  -80, -10, 210,  0, -.3, 2.25);
   }
   drawHead() {
-    // draw eyes
     const head_geometry = new THREE.CylinderGeometry(10,10,40,50)
         , head_material = new THREE.MeshPhongMaterial({color: 648035});
     const head_box = new THREE.Mesh( head_geometry, head_material );
@@ -218,7 +305,9 @@ class Pumpkin {
     this.group.add(mouth_box);
   }
   moveBody() {
-
+    this.bodyAngle += 0.05;
+    const bodyAmplitude = 30;
+    this.group.position.y = 30 - (Math.cos(this.bodyAngle) * bodyAmplitude);
   }  
 }
 
@@ -228,12 +317,13 @@ class Fly {
     this.group.position.set(300, 300, 100);
     this.group.rotation.set(0, -Math.PI/2, 0);
     this.wingAngle = 0;
+    this.drawBody();
     this.drawWings();
   }
   drawBody() {
     const flyGeometry = new THREE.BoxGeometry(10, 10, 10);
     const flyMaterial = new THREE.MeshStandardMaterial({
-      color: 0x3F3F3F,
+      color: 0x000000,
       roughness: 1,
       shading: THREE.FlatShading,
     });
