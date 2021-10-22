@@ -1,7 +1,6 @@
 'use strict';
 
-let scene, camera, renderer, controls, pumpkin, moon, floor, cross, branch, coffin ,fly, width, height;
-
+let scene, camera, renderer, controls, pumpkin, moon, floor, cross, branch, coffin ,bat, width, height;
 function init() {
   width = window.innerWidth,
   height = window.innerHeight;
@@ -14,7 +13,9 @@ function init() {
   renderer = new THREE.WebGLRenderer({
     alpha: true
   });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(
+    window.devicePixelRatio
+  );
   renderer.setSize(width, height);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -28,7 +29,7 @@ function init() {
   drawCoffin();
   drawFloor();
   drawMoon();
-  drawFly();
+  drawBat();
 
   document
     .getElementById('myCanvas')
@@ -77,9 +78,9 @@ function drawMoon() {
   scene.add(moon.group);
 }
 
-function drawFly() {
-  fly = new Fly();
-  scene.add(fly.group);
+function drawBat() {
+  bat = new Bat();
+  scene.add(bat.group);
 }
 
 function onResize() {
@@ -111,9 +112,10 @@ function animate() {
 }
 
 function render() {
-  scene.rotation.y += 0.01;
+  //scene.rotation.y += 0.01;
   pumpkin.moveBody();
-  fly.moveWings();
+  bat.moveBody();
+  bat.moveWings();
   renderer.render(scene, camera);
 }
 
@@ -435,35 +437,50 @@ class Pumpkin {
 }
 
 /**
-* Fly
+* Bat
 **/
-class Fly {
+class Bat {
   constructor() {
     this.group = new THREE.Group();
     this.group.position.set(300, 300, 100);
-    this.group.rotation.set(0, -Math.PI/2, 0);
+    this.group.rotation.set(0, rad(-90), 0);
     this.wingAngle = 0;
+    this.bodyAngle = 0;
     this.drawBody();
     this.drawWings();
+    this.drawWings_back();
   }
   drawBody() {
-    const flyGeometry =  new THREE.ParametricGeometry( function( u, v, target ) {
+    const batGeometry =  new THREE.ParametricGeometry( function( u, v, target ) {
                             u = u * Math.PI;
                             v = v * 2 * Math.PI;
-                            var x = 40 * Math.sin(u) * Math.cos(v);
-                            var y = 20 * Math.sin(u) * Math.sin(v); 
-                            var z = 20 * Math.cos(u);
+                            var x = 60 * Math.sin(u) * Math.cos(v);
+                            var y = 30 * Math.sin(u) * Math.sin(v); 
+                            var z = 30 * Math.cos(u);
                             target.set( x, y, z );
                         }, 80, 80, true
                    );
 
-    const flymaterial = new THREE.MeshBasicMaterial({color: 0x000000});
-    const fly = new THREE.Mesh(flyGeometry, flymaterial);
-    fly.position.set( 0, 30, 0 );
-    this.group.add(fly);
+    const batmaterial = new THREE.MeshPhongMaterial({color: 0x000000});
+    const bat = new THREE.Mesh(batGeometry, batmaterial);
+
+    bat.position.set( -30, 0, 0 );
+    this.group.add(bat);
+
+    let ear_material = new THREE.MeshLambertMaterial( { color: 0x000000, wireframe:false } );
+    let ear = new THREE.Mesh( new THREE.TetrahedronGeometry( 20 ), ear_material );
+    ear.position.set( 20, 12, -20 );
+    ear.rotation.set( 0, rad(115), 0 );
+    this.group.add( ear );
+
+    let ear_right = new THREE.Mesh( new THREE.TetrahedronGeometry( 20 ), ear_material );
+    ear_right.position.set( 20, 12, 20 );
+    ear_right.rotation.set( 0, rad(150), 0 );
+    this.group.add( ear_right );
+
   }
   drawWings() {
-    const splash_material = new THREE.MeshBasicMaterial( { color: 0x000000 } )
+    const splash_material = new THREE.MeshPhongMaterial( { color: 0x000000 } )
         , shape = new THREE.Shape();
           shape.moveTo( 0, 0 );
           shape.lineTo( 20, -70 );
@@ -476,37 +493,41 @@ class Fly {
           splash_box = new THREE.Mesh( splash_geometry, splash_material );
 
     this.rightWing = splash_box;
-    this.rightWing.position.set(25, 25, 10);
+    this.rightWing.position.set(0, 0, 20);
     this.rightWing.rotation.set(0, 0, 0);
 
     this.group.add(this.rightWing);
     this.leftWing = this.rightWing.clone();
     this.leftWing.position.z = -this.rightWing.position.z;
-    this.leftWing.position.x = this.rightWing.position.x * 3;
     this.group.add(this.leftWing);
-
+  }
+  drawWings_back() {
+    const splash_material = new THREE.MeshPhongMaterial( { color: 0x000000 } )
     const shape_back = new THREE.Shape();
-          shape_back.moveTo( 0, 0 );
-          shape_back.lineTo( 0, -40 );
-          shape_back.lineTo( 40, -100 );
-          shape_back.lineTo( -40, -150 );
-          shape_back.lineTo( -60, -70 );
-          shape_back.lineTo( -40, 0 );
-
+          shape_back.moveTo( 40, 0 );
+          shape_back.lineTo( 40, -40 );
+          shape_back.lineTo( 80, -100 );
+          shape_back.lineTo( 0, -150 );
+          shape_back.lineTo( -20, -70 );
+          shape_back.lineTo( 0, 0 );
     const splash_geometry_back = new THREE.ShapeGeometry( shape_back ),
           splash_box_back = new THREE.Mesh( splash_geometry_back, splash_material );
 
     this.rightWing_back = splash_box_back;
-    this.rightWing_back.position.set(25, 25, 10);
+    this.rightWing_back.position.set(0, 0, 20);
     this.rightWing_back.rotation.set(0, rad(-180), 0);
     this.group.add(this.rightWing_back);
 
     this.leftWing_back = this.rightWing_back.clone();
     this.leftWing_back.position.z = -this.rightWing_back.position.z;
-    this.leftWing_back.position.x = -this.rightWing_back.position.x;
     this.group.add(this.leftWing_back);
 
   }
+  moveBody() {
+    const bodyAmplitude = 30;
+    this.bodyAngle += 0.05;
+    this.group.position.y = 300 - (Math.cos(this.bodyAngle) * bodyAmplitude);
+  }  
   moveWings() {
     this.wingAngle += .5;
     const wingAmplitude = rad(20);
