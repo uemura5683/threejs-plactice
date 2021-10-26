@@ -1,4 +1,0 @@
-/**
-* Three.jsでアニメーションする多くのオブジェクトを最適化
-**/
-https://threejsfundamentals.org/threejs/lessons/ja/threejs-optimize-lots-of-objects-animated.html
