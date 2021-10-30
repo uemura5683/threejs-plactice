@@ -65,7 +65,7 @@
     * texts
     **/
     let loader = new THREE.FontLoader();
-    loader.load( 'https://threejs-plactice.vercel.app/mainvisual/fonts/helvetiker_regular.typeface.json', function ( font ) {
+    loader.load( 'https://threejs-plactice.vercel.app/fontloader/fonts/helvetiker_regular.typeface.json', function ( font ) {
       let matDark = new THREE.LineBasicMaterial( {
         color: 0x000000,
         opacity: .7,
