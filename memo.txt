@@ -4,3 +4,5 @@
 https://threejs.org/docs/#api/en/geometries/TextGeometry
 
 https://codepen.io/lucgenti/pen/ppZZRg?editors=1010
+
+https://tympanus.net/codrops/2021/10/27/creating-the-effect-of-transparent-glass-and-plastic-in-three-js/
