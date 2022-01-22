@@ -10,3 +10,15 @@ https://tympanus.net/codrops/2021/10/27/creating-the-effect-of-transparent-glass
 https://christinayan01.jp/architecture/archives/14067
 
 https://www.pentacreation.com/blog/2018/12/181215.html
+
+https://www.vantajs.com/?effect=fog
+
+/**
+* smoke
+**/
+
+https://codepen.io/teolitto/pen/KwOVvL?editors=0010
+
+https://www.pentacreation.com/blog/2019/11/191101.html
+
+https://uhaha.net/demo_js/demo_threejs_fog/
