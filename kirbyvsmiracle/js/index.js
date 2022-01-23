@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 * default
 **/
@@ -7,10 +5,11 @@ let scene    = null,
     camera   = null,
     renderer = null,
     controls = null,
-    zerotwo  = null,
-    smoke    = null,
+    miracle  = null,
+    clock    = null,
     width    = 0,
-    height   = 0;
+    height   = 0,
+    smokeParticles = [];
 
 /**
 * init
@@ -30,24 +29,28 @@ function init() {
   renderer.setSize(width, height);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  clock = new THREE.Clock();
 
   addLights(0,1,1);
-  drawZerotwo();
 
-  // const smokeTexture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/crowd.png');
-  // const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: smokeTexture, transparent: true});
-  // const smokeGeo = new THREE.PlaneGeometry(300,300);
-  // const smokeParticles = [];
+  /**
+  * smoke
+  **/
+  const smokeTexture  = new THREE.TextureLoader().load('https://threejs-plactice.vercel.app/kirbyvsmiracle/smoke.png');
+  const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.4, map: smokeTexture, transparent: true});
+  const smokeGeo      = new THREE.PlaneGeometry(300,300);
 
-  // for (var p = 0; p < 100; p++) {
-  //     var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
-  //     particle.position.set(Math.random()*500-250,Math.random()*500-250,Math.random()*1000-100);
-  //     particle.rotation.z = Math.random() * 500;
-  //     scene.add(particle);
-  //     smokeParticles.push(particle);
-  // }
-
+  for (var p = 0; p < 300; p++) {
+      var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
+      particle.position.set(Math.random()*1000-250,Math.random()*1000-250,Math.random()*2000-100);
+      particle.rotation.z = Math.random() * 500;
+      scene.add(particle);
+      smokeParticles.push(particle);
+  }
+  /**
+  * miracle
+  **/
+  drawMiracle();
   document.getElementById('myCanvas').appendChild(renderer.domElement);
   window.addEventListener('resize',onResize,false);
 }
@@ -64,11 +67,10 @@ function addLights(x,y,z) {
 /**
 * draw
 **/
-function drawZerotwo() {
-  zerotwo = new Zerotwo();
-  scene.add(zerotwo.group);
+function drawMiracle() {
+  miracle = new Miracle();
+  scene.add(miracle.group);
 }
-
 /**
 * resize
 **/
@@ -79,7 +81,6 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(width, height);
 }
-
 /**
 * degree
 **/
@@ -91,27 +92,34 @@ function degree(degrees) {
 * animate
 **/
 function animate() {
+  let delta = clock.getDelta();
   requestAnimationFrame(animate);
+  [].forEach.call(smokeParticles, sp => {
+    sp.rotation.z += delta * 0.2;
+  });
   render();
 }
 
 /**
+* evolveSmoke
+**/
+function evolveSmoke() {
+  var sp = smokeParticles.length;
+  while(sp--) {
+    smokeParticles[sp].rotation.z += (delta * 0.2);
+  }
+}
+/**
 * render
 **/
 function render() {
-  //scene.rotation.y += 0.01;
-  zerotwo.moveBody();
+  miracle.moveBody();
   renderer.render(scene, camera);
 }
-
-class Smoke {
-
-}
-
 /**
-* Zerotwo
+* Miracle
 **/
-class Zerotwo {
+class Miracle {
   constructor() {
     this.group = new THREE.Group();
     this.group.position.set(0, 0, 0);
@@ -120,7 +128,6 @@ class Zerotwo {
     this.bodyangle = 0;
     this.drawBody();
   }
-
   drawBody() {
     /**
     * body
@@ -131,252 +138,54 @@ class Zerotwo {
     body.position.set(0, 0, 0);
     body.rotation.set(degree(0), degree(15), degree(30));
     this.group.add(body);
-
-
     /**
     * eye
     **/
-    const eye_geometry =  new THREE.CylinderGeometry( 40, 40, 1, 32 );
-    const eyes_material = new THREE.MeshLambertMaterial({color: 0xEE1A2B});
-    const eye = new THREE.Mesh(eye_geometry, eyes_material);
-    eye.position.set(-9, -22, 128);
-    eye.rotation.set(degree(100), degree(0), degree(0));
-    this.group.add(eye);
+    function eye_content (px,py,pz,bpz,rx,ry,rz,group) {
 
-    const eye_black_geometry = new THREE.CylinderGeometry( 20, 20, 1, 32 );
-    const eye_black_material = new THREE.MeshLambertMaterial({color: 0x000000});
-    const eye_black = new THREE.Mesh(eye_black_geometry, eye_black_material);
-    eye_black.position.set(-9, -22, 129);
-    eye_black.rotation.set(degree(100), degree(0), degree(0));
-    this.group.add(eye_black);
+      const eye_geometry =  new THREE.CylinderGeometry( 40, 40, 1, 32 );
+      const eyes_material = new THREE.MeshLambertMaterial({color: 0xEE1A2B});
+      const eye = new THREE.Mesh(eye_geometry, eyes_material);
+      eye.position.set(px, py, pz);
+      eye.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(eye);
 
+      const eye_black_geometry = new THREE.CylinderGeometry( 20, 20, 1, 32 );
+      const eye_black_material = new THREE.MeshLambertMaterial({color: 0x000000});
+      const eye_black = new THREE.Mesh(eye_black_geometry, eye_black_material);
+      eye_black.position.set(px, py, bpz);
+      eye_black.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(eye_black);
 
-    this.eye_back = eye.clone();
-    this.eye_back.position.set(9, 22, -128);
-    this.eye_back.rotation.set(degree(100), degree(0), degree(0));
-    this.group.add(this.eye_back);
-
-    this.eye_black_back = eye_black.clone();
-    this.eye_black_back.position.set(9, 22, -129);
-    this.eye_black_back.rotation.set(degree(100), degree(0), degree(0));
-    this.group.add(this.eye_black_back);
-
-    /**
-    * eye2
-    **/
-    this.eye_2 = eye.clone();
-    this.eye_2.position.set(72, 22, 106);
-    this.eye_2.rotation.set(degree(80), degree(0), degree(-30));
-    this.group.add(this.eye_2);
-
-    this.eye_black_2 = eye_black.clone();
-    this.eye_black_2.position.set(72, 22, 107);
-    this.eye_black_2.rotation.set(degree(80), degree(0), degree(-30));
-    this.group.add(this.eye_black_2);
-
-    this.eye_2_back = eye.clone();
-    this.eye_2_back.position.set(-72, -22, -106);
-    this.eye_2_back.rotation.set(degree(80), degree(0), degree(-30));
-    this.group.add(this.eye_2_back);
-
-    this.eye_black_2_back = eye_black.clone();
-    this.eye_black_2_back.position.set(-72, -22, -107);
-    this.eye_black_2_back.rotation.set(degree(80), degree(0), degree(-30));
-    this.group.add(this.eye_black_2_back);
-
-    /**
-    * eye3
-    **/
-    this.eye_3 = eye.clone();
-    this.eye_3.position.set(117, -24, 45);
-    this.eye_3.rotation.set(degree(120), degree(0), degree(-66));
-    this.group.add(this.eye_3);
-
-    this.eye_black_3 = eye_black.clone();
-    this.eye_black_3.position.set(117, -24, 46);
-    this.eye_black_3.rotation.set(degree(120), degree(0), degree(-66));
-    this.group.add(this.eye_black_3);
-
-    this.eye_3_back = eye.clone();
-    this.eye_3_back.position.set(-117, 24, -45);
-    this.eye_3_back.rotation.set(degree(120), degree(0), degree(-66));
-    this.group.add(this.eye_3_back);
-
-    this.eye_black_3_back = eye_black.clone();
-    this.eye_black_3_back.position.set(-117, 24, -46);
-    this.eye_black_3_back.rotation.set(degree(120), degree(0), degree(-66));
-    this.group.add(this.eye_black_3_back);
-
-    /**
-    * eye4
-    **/
-    this.eye_4 = eye.clone();
-    this.eye_4.position.set(123, 20, -35);
-    this.eye_4.rotation.set(degree(120), degree(0), degree(-105));
-    this.group.add(this.eye_4);
-
-    this.eye_black_4 = eye_black.clone();
-    this.eye_black_4.position.set(123, 20, -36);
-    this.eye_black_4.rotation.set(degree(120), degree(0), degree(-105));
-    this.group.add(this.eye_black_4);
-
-    this.eye_4_back = eye.clone();
-    this.eye_4_back.position.set(-123, -20, 35);
-    this.eye_4_back.rotation.set(degree(120), degree(0), degree(-105));
-    this.group.add(this.eye_4_back);
-
-    this.eye_black_4_back = eye_black.clone();
-    this.eye_black_4_back.position.set(-123, -20, 36);
-    this.eye_black_4_back.rotation.set(degree(120), degree(0), degree(-105));
-    this.group.add(this.eye_black_4_back);
-
-    /**
-    * eye5
-    **/
-    this.eye_5 = eye.clone();
-    this.eye_5.position.set(-82, 22, 97);
-    this.eye_5.rotation.set(degree(75), degree(0), degree(40));
-    this.group.add(this.eye_5);
-
-    this.eye_black_5 = eye_black.clone();
-    this.eye_black_5.position.set(-82, 22, 98);
-    this.eye_black_5.rotation.set(degree(76), degree(0), degree(40));
-    this.group.add(this.eye_black_5);
-
-    this.eye_5 = eye.clone();
-    this.eye_5.position.set(82, -22, -97);
-    this.eye_5.rotation.set(degree(75), degree(0), degree(40));
-    this.group.add(this.eye_5);
-
-    this.eye_black_5 = eye_black.clone();
-    this.eye_black_5.position.set(82, -22, -98);
-    this.eye_black_5.rotation.set(degree(76), degree(0), degree(40));
-    this.group.add(this.eye_black_5);
-
-
-    /**
-    * eye6
-    **/
-    this.eye_6 = eye.clone();
-    this.eye_6.position.set(-50, 105, 54);
-    this.eye_6.rotation.set(degree(75), degree(-60), degree(50));
-    this.group.add(this.eye_6);
-
-    this.eye_black_6 = eye_black.clone();
-    this.eye_black_6.position.set(-50, 105, 55);
-    this.eye_black_6.rotation.set(degree(75), degree(-60), degree(50));
-    this.group.add(this.eye_black_6);
-
-    this.eye_6_back = eye.clone();
-    this.eye_6_back.position.set(50, -105, -54);
-    this.eye_6_back.rotation.set(degree(75), degree(-60), degree(50));
-    this.group.add(this.eye_6_back);
-
-    this.eye_black_6_back = eye_black.clone();
-    this.eye_black_6_back.position.set(50, -105, -55);
-    this.eye_black_6_back.rotation.set(degree(75), degree(-60), degree(50));
-    this.group.add(this.eye_black_6_back);
-
-    /**
-    * eye7
-    **/
-    this.eye_7 = eye.clone();
-    this.eye_7.position.set(40, 105, 62);
-    this.eye_7.rotation.set(degree(33), degree(0), degree(-21));
-    this.group.add(this.eye_7);
-
-    this.eye_black_7 = eye_black.clone();
-    this.eye_black_7.position.set(40, 105, 63);
-    this.eye_black_7.rotation.set(degree(33), degree(0), degree(-21));
-    this.group.add(this.eye_black_7);
-
-    this.eye_7_back = eye.clone();
-    this.eye_7_back.position.set(-40, -105, -62);
-    this.eye_7_back.rotation.set(degree(33), degree(0), degree(-21));
-    this.group.add(this.eye_7_back);
-
-    this.eye_black_7_back = eye_black.clone();
-    this.eye_black_7_back.position.set(-40, -105, -62);
-    this.eye_black_7_back.rotation.set(degree(33), degree(0), degree(-21));
-    this.group.add(this.eye_black_7_back);
-
-    /**
-    * eye8
-    **/
-    this.eye_8 = eye.clone();
-    this.eye_8.position.set(75, 105, -20);
-    this.eye_8.rotation.set(degree(100), degree(50), degree(-110));
-    this.group.add(this.eye_8);
-
-    this.eye_black_8 = eye_black.clone();
-    this.eye_black_8.position.set(75, 105, -21);
-    this.eye_black_8.rotation.set(degree(100), degree(50), degree(-110));
-    this.group.add(this.eye_black_8);
-
-    this.eye_8_back = eye.clone();
-    this.eye_8_back.position.set(-75, -105, 20);
-    this.eye_8_back.rotation.set(degree(100), degree(50), degree(-110));
-    this.group.add(this.eye_8_back);
-
-    this.eye_black_8_back = eye_black.clone();
-    this.eye_black_8_back.position.set(-75, -105, 21);
-    this.eye_black_8_back.rotation.set(degree(100), degree(50), degree(-110));
-    this.group.add(this.eye_black_8_back);
-
-    /**
-    * eye9
-    **/
-    this.eye_9 = eye.clone();
-    this.eye_9.position.set(9, 105, -75);
-    this.eye_9.rotation.set(degree(90), degree(85), degree(-125));
-    this.group.add(this.eye_9);
-
-    this.eye_black_9 = eye_black.clone();
-    this.eye_black_9.position.set(9, 105, -76);
-    this.eye_black_9.rotation.set(degree(90), degree(85), degree(-125));
-    this.group.add(this.eye_black_9);
-
-    this.eye_9_back = eye.clone();
-    this.eye_9_back.position.set(-9, -105, 75);
-    this.eye_9_back.rotation.set(degree(90), degree(85), degree(-125));
-    this.group.add(this.eye_9_back);
-
-    this.eye_black_9_back = eye_black.clone();
-    this.eye_black_9_back.position.set(-9, -105, 76);
-    this.eye_black_9_back.rotation.set(degree(90), degree(85), degree(-125));
-    this.group.add(this.eye_black_9_back);
-
-    /**
-    * eye10
-    **/
-    this.eye_10 = eye.clone();
-    this.eye_10.position.set(-67, 105, -35);
-    this.eye_10.rotation.set(degree(165), degree(0), degree(-32));
-    this.group.add(this.eye_10);
-
-    this.eye_black_10 = eye_black.clone();
-    this.eye_black_10.position.set(-67, 105, -36);
-    this.eye_black_10.rotation.set(degree(165), degree(0), degree(-32));
-    this.group.add(this.eye_black_10);
-
-    this.eye_10 = eye.clone();
-    this.eye_10.position.set(67, -105, 35);
-    this.eye_10.rotation.set(degree(165), degree(0), degree(-32));
-    this.group.add(this.eye_10);
-
-    this.eye_black_10 = eye_black.clone();
-    this.eye_black_10.position.set(67, -105, 36);
-    this.eye_black_10.rotation.set(degree(165), degree(0), degree(-32));
-    this.group.add(this.eye_black_10);
-
+    }
+    eye_content(-9, -22, 128, 129, 100, 0, 0, this.group);
+    eye_content(9, 22, -128, -129, 100, 0, 0, this.group);
+    eye_content(72, 22, 106, 107, 80, 0, -30, this.group);
+    eye_content(-72, -22, -106, -107, 80, 0, -30, this.group);
+    eye_content(117, -24, 45, 46, 120, 0, -66, this.group);
+    eye_content(-117, 24, -45, -46, 120, 0, -66, this.group);
+    eye_content(123, 20, -35, -36, 120, 0, -105, this.group);
+    eye_content(-123, -20, 35, 36, 120, 0, -105, this.group);
+    eye_content(-82, 22, 97, 98, 75, 0, 41, this.group);
+    eye_content(82, -22, -97, -98, 75, 0, 41, this.group);
+    eye_content(-50, 105, 54, 55, 75, -60, 50, this.group);
+    eye_content(50, -105, -54, -55, 75, -60, 50, this.group);
+    eye_content(40, 105, 62, 63, 33, 0, -21, this.group);
+    eye_content(-40, -105, -62, -63, 33, 0, -21, this.group);
+    eye_content(75, 105, -20, -21, 100, 50, -110, this.group);
+    eye_content(-75, -105, 20, 21, 100, 50, -110, this.group);
+    eye_content(9, 105, -75, -76, 90, 85, -125, this.group);
+    eye_content(-9, -105, 75, 76, 90, 85, -125, this.group);
+    eye_content(-67, 105, -35, -36, 165, 0, -32, this.group);
+    eye_content(67, -105, 35, 36, 165, 0, -32, this.group);
 
   }
   moveBody() {
-    const bodyamplitude = 30;
+    const bodyamplitude = 50;
     this.bodyangle += 0.05;
     this.group.rotation.y += 0.05;
     this.group.rotation.z += 0.05;
-    // this.group.position.y = 0 - (Math.cos(this.bodyangle) * bodyamplitude);
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
 
