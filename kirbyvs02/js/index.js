@@ -128,57 +128,27 @@ class Zerotwo {
     /**
     * eye
     **/
-    const eye_geometry =  new THREE.ParametricGeometry( function( u, v, target ) {
-                              u = u * Math.PI;
-                              v = v * 4 * Math.PI;
-                              var x = 30 * Math.sin(u) * Math.cos(v);
-                              var y = 60 * Math.sin(u) * Math.sin(v); 
-                              var z = 1 * Math.cos(u);
-                              target.set( x, y, z );
-                            }, 80, 80, true
-                          );
-    const eyes_material = new THREE.MeshBasicMaterial({color: 0xEE1A2B});
+    function eye_content (gx, gy, gz, gcolor, rx, ry, rz, px, py, pz, group) {
 
-    const eye = new THREE.Mesh(eye_geometry, eyes_material);
-    eye.rotation.set(0, 0, degree(90));
-    eye.position.set(0, 10, 200);
-    this.group.add(eye);
+      const eye_geometry =  new THREE.ParametricGeometry( function( u, v, target ) {
+                                u = u * Math.PI;
+                                v = v * 4 * Math.PI;
+                                var x = gx * Math.sin(u) * Math.cos(v);
+                                var y = gy * Math.sin(u) * Math.sin(v); 
+                                var z = gz * Math.cos(u);
+                                target.set( x, y, z );
+                              }, 100, 100, true
+                            );
+      const eyes_material = new THREE.MeshBasicMaterial({color: gcolor});
 
-    /**
-    * eye black
-    **/
-    const eye_black_geometry = new THREE.ParametricGeometry( function( u, v, target ) {
-                                    u = u * Math.PI;
-                                    v = v * 2 * Math.PI;
-                                    var x = 20 * Math.sin(u) * Math.cos(v);
-                                    var y = 20 * Math.sin(u) * Math.sin(v); 
-                                    var z = 1 * Math.cos(u);
-                                    target.set( x, y, z );
-                                  }, 100, 100, true
-                                );
-
-    const eyes_black_material = new THREE.MeshBasicMaterial({color: 0x000000});
-    const eyes_black = new THREE.Mesh(eye_black_geometry, eyes_black_material);
-    eyes_black.position.set(0, 10, 204);
-    this.group.add(eyes_black);
-
-    /**
-    * eye white
-    **/
-    const eye_white_material = new THREE.ParametricGeometry( function( u, v, target ) {
-                                    u = u * Math.PI;
-                                    v = v * 2 * Math.PI;
-                                    var x = 10 * Math.sin(u) * Math.cos(v);
-                                    var y = 10 * Math.sin(u) * Math.sin(v); 
-                                    var z = 1 * Math.cos(u);
-                                    target.set( x, y, z );
-                                  }, 100, 100, true
-                                );
-
-    const eyes_white_material = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
-    const eyes_white = new THREE.Mesh(eye_white_material, eyes_white_material);
-    eyes_white.position.set(10, 10, 207);
-    this.group.add(eyes_white);
+      const eye = new THREE.Mesh(eye_geometry, eyes_material);
+      eye.rotation.set(degree(rx), degree(ry), degree(rz));
+      eye.position.set(px, py, pz);
+      group.add(eye);
+    }
+    eye_content(30, 60, 1, 0xEE1A2B, 0, 0, 90, 0, 10, 200, this.group);
+    eye_content(20, 20, 1, 0x000000, 0, 0, 0,  0, 10, 204, this.group);
+    eye_content(10, 10, 1, 0xFFFFFF, 0, 0, 0, 10, 10, 207, this.group);
 
     /**
     * foot
@@ -190,140 +160,79 @@ class Zerotwo {
     tail.rotation.set(0, 0, degree(180));
     this.group.add( tail );
 
-    const splash_material = new THREE.MeshPhongMaterial({color: 0xffffff})
-        , shape = new THREE.Shape();
-          shape.moveTo(5, 30);
-          shape.lineTo(52, -40);
-          shape.lineTo(32, -60);
-          shape.lineTo(6, -60);
-          shape.lineTo(-14, -40);
-          shape.lineTo(5, 30);
-    const splash_geometry = new THREE.ShapeGeometry(shape),
-          splash_box = new THREE.Mesh(splash_geometry, splash_material);
     /**
     *twing
     **/
-    this.rightWing = splash_box;
-    this.rightWing.position.set(200, 0, 0);
-    this.rightWing.rotation.set(0, 0, degree(90));
-    this.group.add(this.rightWing);
+    function wing_bottom(px,py,pz,rx,ry,rz,group) {
+      const splash_material = new THREE.MeshPhongMaterial({color: 0xffffff})
+          , shape = new THREE.Shape();
+            shape.moveTo(5, 30);
+            shape.lineTo(52, -40);
+            shape.lineTo(32, -60);
+            shape.lineTo(6, -60);
+            shape.lineTo(-14, -40);
+            shape.lineTo(5, 30);
+      const splash_geometry = new THREE.ShapeGeometry(shape),
+            splash_box = new THREE.Mesh(splash_geometry, splash_material);
 
-    this.rightWing_right = this.rightWing.clone();
-    this.rightWing_right.position.set(-200, 40, 0);
-    this.rightWing_right.rotation.set(0, 0, degree(-90));
-    this.group.add(this.rightWing_right);
+      splash_box.position.set(px, py, pz);
+      splash_box.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(splash_box);
+    }
+    wing_bottom(200,0,0,0,0,90,this.group);
+    wing_bottom(-200,40,0,0,0,-90,this.group);
 
-    const wing_material = new THREE.MeshPhongMaterial({color: 0xffffff})
-        , shape_wing = new THREE.Shape();
-          shape_wing.moveTo(15, 30);
-          shape_wing.lineTo(30, -45);
-          shape_wing.lineTo(15, -115);
-          shape_wing.lineTo(-15, -115);
-          shape_wing.lineTo(-30, -45);
-          shape_wing.lineTo(-15, 30);
-    const wing_geometry = new THREE.ShapeGeometry(shape_wing),
-          wing_box = new THREE.Mesh(wing_geometry, wing_material);
 
-    this.wing_box = wing_box;
-    this.wing_box.position.set(340, 140, 0);
-    this.wing_box.rotation.set(0, 0, degree(-45));
-    this.group.add(this.wing_box);
+    function wing_middle(px,py,pz,rx,ry,rz,group) {
+      const wing_material = new THREE.MeshPhongMaterial({color: 0xffffff})
+          , shape_wing = new THREE.Shape();
+            shape_wing.moveTo(15, 30);
+            shape_wing.lineTo(30, -45);
+            shape_wing.lineTo(15, -115);
+            shape_wing.lineTo(-15, -115);
+            shape_wing.lineTo(-30, -45);
+            shape_wing.lineTo(-15, 30);
+      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+            wing_box = new THREE.Mesh(wing_geometry, wing_material);
 
-    this.wing_box_right = this.wing_box.clone();
-    this.wing_box_right.position.set(-340, 140, 0);
-    this.wing_box_right.rotation.set(0, 0, degree(45));
-    this.group.add(this.wing_box_right);
+      wing_box.position.set(px, py, pz);
+      wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(wing_box);
+    }
+    wing_middle( 340,  140, 0, 0, 0,  -45, this.group);
+    wing_middle(-340,  140, 0, 0, 0,   45, this.group);
+    wing_middle( 390,   20, 0, 0, 0,  -90, this.group);
+    wing_middle(-390,   20, 0, 0, 0,   90, this.group);
+    wing_middle( 340, -100, 0, 0, 0, -135, this.group);
+    wing_middle(-340, -100, 0, 0, 0,  135, this.group);
 
-    this.wing_box_second = this.wing_box.clone();
-    this.wing_box_second.position.set(390, 20, 0);
-    this.wing_box_second.rotation.set(0, 0, degree(-90));
-    this.group.add(this.wing_box_second);
-
-    this.wing_box_second_right = this.wing_box.clone();
-    this.wing_box_second_right.position.set(-390, 20, 0);
-    this.wing_box_second_right.rotation.set(0, 0, degree(90));
-    this.group.add(this.wing_box_second_right);
-
-    this.wing_box_third = this.wing_box.clone();
-    this.wing_box_third.position.set(340, -100, 0);
-    this.wing_box_third.rotation.set(0, 0, degree(-135));
-    this.group.add(this.wing_box_third);
-
-    this.wing_box_third_right = this.wing_box.clone();
-    this.wing_box_third_right.position.set(-340, -100, 0);
-    this.wing_box_third_right.rotation.set(0, 0, degree(135));
-    this.group.add(this.wing_box_third_right);
-
-    const wing_red_material = new THREE.MeshPhongMaterial({color: 0x97042C})
-        , shape_wing_red = new THREE.Shape();
-          shape_wing_red.moveTo(7,30);
-          shape_wing_red.lineTo(15,-45);
-          shape_wing_red.lineTo(7,-115);
-          shape_wing_red.lineTo(-7,-115);
-          shape_wing_red.lineTo(-15,-45);
-          shape_wing_red.lineTo(-7,30);
-    const wing_red_geometry = new THREE.ShapeGeometry(shape_wing_red),
-          wing_red = new THREE.Mesh(wing_red_geometry, wing_red_material);
-
-    this.wing_red = wing_red;
-    this.wing_red.position.set(400, 290, 0);
-    this.wing_red.rotation.set(0, 0, degree(-22.5));
-    this.group.add(this.wing_red);
-
-    this.wing_red_right = this.wing_red.clone();
-    this.wing_red_right.position.set(-400, 290, 0);
-    this.wing_red_right.rotation.set(0, 0, degree(22.5));
-    this.group.add(this.wing_red_right);
-
-    this.wing_red_two = wing_red.clone();
-    this.wing_red_two.position.set(470, 230, 0);
-    this.wing_red_two.rotation.set(0, 0, degree(-53));
-    this.group.add(this.wing_red_two);
-
-    this.wing_red_two_right = wing_red.clone();
-    this.wing_red_two_right.position.set(-470, 230, 0);
-    this.wing_red_two_right.rotation.set(0, 0, degree(53));
-    this.group.add(this.wing_red_two_right);
-
-    this.wing_red_three = wing_red.clone();
-    this.wing_red_three.position.set(540, 80, 0);
-    this.wing_red_three.rotation.set(0, 0, degree(-70));
-    this.group.add(this.wing_red_three);
-
-    this.wing_red_three_right = wing_red.clone();
-    this.wing_red_three_right.position.set(-540, 80, 0);
-    this.wing_red_three_right.rotation.set(0, 0, degree(70));
-    this.group.add(this.wing_red_three_right);
-
-    this.wing_red_four = wing_red.clone();
-    this.wing_red_four.position.set(540, -30, 0);
-    this.wing_red_four.rotation.set(0, 0, degree(-110));
-    this.group.add(this.wing_red_four);
-
-    this.wing_red_four_right = wing_red.clone();
-    this.wing_red_four_right.position.set(-540, -30, 0);
-    this.wing_red_four_right.rotation.set(0, 0, degree(110));
-    this.group.add(this.wing_red_four_right);
-
-    this.wing_red_five = wing_red.clone();
-    this.wing_red_five.position.set(480, -180, 0);
-    this.wing_red_five.rotation.set(0, 0, degree(-120));
-    this.group.add(this.wing_red_five);
-
-    this.wing_red_five_right = wing_red.clone();
-    this.wing_red_five_right.position.set(-480, -180, 0);
-    this.wing_red_five_right.rotation.set(0, 0, degree(120));
-    this.group.add(this.wing_red_five_right);
-
-    this.wing_red_six = wing_red.clone();
-    this.wing_red_six.position.set(400, -250, 0);
-    this.wing_red_six.rotation.set(0, 0, degree(-160));
-    this.group.add(this.wing_red_six);
-
-    this.wing_red_six_right = wing_red.clone();
-    this.wing_red_six_right.position.set(-400, -250, 0);
-    this.wing_red_six_right.rotation.set(0, 0, degree(160));
-    this.group.add(this.wing_red_six_right);
+    function wing_top(px,py,pz,rx,ry,rz,group) {
+      const wing_red_material = new THREE.MeshPhongMaterial({color: 0x97042C})
+          , shape_wing_red = new THREE.Shape();
+            shape_wing_red.moveTo(7,30);
+            shape_wing_red.lineTo(15,-45);
+            shape_wing_red.lineTo(7,-115);
+            shape_wing_red.lineTo(-7,-115);
+            shape_wing_red.lineTo(-15,-45);
+            shape_wing_red.lineTo(-7,30);
+      const wing_red_geometry = new THREE.ShapeGeometry(shape_wing_red),
+            wing_red = new THREE.Mesh(wing_red_geometry, wing_red_material);
+      wing_red.position.set(px, py, pz);
+      wing_red.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(wing_red);
+    }
+    wing_top( 400, 290,  0, 0, 0, -22.5, this.group);
+    wing_top(-400, 290,  0, 0, 0,  22.5, this.group);
+    wing_top( 470, 230,  0, 0, 0,   -53, this.group);
+    wing_top(-470, 230,  0, 0, 0,    53, this.group);
+    wing_top( 540,  80,  0, 0, 0,   -70, this.group);
+    wing_top(-540,  80,  0, 0, 0,    70, this.group);
+    wing_top( 540, -30,  0, 0, 0,  -110, this.group);
+    wing_top(-540, -30,  0, 0, 0,   110, this.group);
+    wing_top( 480, -180, 0, 0, 0,  -120, this.group);
+    wing_top(-480, -180, 0, 0, 0,   120, this.group);
+    wing_top( 400, -250, 0, 0, 0,  -160, this.group);
+    wing_top(-400, -250, 0, 0, 0,   160, this.group);
 
   }
   moveBody() {

@@ -22,3 +22,11 @@ https://codepen.io/teolitto/pen/KwOVvL?editors=0010
 https://www.pentacreation.com/blog/2019/11/191101.html
 
 https://uhaha.net/demo_js/demo_threejs_fog/
+
+/**
+* Browsersync
+**/
+https://higezine.com/blog/front-end/2020/04/03/636/
+https://www.aura-office.co.jp/blog/browser-sync/
+
+ npm start
