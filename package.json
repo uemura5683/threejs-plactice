@@ -1,0 +1,23 @@
+{
+  "name": "threejs-plactice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "browser-sync start --server --files='*/*.html, */js/*.js, */css/*.css'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uemura5683/threejs-plactice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uemura5683/threejs-plactice/issues"
+  },
+  "homepage": "https://github.com/uemura5683/threejs-plactice#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7"
+  }
+}
