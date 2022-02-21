@@ -98,8 +98,8 @@ function render() {
 class Tokyotower {
   constructor() {
     this.group = new THREE.Group();
-    this.group.position.set(0, -20, 0);
-    this.group.rotation.set(degree(0), degree(0), degree(0));
+    this.group.position.set(0, -150, 0);
+    this.group.rotation.set(degree(0), degree(45), degree(0));
     this.wingangle = 0;
     this.bodyangle = 0;
     this.drawBody();
@@ -113,10 +113,16 @@ class Tokyotower {
      branch_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
      group.add( branch_mesh );
    }
-   Root( 600, 5, 50, 50, 40, -650,  150,    0,  0,   0, -50, this.group );
-   Root( 600, 5, 50, 50, 40,  650,  150,    0,  0, 180, -50, this.group );
-   Root( 600, 5, 50, 50, 40,    0,  150, -650,  0, -90, -50, this.group );
-   Root( 600, 5, 50, 50, 40,    0,  150,  650,  0,  90, -50, this.group );
+   Root( 600, 5, 50, 50, 40, -650, 150, 0, 0, 0, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 650, 150, 0, 0, 180, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 0, 150, -650, 0, -90, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 0, 150, 650, 0, 90, -50, this.group );
+
+   Root( 600, 5, 50, 50, 30, -456, 82,  456, 0,  45, -30, this.group );
+   Root( 600, 5, 50, 50, 30, -456, 82, -456, 0, -45, -30, this.group );
+
+   Root( 600, 5, 50, 50, 30, 456, 82, 456, 0, -45, 180, this.group );
+   Root( 600, 5, 50, 50, 30, 456, 82, -456, 0, 45, 180, this.group );
 
    Root( 120, 5, 50, 50, 180, -135, -315,  135, 135,  38, 210, this.group );
    Root( 120, 5, 50, 50, 180,  135, -315, -135, 225,  38, 150, this.group );
@@ -131,23 +137,28 @@ class Tokyotower {
     cylinder.rotation.set(degree(rx), degree(ry), degree(rz));
     group.add( cylinder );
   }
-  Line( 35,   0,  35, 90, 0, 45, 100, this.group );
-  Line( 40, -40,  40, 90, 0, 45, 110, this.group );
-  Line( 48, -80,  48, 90, 0, 45, 130, this.group );
-  Line( 58, -120, 58, 90, 0, 45, 160, this.group );
-  Line( 68, -160, 68, 90, 0, 45, 190, this.group );
-  Line( 80, -200, 80, 90, 0, 45, 220, this.group );
-  Line( 175, -240, 20, 90, 0, 45, 58, this.group );
-  Line( 25, -240, 175, 90, 0, 45, 58, this.group );
+  Line(   0, 260,  42, -5, 0,  0, 500, this.group );
+  Line(   0, 260, -42,  5, 0,  0, 500, this.group );
+  Line( -42, 260,   0,  0, 0, -5, 500, this.group );
+  Line(  42, 260,   0,  0, 0,  5, 500, this.group );
 
-  Line(-35,   0, -35,  90, 0, 45, 100, this.group );
-  Line(-40, -40, -40,  90, 0, 45, 110, this.group );
-  Line(-48, -80, -48,  90, 0, 45, 130, this.group );
-  Line(-58, -120, -58, 90, 0, 45, 160, this.group );
-  Line(-68, -160, -68, 90, 0, 45, 190, this.group );
-  Line(-80, -200, -80, 90, 0, 45, 220, this.group );
-  Line( -175, -240, -20, 90, 0, 45, 58, this.group );
-  Line( -25, -240, -175, 90, 0, 45, 58, this.group );
+  Line( 35,     0,  35, 90, 0, 45, 100, this.group );
+  Line( 40,   -40,  40, 90, 0, 45, 110, this.group );
+  Line( 48,   -80,  48, 90, 0, 45, 130, this.group );
+  Line( 58,  -120,  58, 90, 0, 45, 160, this.group );
+  Line( 68,  -160,  68, 90, 0, 45, 190, this.group );
+  Line( 80,  -200,  80, 90, 0, 45, 220, this.group );
+  Line( 175, -240,  20, 90, 0, 45,  58, this.group );
+  Line( 25,  -240, 175, 90, 0, 45,  58, this.group );
+
+  Line(  -35,    0,  -35, 90, 0, 45, 100, this.group );
+  Line(  -40,  -40,  -40, 90, 0, 45, 110, this.group );
+  Line(  -48,  -80,  -48, 90, 0, 45, 130, this.group );
+  Line(  -58, -120,  -58, 90, 0, 45, 160, this.group );
+  Line(  -68, -160,  -68, 90, 0, 45, 190, this.group );
+  Line(  -80, -200,  -80, 90, 0, 45, 220, this.group );
+  Line( -175, -240,  -20, 90, 0, 45,  58, this.group );
+  Line(  -25, -240, -175, 90, 0, 45,  58, this.group );
 
   Line( -35,   0,  35, 0, -45, 90, 100, this.group );
   Line( -40, -40,  40, 0, -45, 90, 110, this.group );
@@ -167,19 +178,27 @@ class Tokyotower {
   Line( 175, -240, -20, 0, -45, 90, 58, this.group );
   Line( 25, -240, -175, 0, -45, 90, 58, this.group );
 
+  box(0, 680, 0, 0, 0, 0, 2, 2, 100, 100, 0xf41322, this.group );
+  box(0, 570, 0, 0, 0, 0, 7, 20, 170, 100, 0xf41322, this.group );
+  box(0, 610, 0, 0, 0, 0, 10, 14, 55, 100, 0xffffff, this.group );
+  box(0, 520, 0, 0, 0, 0, 35, 35, 20, 100, 0xf41322, this.group );
+  box(0, 490, 0, 0, 0, 0, 35, 35, 40, 100, 0xffffff, this.group );
+  box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8, 0xffffff, this.group);
 
-  const box_top = new THREE.CylinderGeometry(80, 80, 50, 8);
-  const box_material = new THREE.MeshPhongMaterial({color: 0xf41322});
-  const box_mesh = new THREE.Mesh(box_top, box_material);
-  box_mesh.position.set(0, 70, 0);
-  box_mesh.rotation.set(0, degree(20), degree(0));
-  this.group.add(box_mesh);
+  function box( px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group ) {
+    const box_top = new THREE.CylinderGeometry(width, height, thickness, radius);
+    const box_top_material = new THREE.MeshPhongMaterial({color: color});
+    const box_top_mesh = new THREE.Mesh(box_top, box_top_material);
+    box_top_mesh.position.set(px, py, pz);
+    box_top_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
+    group.add(box_top_mesh);
+  }
 
   const floor = new THREE.CylinderGeometry(350, 350, 20, 4);
   const floor_material = new THREE.MeshPhongMaterial({color: 0xf41322});
   const floor_mesh = new THREE.Mesh(floor, floor_material);
   floor_mesh.position.set(0, -320, 0);
-  floor_mesh.rotation.set(0, degree(0), degree(0));
+  floor_mesh.rotation.set(degree(0), degree(0), degree(0));
   this.group.add(floor_mesh);
 
 
@@ -188,7 +207,7 @@ class Tokyotower {
   moveBody() {
     const bodyamplitude = 30;
     this.bodyangle += 0.05;
-    //this.group.rotation.y += 0.025;
+    this.group.rotation.y += 0.025;
   }  
 }
 
