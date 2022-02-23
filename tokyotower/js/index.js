@@ -113,77 +113,87 @@ class Tokyotower {
      branch_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
      group.add( branch_mesh );
    }
-   Root( 600, 5, 50, 50, 40, -650, 150, 0, 0, 0, -50, this.group );
-   Root( 600, 5, 50, 50, 40, 650, 150, 0, 0, 180, -50, this.group );
-   Root( 600, 5, 50, 50, 40, 0, 150, -650, 0, -90, -50, this.group );
-   Root( 600, 5, 50, 50, 40, 0, 150, 650, 0, 90, -50, this.group );
+   Root( 600, 5, 50, 50, 40, -650, 150,    0, 0,   0, -50, this.group );
+   Root( 600, 5, 50, 50, 40,  650, 150,    0, 0, 180, -50, this.group );
+   Root( 600, 5, 50, 50, 40,    0, 150, -650, 0, -90, -50, this.group );
+   Root( 600, 5, 50, 50, 40,    0, 150,  650, 0,  90, -50, this.group );
 
    Root( 600, 5, 50, 50, 30, -456, 82,  456, 0,  45, -30, this.group );
    Root( 600, 5, 50, 50, 30, -456, 82, -456, 0, -45, -30, this.group );
+   Root( 600, 5, 50, 50, 30,  456, 82,  456, 0, -45, 180, this.group );
+   Root( 600, 5, 50, 50, 30,  456, 82, -456, 0,  45, 180, this.group );
 
-   Root( 600, 5, 50, 50, 30, 456, 82, 456, 0, -45, 180, this.group );
-   Root( 600, 5, 50, 50, 30, 456, 82, -456, 0, 45, 180, this.group );
+   Root( 600, 5, 50, 50, 30, -222, 102,  608, -5,  70, -30, this.group );
+   Root( 600, 5, 50, 50, 30, -222, 102, -608,  5, -70, -30, this.group );
+   Root( 600, 5, 50, 50, 30,  222, 102,  608, -5, -70, 180, this.group );
+   Root( 600, 5, 50, 50, 30,  222, 102, -608,  5,  70, 180, this.group );
+
+   Root( 600, 5, 50, 50, 30, -567, 82,  320,  5,  210, -175, this.group );
+   Root( 600, 5, 50, 50, 30, -567, 82, -320, -5, -210, -175, this.group );   
+   Root( 600, 5, 50, 50, 30,  567, 82,  320,  5, -210,  -35, this.group );  
+   Root( 600, 5, 50, 50, 30,  567, 82, -320, -5,  210,  -35, this.group ); 
 
    Root( 120, 5, 50, 50, 180, -135, -315,  135, 135,  38, 210, this.group );
    Root( 120, 5, 50, 50, 180,  135, -315, -135, 225,  38, 150, this.group );
    Root( 120, 5, 50, 50, 180,  135, -315,  135, 135, -38, 150, this.group );
    Root( 120, 5, 50, 50, 180, -135, -315, -135, 225, -38, 210, this.group );
 
-   function Line( px, py, pz, rx, ry, rz, width, group ) {
-    const geometry = new THREE.CylinderGeometry( 5, 5, width, 32 );
-    const material = new THREE.MeshPhongMaterial( {color: 0xf41322} );
+   function Line_red( px, py, pz, rx, ry, rz, width, color, group ) {
+    const geometry = new THREE.CylinderGeometry( 5, 5, width, 5 );
+    const material = new THREE.MeshPhongMaterial( {color: color} );
     const cylinder = new THREE.Mesh( geometry, material );
     cylinder.position.set(px, py, pz);
     cylinder.rotation.set(degree(rx), degree(ry), degree(rz));
     group.add( cylinder );
   }
-  Line(   0, 260,  42, -5, 0,  0, 500, this.group );
-  Line(   0, 260, -42,  5, 0,  0, 500, this.group );
-  Line( -42, 260,   0,  0, 0, -5, 500, this.group );
-  Line(  42, 260,   0,  0, 0,  5, 500, this.group );
 
-  Line( 35,     0,  35, 90, 0, 45, 100, this.group );
-  Line( 40,   -40,  40, 90, 0, 45, 110, this.group );
-  Line( 48,   -80,  48, 90, 0, 45, 130, this.group );
-  Line( 58,  -120,  58, 90, 0, 45, 160, this.group );
-  Line( 68,  -160,  68, 90, 0, 45, 190, this.group );
-  Line( 80,  -200,  80, 90, 0, 45, 220, this.group );
-  Line( 175, -240,  20, 90, 0, 45,  58, this.group );
-  Line( 25,  -240, 175, 90, 0, 45,  58, this.group );
+   function Line_white( px, py, pz, rx, ry, rz, width, color, group ) {
+    const geometry = new THREE.CylinderGeometry( 6, 6, width, 5 );
+    const material = new THREE.MeshPhongMaterial( {color: color} );
+    const cylinder = new THREE.Mesh( geometry, material );
+    cylinder.position.set(px, py, pz);
+    cylinder.rotation.set(degree(rx), degree(ry), degree(rz));
+    group.add( cylinder );
+  }
 
-  Line(  -35,    0,  -35, 90, 0, 45, 100, this.group );
-  Line(  -40,  -40,  -40, 90, 0, 45, 110, this.group );
-  Line(  -48,  -80,  -48, 90, 0, 45, 130, this.group );
-  Line(  -58, -120,  -58, 90, 0, 45, 160, this.group );
-  Line(  -68, -160,  -68, 90, 0, 45, 190, this.group );
-  Line(  -80, -200,  -80, 90, 0, 45, 220, this.group );
-  Line( -175, -240,  -20, 90, 0, 45,  58, this.group );
-  Line(  -25, -240, -175, 90, 0, 45,  58, this.group );
+  Line_red( 0, 260, 42, -5, 0, 0, 500, 0xf41322, this.group );
+  Line_red( 0, 260, -42, 5, 0, 0, 500, 0xf41322, this.group );
+  Line_red( -42, 260, 0, 0, 0, -5, 500, 0xf41322, this.group );
+  Line_red( 42, 260, 0, 0, 0, 5, 500, 0xf41322, this.group );
+  Line_red( 21, 260, 21, -2.5, 0, 2.5, 500, 0xf41322, this.group );
+  Line_red( -21, 260, -21, 2.5, 0, -2.5, 500, 0xf41322, this.group );
+  Line_red( 21, 260, -21, 2.5, 0, 2.5, 500, 0xf41322, this.group );
+  Line_red( -21, 260, 21, -2.5, 0, -2.5, 500, 0xf41322, this.group );
 
-  Line( -35,   0,  35, 0, -45, 90, 100, this.group );
-  Line( -40, -40,  40, 0, -45, 90, 110, this.group );
-  Line( -48, -80,  48, 0, -45, 90, 130, this.group );
-  Line( -58, -120, 58, 0, -45, 90, 160, this.group );
-  Line( -68, -160, 68, 0, -45, 90, 190, this.group );
-  Line( -80, -200, 80, 0, -45, 90, 220, this.group );
-  Line( -175, -240, 20, 0, -45, 90, 58, this.group );
-  Line( -25, -240, 175, 0, -45, 90, 58, this.group );
+  Line_white( 0, 262, 42, -5, 0, 0, 125, 0xffffff, this.group );
+  Line_white( 0, 262, -42, 5, 0, 0, 125, 0xffffff, this.group );
+  Line_white( -42, 262, 0, 0, 0, -5, 125, 0xffffff, this.group );
+  Line_white( 42, 262, 0, 0, 0, 5, 125, 0xffffff, this.group );
+  Line_white( 21, 262, 21, -2.5, 0, 2.5, 125, 0xffffff, this.group );
+  Line_white( -21, 262, -21, 2.5, 0, -2.5, 125, 0xffffff, this.group );
+  Line_white( 21, 262, -21, 2.5, 0, 2.5, 125, 0xffffff, this.group );
+  Line_white( -21, 262, 21, -2.5, 0, -2.5, 125, 0xffffff, this.group );
 
-  Line( 35,   0,  -35, 0, -45, 90, 100, this.group );
-  Line( 40, -40,  -40, 0, -45, 90, 110, this.group );
-  Line( 48, -80,  -48, 0, -45, 90, 130, this.group );
-  Line( 58, -120, -58, 0, -45, 90, 160, this.group );
-  Line( 68, -160, -68, 0, -45, 90, 190, this.group );
-  Line( 80, -200, -80, 0, -45, 90, 220, this.group );
-  Line( 175, -240, -20, 0, -45, 90, 58, this.group );
-  Line( 25, -240, -175, 0, -45, 90, 58, this.group );
 
-  box(0, 680, 0, 0, 0, 0, 2, 2, 100, 100, 0xf41322, this.group );
-  box(0, 570, 0, 0, 0, 0, 7, 20, 170, 100, 0xf41322, this.group );
-  box(0, 610, 0, 0, 0, 0, 10, 14, 55, 100, 0xffffff, this.group );
-  box(0, 520, 0, 0, 0, 0, 35, 35, 20, 100, 0xf41322, this.group );
-  box(0, 490, 0, 0, 0, 0, 35, 35, 40, 100, 0xffffff, this.group );
-  box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8, 0xffffff, this.group);
+  Line_red( 175, -240,  20, 90, 0, 45, 58, 0xf41322, this.group );
+  Line_red( 25, -240, 175, 90, 0, 45, 58, 0xf41322, this.group );
+  Line_red( 18, -280, 212, 90, 0, 45, 50, 0xf41322, this.group );
+  Line_red( 212, -280,  18, 90, 0, 45, 50, 0xf41322, this.group );
+
+  Line_red( -175, -240, -20, 90, 0, 45, 58, 0xf41322, this.group );
+  Line_red( -25, -240, -175, 90, 0, 45, 58, 0xf41322, this.group );
+  Line_red( -18, -280, -212, 90, 0, 45, 50, 0xf41322, this.group );
+  Line_red( -212, -280, -18, 90, 0, 45, 50, 0xf41322, this.group );
+
+  Line_red( -175, -240,  20, 0, -45, 90, 58, 0xf41322, this.group );
+  Line_red( -25, -240, 175, 0, -45, 90, 58, 0xf41322, this.group );
+  Line_red( -18, -280, 212, 0, -45, 90, 50, 0xf41322, this.group );
+  Line_red( -212, -280,  18, 0, -45, 90, 50, 0xf41322, this.group );
+
+  Line_red( 175, -240, -20, 0, -45, 90, 58, 0xf41322, this.group );
+  Line_red( 25, -240, -175, 0, -45, 90, 58, 0xf41322, this.group );
+  Line_red( 18, -280, -212, 0, -45, 90, 50, 0xf41322, this.group );
+  Line_red( 212, -280, -18, 0, -45, 90, 50, 0xf41322, this.group );
 
   function box( px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group ) {
     const box_top = new THREE.CylinderGeometry(width, height, thickness, radius);
@@ -194,14 +204,43 @@ class Tokyotower {
     group.add(box_top_mesh);
   }
 
+  box(0, 680, 0, 0, 0, 0, 2, 2, 100,  100, 0xf41322, this.group);
+  box(0, 570, 0, 0, 0, 0, 7, 20, 170, 100, 0xf41322, this.group);
+  box(0, 610, 0, 0, 0, 0, 10, 14, 55, 100, 0xffffff, this.group);
+  box(0, 520, 0, 0, 0, 0, 35, 35, 20, 100, 0xf41322, this.group);
+  box(0, 490, 0, 0, 0, 0, 35, 35, 40, 100, 0xffffff, this.group);
+  box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8,   0xffffff, this.group);
+
+  function square(px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group) {
+    const geometry = new THREE.TorusGeometry( width, height, thickness, radius );
+    const material = new THREE.MeshPhongMaterial( { color: color } );
+    const torus = new THREE.Mesh( geometry, material );
+    torus.position.set(px, py, pz);
+    torus.rotation.set(degree(rx), degree(ry), degree(rz));  
+    group.add( torus );
+  }
+  square(0, 440, 0, 90, 0, 0, 25, 5, 16, 4, 0xf41322, this.group);
+  square(0, 400, 0, 90, 0, 0, 29, 5, 16, 4, 0xf41322, this.group);
+  square(0, 360, 0, 90, 0, 0, 32, 5, 16, 4, 0xf41322, this.group);
+  square(0, 320, 0, 90, 0, 0, 36, 5, 16, 4, 0xffffff, this.group);
+  square(0, 280, 0, 90, 0, 0, 39, 5, 16, 4, 0xffffff, this.group);
+  square(0, 240, 0, 90, 0, 0, 43, 5, 16, 4, 0xffffff, this.group);
+  square(0, 200, 0, 90, 0, 0, 45, 5, 16, 4, 0xffffff, this.group);
+  square(0, 160, 0, 90, 0, 0, 50, 5, 16, 4, 0xf41322, this.group);
+  square(0, 120, 0, 90, 0, 0, 53, 5, 16, 4, 0xf41322, this.group);
+  square(0,   0, 0, 90, 0, 0, 69, 5, 16, 4, 0xf41322, this.group );
+  square(0, -40, 0, 90, 0, 0, 80, 5, 16, 4, 0xf41322, this.group );
+  square(0, -80, 0, 90, 0, 0, 93, 5, 16, 4, 0xf41322, this.group );
+  square(0,-120, 0, 90, 0, 0, 113, 5, 16, 4, 0xf41322, this.group );
+  square(0,-160, 0, 90, 0, 0, 134, 5, 16, 4, 0xf41322, this.group );
+  square(0,-200, 0, 90, 0, 0, 162, 5, 16, 4, 0xf41322, this.group );
+
   const floor = new THREE.CylinderGeometry(350, 350, 20, 4);
   const floor_material = new THREE.MeshPhongMaterial({color: 0xf41322});
   const floor_mesh = new THREE.Mesh(floor, floor_material);
   floor_mesh.position.set(0, -320, 0);
   floor_mesh.rotation.set(degree(0), degree(0), degree(0));
   this.group.add(floor_mesh);
-
-
 
   }
   moveBody() {
