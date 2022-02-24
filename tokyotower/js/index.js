@@ -228,12 +228,12 @@ class Tokyotower {
   square(0, 200, 0, 90, 0, 0, 45, 5, 16, 4, 0xffffff, this.group);
   square(0, 160, 0, 90, 0, 0, 50, 5, 16, 4, 0xf41322, this.group);
   square(0, 120, 0, 90, 0, 0, 53, 5, 16, 4, 0xf41322, this.group);
-  square(0,   0, 0, 90, 0, 0, 69, 5, 16, 4, 0xf41322, this.group );
-  square(0, -40, 0, 90, 0, 0, 80, 5, 16, 4, 0xf41322, this.group );
-  square(0, -80, 0, 90, 0, 0, 93, 5, 16, 4, 0xf41322, this.group );
-  square(0,-120, 0, 90, 0, 0, 113, 5, 16, 4, 0xf41322, this.group );
-  square(0,-160, 0, 90, 0, 0, 134, 5, 16, 4, 0xf41322, this.group );
-  square(0,-200, 0, 90, 0, 0, 162, 5, 16, 4, 0xf41322, this.group );
+  square(0, 0, 0, 90, 0, 0, 69, 5, 16, 4, 0xf41322, this.group);
+  square(0, -40, 0, 90, 0, 0, 80, 5, 16, 4, 0xf41322, this.group);
+  square(0, -80, 0, 90, 0, 0, 93, 5, 16, 4, 0xf41322, this.group);
+  square(0,-120, 0, 90, 0, 0, 113, 5, 16, 4, 0xf41322, this.group);
+  square(0,-160, 0, 90, 0, 0, 134, 5, 16, 4, 0xf41322, this.group);
+  square(0,-200, 0, 90, 0, 0, 162, 5, 16, 4, 0xf41322, this.group);
 
   const floor = new THREE.CylinderGeometry(350, 350, 20, 4);
   const floor_material = new THREE.MeshPhongMaterial({color: 0xf41322});
@@ -246,7 +246,7 @@ class Tokyotower {
   moveBody() {
     const bodyamplitude = 30;
     this.bodyangle += 0.05;
-    this.group.rotation.y += 0.025;
+    //this.group.rotation.y += 0.025;
   }  
 }
 
