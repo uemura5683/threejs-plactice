@@ -113,29 +113,29 @@ class Tokyotower {
      branch_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
      group.add( branch_mesh );
    }
-   Root( 600, 5, 50, 50, 40, -650, 150,    0, 0,   0, -50, this.group );
-   Root( 600, 5, 50, 50, 40,  650, 150,    0, 0, 180, -50, this.group );
-   Root( 600, 5, 50, 50, 40,    0, 150, -650, 0, -90, -50, this.group );
-   Root( 600, 5, 50, 50, 40,    0, 150,  650, 0,  90, -50, this.group );
+   Root( 600, 5, 50, 50, 40, -650, 150, 0, 0, 0, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 650, 150, 0, 0, 180, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 0, 150, -650, 0, -90, -50, this.group );
+   Root( 600, 5, 50, 50, 40, 0, 150, 650, 0, 90, -50, this.group );
 
-   Root( 600, 5, 50, 50, 30, -456, 82,  456, 0,  45, -30, this.group );
+   Root( 600, 5, 50, 50, 30, -456, 82, 456, 0, 45, -30, this.group );
    Root( 600, 5, 50, 50, 30, -456, 82, -456, 0, -45, -30, this.group );
-   Root( 600, 5, 50, 50, 30,  456, 82,  456, 0, -45, 180, this.group );
-   Root( 600, 5, 50, 50, 30,  456, 82, -456, 0,  45, 180, this.group );
+   Root( 600, 5, 50, 50, 30, 456, 82, 456, 0, -45, 180, this.group );
+   Root( 600, 5, 50, 50, 30, 456, 82, -456, 0, 45, 180, this.group );
 
-   Root( 600, 5, 50, 50, 30, -222, 102,  608, -5,  70, -30, this.group );
-   Root( 600, 5, 50, 50, 30, -222, 102, -608,  5, -70, -30, this.group );
-   Root( 600, 5, 50, 50, 30,  222, 102,  608, -5, -70, 180, this.group );
-   Root( 600, 5, 50, 50, 30,  222, 102, -608,  5,  70, 180, this.group );
+   Root( 600, 5, 50, 50, 30, -222, 102, 608, -5, 70, -30, this.group );
+   Root( 600, 5, 50, 50, 30, -222, 102, -608, 5, -70, -30, this.group );
+   Root( 600, 5, 50, 50, 30, 222, 102, 608, -5, -70, 180, this.group );
+   Root( 600, 5, 50, 50, 30, 222, 102, -608, 5, 70, 180, this.group );
 
-   Root( 600, 5, 50, 50, 30, -567, 82,  320,  5,  210, -175, this.group );
+   Root( 600, 5, 50, 50, 30, -567, 82, 320, 5, 210, -175, this.group );
    Root( 600, 5, 50, 50, 30, -567, 82, -320, -5, -210, -175, this.group );   
-   Root( 600, 5, 50, 50, 30,  567, 82,  320,  5, -210,  -35, this.group );  
-   Root( 600, 5, 50, 50, 30,  567, 82, -320, -5,  210,  -35, this.group ); 
+   Root( 600, 5, 50, 50, 30, 567, 82, 320, 5, -210, -35, this.group );  
+   Root( 600, 5, 50, 50, 30, 567, 82, -320, -5, 210, -35, this.group ); 
 
    Root( 120, 5, 50, 50, 180, -135, -315,  135, 135,  38, 210, this.group );
-   Root( 120, 5, 50, 50, 180,  135, -315, -135, 225,  38, 150, this.group );
-   Root( 120, 5, 50, 50, 180,  135, -315,  135, 135, -38, 150, this.group );
+   Root( 120, 5, 50, 50, 180, 135, -315, -135, 225,  38, 150, this.group );
+   Root( 120, 5, 50, 50, 180, 135, -315,  135, 135, -38, 150, this.group );
    Root( 120, 5, 50, 50, 180, -135, -315, -135, 225, -38, 210, this.group );
 
    function Line_red( px, py, pz, rx, ry, rz, width, color, group ) {
@@ -174,7 +174,6 @@ class Tokyotower {
   Line_white( 21, 262, -21, 2.5, 0, 2.5, 125, 0xffffff, this.group );
   Line_white( -21, 262, 21, -2.5, 0, -2.5, 125, 0xffffff, this.group );
 
-
   Line_red( 175, -240,  20, 90, 0, 45, 58, 0xf41322, this.group );
   Line_red( 25, -240, 175, 90, 0, 45, 58, 0xf41322, this.group );
   Line_red( 18, -280, 212, 90, 0, 45, 50, 0xf41322, this.group );
@@ -210,6 +209,7 @@ class Tokyotower {
   box(0, 520, 0, 0, 0, 0, 35, 35, 20, 100, 0xf41322, this.group);
   box(0, 490, 0, 0, 0, 0, 35, 35, 40, 100, 0xffffff, this.group);
   box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8,   0xffffff, this.group);
+  box(0, 70, 0, 0, 20, 0, 82, 82, 40, 8,   0x230084, this.group);
 
   function square(px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group) {
     const geometry = new THREE.TorusGeometry( width, height, thickness, radius );
@@ -235,18 +235,22 @@ class Tokyotower {
   square(0,-160, 0, 90, 0, 0, 134, 5, 16, 4, 0xf41322, this.group);
   square(0,-200, 0, 90, 0, 0, 162, 5, 16, 4, 0xf41322, this.group);
 
-  const floor = new THREE.CylinderGeometry(350, 350, 20, 4);
-  const floor_material = new THREE.MeshPhongMaterial({color: 0xf41322});
-  const floor_mesh = new THREE.Mesh(floor, floor_material);
-  floor_mesh.position.set(0, -320, 0);
-  floor_mesh.rotation.set(degree(0), degree(0), degree(0));
-  this.group.add(floor_mesh);
+  function floor(px,py,pz,rx,ry,rz,width,height,thickness,radius,color,group) {
+    const floor = new THREE.CylinderGeometry(width, height, thickness, radius);
+    const floor_material = new THREE.MeshPhongMaterial({color: color});
+    const floor_mesh = new THREE.Mesh(floor, floor_material);
+    floor_mesh.position.set(px, py, pz);
+    floor_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
+    group.add(floor_mesh);
+  }
+  floor(0,100,0,0,0,0,20,20,750,4,0x50232C,this.group);
+  floor(0,-290,0,0,0,0,200,200,40,4,0x50232C,this.group);
+  floor(0,-320,0,0,0,0,350,350,20,4,0xf41322,this.group);
 
   }
   moveBody() {
     const bodyamplitude = 30;
-    this.bodyangle += 0.05;
-    //this.group.rotation.y += 0.025;
+    this.group.rotation.y += 0.025;
   }  
 }
 
