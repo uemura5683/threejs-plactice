@@ -42,12 +42,15 @@ function init() {
 * lights
 **/
 function addLights() {
-  const directLight1 = new THREE.DirectionalLight(0xffffff);
-  directLight1.castShadow = true;
-  directLight1.position.set(0, 1, 1);
-  scene.add(directLight1);
-  const pointLight = new THREE.PointLight(0xffffff, 2, 1000);
-  scene.add(pointLight);
+  decorationlignt(1,1,1);
+  decorationlignt(-1,-1,-1);
+}
+
+function decorationlignt(px,py,pz) {
+  const directLight = new THREE.DirectionalLight(0xffffff);
+  directLight.castShadow = true;
+  directLight.position.set(px, py, pz);
+  scene.add(directLight);
 }
 
 /**
@@ -165,15 +168,6 @@ class Tokyotower {
   Line_red( 21, 260, -21, 2.5, 0, 2.5, 500, 0xf41322, this.group );
   Line_red( -21, 260, 21, -2.5, 0, -2.5, 500, 0xf41322, this.group );
 
-  Line_white( 0, 262, 42, -5, 0, 0, 125, 0xffffff, this.group );
-  Line_white( 0, 262, -42, 5, 0, 0, 125, 0xffffff, this.group );
-  Line_white( -42, 262, 0, 0, 0, -5, 125, 0xffffff, this.group );
-  Line_white( 42, 262, 0, 0, 0, 5, 125, 0xffffff, this.group );
-  Line_white( 21, 262, 21, -2.5, 0, 2.5, 125, 0xffffff, this.group );
-  Line_white( -21, 262, -21, 2.5, 0, -2.5, 125, 0xffffff, this.group );
-  Line_white( 21, 262, -21, 2.5, 0, 2.5, 125, 0xffffff, this.group );
-  Line_white( -21, 262, 21, -2.5, 0, -2.5, 125, 0xffffff, this.group );
-
   Line_red( 175, -240,  20, 90, 0, 45, 58, 0xf41322, this.group );
   Line_red( 25, -240, 175, 90, 0, 45, 58, 0xf41322, this.group );
   Line_red( 18, -280, 212, 90, 0, 45, 50, 0xf41322, this.group );
@@ -194,6 +188,15 @@ class Tokyotower {
   Line_red( 18, -280, -212, 0, -45, 90, 50, 0xf41322, this.group );
   Line_red( 212, -280, -18, 0, -45, 90, 50, 0xf41322, this.group );
 
+  Line_white( 0, 262, 42, -5, 0, 0, 125, 0xffffff, this.group );
+  Line_white( 0, 262, -42, 5, 0, 0, 125, 0xffffff, this.group );
+  Line_white( -42, 262, 0, 0, 0, -5, 125, 0xffffff, this.group );
+  Line_white( 42, 262, 0, 0, 0, 5, 125, 0xffffff, this.group );
+  Line_white( 21, 262, 21, -2.5, 0, 2.5, 125, 0xffffff, this.group );
+  Line_white( -21, 262, -21, 2.5, 0, -2.5, 125, 0xffffff, this.group );
+  Line_white( 21, 262, -21, 2.5, 0, 2.5, 125, 0xffffff, this.group );
+  Line_white( -21, 262, 21, -2.5, 0, -2.5, 125, 0xffffff, this.group );
+
   function box( px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group ) {
     const box_top = new THREE.CylinderGeometry(width, height, thickness, radius);
     const box_top_material = new THREE.MeshPhongMaterial({color: color});
@@ -208,8 +211,8 @@ class Tokyotower {
   box(0, 610, 0, 0, 0, 0, 10, 14, 55, 100, 0xffffff, this.group);
   box(0, 520, 0, 0, 0, 0, 35, 35, 20, 100, 0xf41322, this.group);
   box(0, 490, 0, 0, 0, 0, 35, 35, 40, 100, 0xffffff, this.group);
-  box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8,   0xffffff, this.group);
-  box(0, 70, 0, 0, 20, 0, 82, 82, 40, 8,   0x230084, this.group);
+  box(0, 70, 0, 0, 20, 0, 80, 80, 50, 8, 0xffffff, this.group);
+  box(0, 70, 0, 0, 20, 0, 82, 82, 40, 8, 0x230084, this.group);
 
   function square(px, py, pz, rx, ry, rz, width, height, thickness, radius, color, group) {
     const geometry = new THREE.TorusGeometry( width, height, thickness, radius );
@@ -247,10 +250,53 @@ class Tokyotower {
   floor(0,-290,0,0,0,0,200,200,40,4,0x50232C,this.group);
   floor(0,-320,0,0,0,0,350,350,20,4,0xf41322,this.group);
 
+  function generateSprite(colors) {
+      var canvas = document.createElement('canvas');
+      canvas.width = 16;
+      canvas.height = 16;
+
+      var context = canvas.getContext('2d');
+      var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+      gradient.addColorStop(0,   'rgba(255,255,255,.3)');
+      gradient.addColorStop(0.3, 'rgba(255,255,255,.5)');
+      gradient.addColorStop(0.7, colors);
+
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      var texture = new THREE.Texture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    }
+
+    createStarField();
+    function createStarField() {
+      const geometry = new THREE.SphereGeometry(5, 100, 100),
+            size = 1;
+      for (let i = 0; i < 500; i++) {
+
+        const light_mesh = ['rgba(122,255,255,.7)', 'rgba(255,122,255,.7)', 'rgba(255,255,122,.7)', 'rgba(255,122,122,.7)', 'rgba(122,255,122,.7)', 'rgba(122,122,255,.7)'],
+              light_meshNo = Math.floor( Math.random() * light_mesh.length);
+        const material = new THREE.ParticleBasicMaterial({
+          color: 0xffffff,
+          size: 3,
+          transparent: true,
+          blending: THREE.AdditiveBlending,
+          map: generateSprite(light_mesh[light_meshNo])
+        })
+        const mesh = new THREE.Mesh(geometry, material)
+        mesh.position.set(1 * Math.random() - 0.5, 1 * Math.random() - 0.5 , 1 * Math.random() - 0.5 ).normalize()
+        mesh.position.multiplyScalar(Math.random() * 1500)
+        mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2)
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 1
+        scene.add(mesh)
+      }
+    }
+
   }
   moveBody() {
-    const bodyamplitude = 30;
-    this.group.rotation.y += 0.025;
+    this.group.rotation.y += 0.01;
+    scene.rotation.y += 0.01;
   }  
 }
 
