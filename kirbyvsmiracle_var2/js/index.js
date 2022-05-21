@@ -9,7 +9,8 @@ let scene    = null,
     clock    = null,
     width    = 0,
     height   = 0,
-    smokeParticles = [];
+    smokeParticles = [],
+    objdata = 'normal';
 
 /**
 * init
@@ -33,6 +34,17 @@ function init() {
 
   addLights(0,1,1);
 
+  var modes = [
+    'normal',
+    'stone',
+    'fire',
+    'bom',
+    'cutter',
+    'nirdle',
+    'ice',
+    'spark',
+  ];
+
   /**
   * smoke
   **/
@@ -40,17 +52,38 @@ function init() {
   const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.4, map: smokeTexture, transparent: true});
   const smokeGeo      = new THREE.PlaneGeometry(300,300);
 
-  for (var p = 0; p < 300; p++) {
+  for (var p = 0; p < 200; p++) {
       var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
       particle.position.set(Math.random()*1000-250,Math.random()*1000-250,Math.random()*2000-100);
       particle.rotation.z = Math.random() * 500;
       scene.add(particle);
       smokeParticles.push(particle);
   }
+
+  // GUI
+  var guiCtrl = function(){
+    this.mode = 'normal';
+  };
+
+  gui = new dat.GUI();
+  guiObj = new guiCtrl();
+  var folder = gui.addFolder('Folder');
+
+  var modeController = gui.add(guiObj, 'mode', modes);
+  modeController.onChange(function(value) {
+    setCameraPosition(value);
+  });
+
+  folder.open();
+
+  function setCameraPosition(objdata){
+    drawMiracle(objdata);
+  }
+
   /**
   * miracle
   **/
-  drawMiracle();
+  drawMiracle(objdata);
   document.getElementById('myCanvas').appendChild(renderer.domElement);
   window.addEventListener('resize',onResize,false);
 }
@@ -67,10 +100,39 @@ function addLights(x,y,z) {
 /**
 * draw
 **/
-function drawMiracle() {
-  miracle = new Miracle();
+function drawMiracle(data) {
+  if(miracle !== null) {
+    scene.remove(miracle.group);
+  }
+  switch(true) {
+    case data == 'stone':
+      miracle = new StoneMiracle();
+      break;
+    case data == 'fire':
+      miracle = new FireMiracle();          
+      break;
+    case data == 'cutter':
+      miracle = new CutterMiracle();
+      break;    
+    case data == 'spark':
+      miracle = new SparkrMiracle();
+      break;
+    case data == 'ice':
+      miracle = new IceMiracle();
+      break;
+    case data == 'nirdle':
+      miracle = new NirdleMiracle();
+      break;
+    case data == 'bom':
+      miracle = new BomMiracle();
+      break;
+    default:
+      miracle = new Miracle();
+      break;
+  }
   scene.add(miracle.group);
 }
+
 /**
 * resize
 **/
@@ -188,6 +250,212 @@ class Miracle {
     this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
+
+/**
+* StoneMiracle
+**/
+class StoneMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+
+/**
+* FireMiracle
+**/
+class FireMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0xd64e00});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+
+class CutterMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0x03d600});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+class SparkrMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0xffff91});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+class IceMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0x00ffed});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+class NirdleMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0xffaa00});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+class BomMiracle {
+  constructor() {
+    this.group = new THREE.Group();
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.wingangle = 0;
+    this.bodyangle = 0;
+    this.drawBody();
+  }
+  drawBody() {
+    /**
+    * body
+    **/
+    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0x000000});
+    const body          = new THREE.Mesh(body_geometry, body_material);
+    body.position.set(0, 0, 0);
+    body.rotation.set(degree(0), degree(15), degree(30));
+    this.group.add(body);
+
+  }
+  moveBody() {
+    const bodyamplitude = 50;
+    this.bodyangle += 0.05;
+    this.group.rotation.y += 0.05;
+    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+  }  
+}
+
 
 init();
 animate();
