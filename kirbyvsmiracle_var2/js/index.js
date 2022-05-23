@@ -267,11 +267,10 @@ class StoneMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_geometry = new THREE.BoxGeometry(200, 200, 200 );
     const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
-    body.rotation.set(degree(0), degree(15), degree(30));
     this.group.add(body);
 
   }
@@ -299,7 +298,7 @@ class FireMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
     const body_material = new THREE.MeshLambertMaterial({color: 0xd64e00});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
@@ -328,18 +327,92 @@ class CutterMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
-    const body_material = new THREE.MeshLambertMaterial({color: 0x03d600});
-    const body          = new THREE.Mesh(body_geometry, body_material);
-    body.position.set(0, 0, 0);
-    body.rotation.set(degree(0), degree(15), degree(30));
-    this.group.add(body);
+    function cutter_top(px,py,pz,rx,ry,rz,group) {
+      const wing_material = new THREE.MeshPhongMaterial({color: 0x03d600})
+          , shape_wing = new THREE.Shape();
+            shape_wing.moveTo(-40,  200);
+            shape_wing.lineTo(20,  150);
+            shape_wing.lineTo(60,  100);
+            shape_wing.lineTo(80,  50);
+            shape_wing.lineTo(80,  -50);
+            shape_wing.lineTo(60,  -100);
+            shape_wing.lineTo(20,  -150);
+            shape_wing.lineTo(-40,  -200);
+            shape_wing.lineTo(-120, -200);
+            shape_wing.lineTo(-80,  -150);
+            shape_wing.lineTo(-55,  -100);
+            shape_wing.lineTo(-40, -50);            
+            shape_wing.lineTo(-40, 50);
+            shape_wing.lineTo(-55,  100);
+            shape_wing.lineTo(-80,  150);
+            shape_wing.lineTo(-120,  200);
+      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+            wing_box = new THREE.Mesh(wing_geometry, wing_material);
+      wing_box.position.set(px, py, pz);
+      wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(wing_box);
+    }
+    cutter_top( 0, 0, 0, 0, 0, 90, this.group);
+
+    function cutter_middle(px,py,pz,rx,ry,rz,group) {
+      const wing_material = new THREE.MeshPhongMaterial({color: 0x03d600})
+          , shape_wing = new THREE.Shape();
+            shape_wing.moveTo(-50,  150);
+            shape_wing.lineTo(-10,  120);
+            shape_wing.lineTo(20,  60);
+            shape_wing.lineTo(30,  25);
+            shape_wing.lineTo(30,  -25);
+            shape_wing.lineTo(20,  -60);
+            shape_wing.lineTo(-10,  -120);
+            shape_wing.lineTo(-50,  -150);
+            shape_wing.lineTo(-120, -150);
+            shape_wing.lineTo(-80,  -120);
+            shape_wing.lineTo(-55,  -60);
+            shape_wing.lineTo(-40, -25);            
+            shape_wing.lineTo(-40, 25);
+            shape_wing.lineTo(-55,  60);
+            shape_wing.lineTo(-80,  120);
+            shape_wing.lineTo(-120,  150);
+      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+            wing_box = new THREE.Mesh(wing_geometry, wing_material);
+      wing_box.position.set(px, py, pz);
+      wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(wing_box);
+    }
+    cutter_middle( 0, -100, 0, 0, 0, 90, this.group);
+
+    function cutter_bottom(px,py,pz,rx,ry,rz,group) {
+      const wing_material = new THREE.MeshPhongMaterial({color: 0x1a731e})
+          , shape_wing = new THREE.Shape();
+            shape_wing.moveTo(-30,  100);
+            shape_wing.lineTo(0,  80);
+            shape_wing.lineTo(20,  50);
+            shape_wing.lineTo(30,  25);
+            shape_wing.lineTo(30,  -25);
+            shape_wing.lineTo(20,  -50);
+            shape_wing.lineTo(0,  -80);
+            shape_wing.lineTo(-30,  -100);
+            shape_wing.lineTo(-90, -100);
+            shape_wing.lineTo(-60,  -80);
+            shape_wing.lineTo(-45,  -50);
+            shape_wing.lineTo(-20, -25);            
+            shape_wing.lineTo(-20, 25);
+            shape_wing.lineTo(-45,  50);
+            shape_wing.lineTo(-60,  80);
+            shape_wing.lineTo(-90,  100);
+      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+            wing_box = new THREE.Mesh(wing_geometry, wing_material);
+      wing_box.position.set(px, py, pz);
+      wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(wing_box);
+    }
+    cutter_bottom( 0, -200, 0, 0, 0, 90, this.group);
+
 
   }
   moveBody() {
     const bodyamplitude = 50;
     this.bodyangle += 0.05;
-    this.group.rotation.y += 0.05;
     this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
@@ -356,13 +429,11 @@ class SparkrMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
     const body_material = new THREE.MeshLambertMaterial({color: 0xffff91});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
-    body.rotation.set(degree(0), degree(15), degree(30));
     this.group.add(body);
-
   }
   moveBody() {
     const bodyamplitude = 50;
@@ -384,11 +455,10 @@ class IceMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_geometry = new THREE.BoxGeometry(200, 200, 200 );
     const body_material = new THREE.MeshLambertMaterial({color: 0x00ffed});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
-    body.rotation.set(degree(0), degree(15), degree(30));
     this.group.add(body);
 
   }
@@ -412,7 +482,7 @@ class NirdleMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
+    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
     const body_material = new THREE.MeshLambertMaterial({color: 0xffaa00});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
@@ -440,11 +510,10 @@ class BomMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.IcosahedronGeometry(160, 0 );
-    const body_material = new THREE.MeshLambertMaterial({color: 0x000000});
+    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
+    const body_material = new THREE.MeshPhongMaterial({transparent: true,opacity: 0.5,color: 0x000000});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
-    body.rotation.set(degree(0), degree(15), degree(30));
     this.group.add(body);
 
   }
