@@ -267,17 +267,31 @@ class StoneMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.BoxGeometry(200, 200, 200 );
+    const body_geometry = new THREE.BoxGeometry(250, 250, 250 );
     const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
     this.group.add(body);
 
+    function stone_cylinder(px,py,pz,rx,ry,rz,group) {
+      const bosy_top_geometry = new THREE.CylinderGeometry(125, 175, 50, 4);
+      const body_top_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
+      const body_top          = new THREE.Mesh(bosy_top_geometry, body_top_material);
+      body_top.position.set(px, py, pz);
+      body_top.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(body_top);
+    }
+    stone_cylinder( 0, 150, 0, 0, 45, 0, this.group);
+    stone_cylinder( 0, -150, 0, 0, 45, 180, this.group);
+    stone_cylinder( -150, 0, 0, 45, 0, 90, this.group);
+    stone_cylinder( 150, 0, 0, -45, 0, -90, this.group);
+    stone_cylinder( 0, 0, 150, 90, 45, 0, this.group);
+    stone_cylinder( 0, 0, -150, -90, -45, 0, this.group);
   }
   moveBody() {
     const bodyamplitude = 50;
     this.bodyangle += 0.05;
-    this.group.rotation.y += 0.05;
+    this.group.rotation.z += 0.01;    
     this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
