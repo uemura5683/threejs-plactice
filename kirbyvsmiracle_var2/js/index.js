@@ -49,12 +49,12 @@ function init() {
   * smoke
   **/
   const smokeTexture  = new THREE.TextureLoader().load('https://threejs-plactice.vercel.app/kirbyvsmiracle/smoke.png');
-  const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.4, map: smokeTexture, transparent: true});
+  const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.1, map: smokeTexture, transparent: true});
   const smokeGeo      = new THREE.PlaneGeometry(300,300);
 
-  for (var p = 0; p < 200; p++) {
+  for (var p = 0; p < 150; p++) {
       var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
-      particle.position.set(Math.random()*1000-250,Math.random()*1000-250,Math.random()*2000-100);
+      particle.position.set(Math.random()*1000-250,Math.random()*1000-250,Math.random()*2000-250);
       particle.rotation.z = Math.random() * 500;
       scene.add(particle);
       smokeParticles.push(particle);
@@ -257,7 +257,7 @@ class Miracle {
 class StoneMiracle {
   constructor() {
     this.group = new THREE.Group();
-    this.group.position.set(0, 0, 0);
+    this.group.position.set(0, 150, 0);
     this.group.rotation.set(0, 0, 0);
     this.wingangle = 0;
     this.bodyangle = 0;
@@ -267,32 +267,32 @@ class StoneMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.BoxGeometry(250, 250, 250 );
+    const body_geometry = new THREE.BoxGeometry(150, 150, 200 );
     const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
     this.group.add(body);
 
     function stone_cylinder(px,py,pz,rx,ry,rz,group) {
-      const bosy_top_geometry = new THREE.CylinderGeometry(125, 175, 50, 4);
+      const bosy_top_geometry = new THREE.CylinderGeometry(75, 125, 40, 4);
       const body_top_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
       const body_top          = new THREE.Mesh(bosy_top_geometry, body_top_material);
       body_top.position.set(px, py, pz);
       body_top.rotation.set(degree(rx), degree(ry), degree(rz));
       group.add(body_top);
     }
-    stone_cylinder( 0, 150, 0, 0, 45, 0, this.group);
-    stone_cylinder( 0, -150, 0, 0, 45, 180, this.group);
-    stone_cylinder( -150, 0, 0, 45, 0, 90, this.group);
-    stone_cylinder( 150, 0, 0, -45, 0, -90, this.group);
-    stone_cylinder( 0, 0, 150, 90, 45, 0, this.group);
-    stone_cylinder( 0, 0, -150, -90, -45, 0, this.group);
+    stone_cylinder( 0, 105, 0, 0, 45, 0, this.group);
+    stone_cylinder( 0, -105, 0, 0, 45, 180, this.group);
+    stone_cylinder( -105, 0, 0, 45, 0, 90, this.group);
+    stone_cylinder( 105, 0, 0, -45, 0, -90, this.group);
+    stone_cylinder( 0, 0, 105, 90, 45, 0, this.group);
+    stone_cylinder( 0, 0, -105, -90, -45, 0, this.group);
   }
   moveBody() {
-    const bodyamplitude = 50;
-    this.bodyangle += 0.05;
-    this.group.rotation.z += 0.01;    
-    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+    const bodyamplitude = 300;
+    this.bodyangle -= 0.02;
+    this.group.rotation.z += 0.05;    
+    this.group.position.x = 0 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
 
@@ -344,22 +344,23 @@ class CutterMiracle {
     function cutter_top(px,py,pz,rx,ry,rz,group) {
       const wing_material = new THREE.MeshPhongMaterial({color: 0x03d600})
           , shape_wing = new THREE.Shape();
-            shape_wing.moveTo(-40,  140);
+            shape_wing.moveTo(-40,  130);
             shape_wing.lineTo(20,  110);
             shape_wing.lineTo(40,  80);
-            shape_wing.lineTo(60,  50);
-            shape_wing.lineTo(60,  -50);
+            shape_wing.lineTo(60,  30);
+            shape_wing.lineTo(60,  -30);
             shape_wing.lineTo(40,  -80);
             shape_wing.lineTo(20,  -110);
-            shape_wing.lineTo(-40,  -140);
-            shape_wing.lineTo(-100, -140);
-            shape_wing.lineTo(-80,  -110);
-            shape_wing.lineTo(-70,  -100);
-            shape_wing.lineTo(-50, -50);            
-            shape_wing.lineTo(-50, 50);
-            shape_wing.lineTo(-70,  100);
-            shape_wing.lineTo(-80,  110);
-            shape_wing.lineTo(-100,  140);
+            shape_wing.lineTo(-40,  -130);
+
+            shape_wing.lineTo(-120, -130);
+            shape_wing.lineTo(-90,  -100);
+            shape_wing.lineTo(-70,  -80);
+            shape_wing.lineTo(-50, -30);            
+            shape_wing.lineTo(-50, 30);
+            shape_wing.lineTo(-70,  80);
+            shape_wing.lineTo(-90,  100);
+            shape_wing.lineTo(-120,  130);
       const wing_geometry = new THREE.ShapeGeometry(shape_wing),
             wing_box = new THREE.Mesh(wing_geometry, wing_material);
       wing_box.position.set(px, py, pz);
@@ -524,17 +525,32 @@ class BomMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
-    const body_material = new THREE.MeshPhongMaterial({transparent: true,opacity: 0.5,color: 0x000000});
+    const body_geometry = new THREE.SphereGeometry( 140, 64, 64 );
+    const body_material = new THREE.MeshPhongMaterial({transparent: true,opacity: .7,color: 0x4000000});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
     this.group.add(body);
+
+    const body_geometry_big = new THREE.SphereGeometry( 160, 64, 64 );
+    const body_material_big = new THREE.MeshPhongMaterial({transparent: true,opacity: .2,color: 0x4610875});
+    const body_big          = new THREE.Mesh(body_geometry_big, body_material_big);
+    body_big.position.set(0, 0, 0);
+    this.group.add(body_big);
+
+    const light =  new THREE.ParametricGeometry( function( u, v, target ) {
+                            u = u * Math.PI;
+                            v = v * 2 * Math.PI;
+                            var x = 35 * Math.sin(u) * Math.cos(v);
+                            var y = 35 * Math.sin(u) * Math.sin(v); 
+                            var z = 1 * Math.cos(u);
+                            target.set( x, y, z );
+                        }, 80, 80, true
+                   );
 
   }
   moveBody() {
     const bodyamplitude = 50;
     this.bodyangle += 0.05;
-    this.group.rotation.y += 0.05;
     this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
