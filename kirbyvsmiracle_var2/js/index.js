@@ -92,7 +92,7 @@ function init() {
 * lights
 **/
 function addLights(x,y,z) {
-  const directLight1 = new THREE.HemisphereLight(0xffffff, 0xcdcdcd, 1);
+  const directLight1 = new THREE.HemisphereLight(0xffffff, 0xefefef, 1);
   scene.add(directLight1);
 
 }
@@ -127,7 +127,7 @@ function drawMiracle(data) {
       miracle = new BomMiracle();
       break;
     default:
-      miracle = new Miracle();
+      miracle = new IceMiracle();
       break;
   }
   scene.add(miracle.group);
@@ -274,12 +274,12 @@ class StoneMiracle {
     this.group.add(body);
 
     function stone_cylinder(px,py,pz,rx,ry,rz,group) {
-      const bosy_top_geometry = new THREE.CylinderGeometry(75, 125, 40, 4);
-      const body_top_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
-      const body_top          = new THREE.Mesh(bosy_top_geometry, body_top_material);
-      body_top.position.set(px, py, pz);
-      body_top.rotation.set(degree(rx), degree(ry), degree(rz));
-      group.add(body_top);
+      const bosy_geometry = new THREE.CylinderGeometry(75, 125, 40, 4);
+      const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
+      const body          = new THREE.Mesh(bosy_geometry, body_material);
+      body.position.set(px, py, pz);
+      body.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(body);
     }
     stone_cylinder( 0, 105, 0, 0, 45, 0, this.group);
     stone_cylinder( 0, -105, 0, 0, 45, 180, this.group);
@@ -470,11 +470,27 @@ class IceMiracle {
     /**
     * body
     **/
-    const body_geometry = new THREE.BoxGeometry(200, 200, 200 );
-    const body_material = new THREE.MeshLambertMaterial({color: 0x00ffed});
+    const body_geometry = new THREE.BoxGeometry(150, 150, 200 );
+    const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
     const body          = new THREE.Mesh(body_geometry, body_material);
     body.position.set(0, 0, 0);
     this.group.add(body);
+
+    function stone_cylinder(px,py,pz,rx,ry,rz,group) {
+      const bosy_geometry = new THREE.CylinderGeometry(75, 125, 40, 4);
+      const body_material = new THREE.MeshLambertMaterial({color: 0x00ffed});
+      const body          = new THREE.Mesh(bosy_geometry, body_material);
+      body.position.set(px, py, pz);
+      body.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(body);
+    }
+    stone_cylinder( 0, 105, 0, 0, 45, 0, this.group);
+    stone_cylinder( 0, -105, 0, 0, 45, 180, this.group);
+    stone_cylinder( -105, 0, 0, 45, 0, 90, this.group);
+    stone_cylinder( 105, 0, 0, -45, 0, -90, this.group);
+    stone_cylinder( 0, 0, 105, 90, 45, 0, this.group);
+    stone_cylinder( 0, 0, -105, -90, -45, 0, this.group);
+
 
   }
   moveBody() {
@@ -537,15 +553,9 @@ class BomMiracle {
     body_big.position.set(0, 0, 0);
     this.group.add(body_big);
 
-    const light =  new THREE.ParametricGeometry( function( u, v, target ) {
-                            u = u * Math.PI;
-                            v = v * 2 * Math.PI;
-                            var x = 35 * Math.sin(u) * Math.cos(v);
-                            var y = 35 * Math.sin(u) * Math.sin(v); 
-                            var z = 1 * Math.cos(u);
-                            target.set( x, y, z );
-                        }, 80, 80, true
-                   );
+    const bomlight = new THREE.PointLight( 0xffffff, 1, 10000 );
+    bomlight.position.set( -400, 400, 400 );
+    this.group.add(bomlight);
 
   }
   moveBody() {
