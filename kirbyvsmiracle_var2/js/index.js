@@ -127,7 +127,7 @@ function drawMiracle(data) {
       miracle = new BomMiracle();
       break;
     default:
-      miracle = new FireMiracle();
+      miracle = new Miracle();
       break;
   }
   scene.add(miracle.group);
@@ -387,19 +387,37 @@ class FireMiracle {
         
     //   });
 
-    const body_geometry = new THREE.SphereGeometry( 160, 64, 64 );
+    const body_geometry = new THREE.SphereGeometry( 140, 64, 64 );
     const body_texture = new THREE.TextureLoader().load('./fire.png');
     const body_material = new THREE.MeshStandardMaterial( { color: 0xea0c0e, map:body_texture } );
-
     const body          = new THREE.Mesh(body_geometry, body_material);
-
-
 
     body.position.set(0, 0, 0);
     body.dynamic = true;
     body.sortParticles = true;
     this.group.add(body);
 
+    /**
+    * eye
+    **/
+    function eye_content (px,py,pz,bpz,rx,ry,rz,group) {
+
+      const eye_geometry =  new THREE.CylinderGeometry( 40, 40, 1, 32 );
+      const eyes_material = new THREE.MeshLambertMaterial({color: 0xea0c0e});
+      const eye = new THREE.Mesh(eye_geometry, eyes_material);
+      eye.position.set(px, py, pz);
+      eye.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(eye);
+
+      const eye_black_geometry = new THREE.CylinderGeometry( 20, 20, 1, 32 );
+      const eye_black_material = new THREE.MeshLambertMaterial({color: 0x000000});
+      const eye_black = new THREE.Mesh(eye_black_geometry, eye_black_material);
+      eye_black.position.set(px, py, bpz);
+      eye_black.rotation.set(degree(rx), degree(ry), degree(rz));
+      group.add(eye_black);
+
+    }
+    eye_content(0, 0, 162, 163, 100, 0, 0, this.group);
   }
   moveBody() {
     const bodyamplitude = 50;
@@ -421,25 +439,24 @@ class CutterMiracle {
   drawBody() {
     function cutter_top(px,py,pz,rx,ry,rz,group) {
       const wing_material = new THREE.MeshPhongMaterial({color: 0x03d600})
-          , shape_wing = new THREE.Shape();
-            shape_wing.moveTo(-40,  130);
-            shape_wing.lineTo(20,  110);
-            shape_wing.lineTo(40,  80);
-            shape_wing.lineTo(60,  30);
-            shape_wing.lineTo(60,  -30);
-            shape_wing.lineTo(40,  -80);
-            shape_wing.lineTo(20,  -110);
-            shape_wing.lineTo(-40,  -130);
-
-            shape_wing.lineTo(-120, -130);
-            shape_wing.lineTo(-90,  -100);
-            shape_wing.lineTo(-70,  -80);
-            shape_wing.lineTo(-50, -30);            
-            shape_wing.lineTo(-50, 30);
-            shape_wing.lineTo(-70,  80);
-            shape_wing.lineTo(-90,  100);
-            shape_wing.lineTo(-120,  130);
-      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+          , shape_cutter = new THREE.Shape();
+            shape_cutter.moveTo(-40,  130);
+            shape_cutter.lineTo(20,  110);
+            shape_cutter.lineTo(40,  80);
+            shape_cutter.lineTo(60,  30);
+            shape_cutter.lineTo(60,  -30);
+            shape_cutter.lineTo(40,  -80);
+            shape_cutter.lineTo(20,  -110);
+            shape_cutter.lineTo(-40,  -130);
+            shape_cutter.lineTo(-120, -130);
+            shape_cutter.lineTo(-90,  -100);
+            shape_cutter.lineTo(-70,  -80);
+            shape_cutter.lineTo(-50, -30);            
+            shape_cutter.lineTo(-50, 30);
+            shape_cutter.lineTo(-70,  80);
+            shape_cutter.lineTo(-90,  100);
+            shape_cutter.lineTo(-120,  130);
+      const wing_geometry = new THREE.ShapeGeometry(shape_cutter),
             wing_box = new THREE.Mesh(wing_geometry, wing_material);
       wing_box.position.set(px, py, pz);
       wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
@@ -449,24 +466,24 @@ class CutterMiracle {
 
     function cutter_middle(px,py,pz,rx,ry,rz,group) {
       const wing_material = new THREE.MeshPhongMaterial({color: 0x03d600})
-          , shape_wing = new THREE.Shape();
-            shape_wing.moveTo(-50,  110);
-            shape_wing.lineTo(-10,  90);
-            shape_wing.lineTo(20,  60);
-            shape_wing.lineTo(30,  25);
-            shape_wing.lineTo(30,  -25);
-            shape_wing.lineTo(20,  -60);
-            shape_wing.lineTo(-10,  -90);
-            shape_wing.lineTo(-50,  -110);
-            shape_wing.lineTo(-115, -110);
-            shape_wing.lineTo(-100,  -90);
-            shape_wing.lineTo(-75,  -60);
-            shape_wing.lineTo(-65, -25);            
-            shape_wing.lineTo(-65, 25);
-            shape_wing.lineTo(-75,  60);
-            shape_wing.lineTo(-100,  90);
-            shape_wing.lineTo(-115,  110);
-      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+          , shape_cutter = new THREE.Shape();
+            shape_cutter.moveTo(-50,  110);
+            shape_cutter.lineTo(-10,  90);
+            shape_cutter.lineTo(20,  60);
+            shape_cutter.lineTo(30,  25);
+            shape_cutter.lineTo(30,  -25);
+            shape_cutter.lineTo(20,  -60);
+            shape_cutter.lineTo(-10,  -90);
+            shape_cutter.lineTo(-50,  -110);
+            shape_cutter.lineTo(-115, -110);
+            shape_cutter.lineTo(-100,  -90);
+            shape_cutter.lineTo(-75,  -60);
+            shape_cutter.lineTo(-65, -25);            
+            shape_cutter.lineTo(-65, 25);
+            shape_cutter.lineTo(-75,  60);
+            shape_cutter.lineTo(-100,  90);
+            shape_cutter.lineTo(-115,  110);
+      const wing_geometry = new THREE.ShapeGeometry(shape_cutter),
             wing_box = new THREE.Mesh(wing_geometry, wing_material);
       wing_box.position.set(px, py, pz);
       wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
@@ -476,24 +493,24 @@ class CutterMiracle {
 
     function cutter_bottom(px,py,pz,rx,ry,rz,group) {
       const wing_material = new THREE.MeshPhongMaterial({color: 0x1a731e})
-          , shape_wing = new THREE.Shape();
-            shape_wing.moveTo(-30,   80);
-            shape_wing.lineTo(0,     70);
-            shape_wing.lineTo(20,    50);
-            shape_wing.lineTo(30,    25);
-            shape_wing.lineTo(30,   -25);
-            shape_wing.lineTo(20,   -50);
-            shape_wing.lineTo(0,    -70);
-            shape_wing.lineTo(-30,  -80);
-            shape_wing.lineTo(-65,  -80);
-            shape_wing.lineTo(-60,  -70);
-            shape_wing.lineTo(-45,  -50);
-            shape_wing.lineTo(-40,  -25);            
-            shape_wing.lineTo(-40,   25);
-            shape_wing.lineTo(-45,   50);
-            shape_wing.lineTo(-60,   70);
-            shape_wing.lineTo(-65,   80);
-      const wing_geometry = new THREE.ShapeGeometry(shape_wing),
+          , shape_cutter = new THREE.Shape();
+            shape_cutter.moveTo(-30,   80);
+            shape_cutter.lineTo(0,     70);
+            shape_cutter.lineTo(20,    50);
+            shape_cutter.lineTo(30,    25);
+            shape_cutter.lineTo(30,   -25);
+            shape_cutter.lineTo(20,   -50);
+            shape_cutter.lineTo(0,    -70);
+            shape_cutter.lineTo(-30,  -80);
+            shape_cutter.lineTo(-65,  -80);
+            shape_cutter.lineTo(-60,  -70);
+            shape_cutter.lineTo(-45,  -50);
+            shape_cutter.lineTo(-40,  -25);            
+            shape_cutter.lineTo(-40,   25);
+            shape_cutter.lineTo(-45,   50);
+            shape_cutter.lineTo(-60,   70);
+            shape_cutter.lineTo(-65,   80);
+      const wing_geometry = new THREE.ShapeGeometry(shape_cutter),
             wing_box = new THREE.Mesh(wing_geometry, wing_material);
       wing_box.position.set(px, py, pz);
       wing_box.rotation.set(degree(rx), degree(ry), degree(rz));
@@ -563,7 +580,6 @@ class SparkrMiracle {
   moveBody() {
     const bodyamplitude = 10;
     this.bodyangle += 0.05;
-
     this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
   }  
 }
@@ -648,7 +664,7 @@ class NirdleMiracle {
 class BomMiracle {
   constructor() {
     this.group = new THREE.Group();
-    this.group.position.set(0, 0, 0);
+    this.group.position.set(0, 200, 0);
     this.group.rotation.set(0, 0, 0);
     this.wingangle = 0;
     this.bodyangle = 0;
@@ -675,15 +691,13 @@ class BomMiracle {
 
     }
     bom_cylinder( 120, 64, 64, 140, 64, 64, 0, 0, 0, this.group);
-    bom_cylinder( 30, 64, 64, 35, 64, 64, 0, 160, 60, this.group);
-    bom_cylinder( 30, 64, 64, 35, 64, 64, 0, -160, 60, this.group);
-    bom_cylinder( 30, 64, 64, 35, 64, 64, -160, 0, 60, this.group);
-    bom_cylinder( 30, 64, 64, 35, 64, 64, 160, 0, 60, this.group);
+    bom_cylinder( 25, 64, 64, 35, 64, 64, 0, 160, 60, this.group);
+    bom_cylinder( 25, 64, 64, 35, 64, 64, 0, -160, 60, this.group);
+    bom_cylinder( 25, 64, 64, 35, 64, 64, -160, 0, 60, this.group);
+    bom_cylinder( 25, 64, 64, 35, 64, 64, 160, 0, 60, this.group);
   }
   moveBody() {
-    const bodyamplitude = 50;
-    this.bodyangle += 0.05;
-    this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+    this.group.rotation.z += 0.01;    
   }  
 }
 
