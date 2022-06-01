@@ -9,12 +9,12 @@
         background-image:
           radial-gradient(
             ellipse at left,
-            #060f2c,
+            #000000,
             #000000
           ),
           radial-gradient(
             ellipse at right,
-            #060f2c,
+            #000000,
             #000000
           );
       }
@@ -24,18 +24,20 @@
     <script type="importmap">
       {
         "imports": {
-          "three": "https://threejs.org/build/three.module.js"
+          "three": "https://threejs.org/build/three.module.js",
+          "three-nodes/": "https://threejs.org/examples/jsm/nodes/"
         }
       }
     </script>
     <script type="module">
 
       import * as THREE from 'three';
-
       import Stats from 'https://threejs.org/examples/jsm/libs/stats.module.js';
       import { GUI } from 'https://threejs.org/examples/jsm/libs/lil-gui.module.min.js';
       import { Lensflare, LensflareElement } from 'https://threejs.org/examples/jsm/objects/Lensflare.js';
-
+      import * as Nodes from 'https://threejs.org/examples/jsm/nodes/Nodes.js';
+      import { nodeFrame } from 'https://threejs.org/examples/jsm/renderers/webgl/nodes/WebGLNodes.js';
+      
       /**
       * default
       **/
@@ -50,7 +52,8 @@
           smokeParticles = [],
           objdata = 'normal',
           gui,
-          guiObj;
+          guiObj,
+          stats;
 
       /**
       * init
@@ -216,6 +219,7 @@
       **/
       function render() {
         miracle.moveBody();
+        nodeFrame.update();
         renderer.render(scene, camera);
       }
       /**
@@ -297,7 +301,7 @@
       class StoneMiracle {
         constructor() {
           this.group = new THREE.Group();
-          this.group.position.set(0, 150, 0);
+          this.group.position.set(0, 200, 0);
           this.group.rotation.set(0, 0, 0);
           this.wingangle = 0;
           this.bodyangle = 0;
@@ -310,20 +314,20 @@
           body.position.set(0, 0, 0);
           this.group.add(body);
 
-          function stone_cylinder(px,py,pz,rx,ry,rz,group) {
-            const bosy_geometry = new THREE.CylinderGeometry(75, 125, 40, 4);
-            const body_material = new THREE.MeshLambertMaterial({color: 0x7f2116});
+          function stone_cylinder(px,py,pz,rx,ry,rz,color,group) {
+            const bosy_geometry = new THREE.CylinderGeometry(75, 120, 40, 4);
+            const body_material = new THREE.MeshLambertMaterial({color: color});
             const body          = new THREE.Mesh(bosy_geometry, body_material);
             body.position.set(px, py, pz);
             body.rotation.set(degree(rx), degree(ry), degree(rz));
             group.add(body);
           }
-          stone_cylinder( 0, 105, 0, 0, 45, 0, this.group);
-          stone_cylinder( 0, -105, 0, 0, 45, 180, this.group);
-          stone_cylinder( -105, 0, 0, 45, 0, 90, this.group);
-          stone_cylinder( 105, 0, 0, -45, 0, -90, this.group);
-          stone_cylinder( 0, 0, 105, 90, 45, 0, this.group);
-          stone_cylinder( 0, 0, -105, -90, -45, 0, this.group);
+          stone_cylinder( 0, 105, 0, 0, 45, 0, 0xa5291c, this.group);
+          stone_cylinder( 0, -105, 0, 0, 45, 180, 0x3f100b, this.group);
+          stone_cylinder( -105, 0, 0, 45, 0, 90, 0x6d1b12, this.group);
+          stone_cylinder( 105, 0, 0, -45, 0, -90, 0x6d1b12, this.group);
+          stone_cylinder( 0, 0, 105, 90, 45, 0, 0x822016, this.group);
+          stone_cylinder( 0, 0, -105, -90, -45, 0, 0x822016, this.group);
         }
         moveBody() {
           const bodyamplitude = 300;
@@ -347,94 +351,73 @@
         }
         drawBody() {
 
-          const body_geometry = new THREE.SphereGeometry( 110, 64, 64 );
 
-          
-          function Tween(timeArray, valueArray)
-          {
-            this.times  = timeArray || [];
-            this.values = valueArray || [];
+          // geometries
+          const sphereGeometry = new THREE.SphereGeometry( 125, 125, 16 );
+
+          const geometry = new THREE.BufferGeometry();
+
+          // buffers
+          const speed = [];
+          const intensity = [];
+          const size = [];
+
+          const positionAttribute = sphereGeometry.getAttribute( 'position' );
+          const particleCount = positionAttribute.count;
+
+          for ( let i = 0; i < particleCount; i ++ ) {
+            speed.push( 20 + Math.random() * 50 );
+            intensity.push( Math.random() * .15 );
+            size.push( 250 + Math.random() * 230 );
           }
 
-          Tween.prototype.lerp = function(t)
-          {
-            var i = 0;
-            var n = this.times.length;
-            while (i < n && t > this.times[i])  
-              i++;
-            if (i == 0) return this.values[0];
-            if (i == n) return this.values[n-1];
-            var p = (t - this.times[i-1]) / (this.times[i] - this.times[i-1]);
-            if (this.values[0] instanceof THREE.Vector3)
-              return this.values[i-1].clone().lerp( this.values[i], p );
-            else // its a float
-              return this.values[i-1] + p * (this.values[i] - this.values[i-1]);
-          }
+          geometry.setAttribute( 'position', positionAttribute );
+          geometry.setAttribute( 'targetPosition', sphereGeometry.getAttribute( 'position' ) );
+          geometry.setAttribute( 'particleSpeed', new THREE.Float32BufferAttribute( speed, 1 ) );
+          geometry.setAttribute( 'particleIntensity', new THREE.Float32BufferAttribute( intensity, 1 ) );
+          geometry.setAttribute( 'particleSize', new THREE.Float32BufferAttribute( size, 1 ) );
 
-          const body_material = new THREE.ShaderMaterial( 
-            {
-              // uniforms: 
-              // {
-              //   texture:   {
-              //     type: "t",
-              //     value: THREE.ImageUtils.loadTexture( 'https://threejs-plactice.vercel.app/kirbyvsmiracle_var2/fire.png' )
-              //   },
-              // },
-              attributes:     
-              {
-                customVisible:  { type: 'f',  value: 0 },
-                customAngle:  { type: 'f',  value: 0 },
-                customSize:   { type: 'f',  value: new Tween( [0, 0.1], [1, 150] ) },
-                customColor:  { type: 'c',  value: new THREE.Vector3(0.02, 1, 0.4) },
-                customOpacity:  { type: 'f',  value: new Tween( [0.7, 1], [1, 0] ) }
-              },
-              vertexShader:   [
-                "attribute vec3  customColor;",
-                "attribute float customOpacity;",
-                "attribute float customSize;",
-                "attribute float customAngle;",
-                "attribute float customVisible;",
-                "varying vec4  vColor;",
-                "varying float vAngle;",
-                "void main()",
-                "{",
-                  "if ( customVisible > 0.5 )", 
-                    "vColor = vec4( customColor, customOpacity );",
-                  "else",
-                    "vColor = vec4(0.0, 0.0, 0.0, 0.0);",
-                  "vAngle = customAngle;",
-                  "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-                  "gl_PointSize = customSize * ( 300.0 / length( mvPosition.xyz ) );",
-                  "gl_Position = projectionMatrix * mvPosition;",
-                "}"
-                ].join("\n"),
-              fragmentShader: [
-                "uniform sampler2D texture;",
-                "varying vec4 vColor;",   
-                "varying float vAngle;",   
-                "void main()", 
-                "{",
-                  "gl_FragColor = vColor;",
-                  
-                  "float c = cos(vAngle);",
-                  "float s = sin(vAngle);",
-                  "vec2 rotatedUV = vec2(c * (gl_PointCoord.x - 0.5) + s * (gl_PointCoord.y - 0.5) + 0.5,", 
-                                        "c * (gl_PointCoord.y - 0.5) - s * (gl_PointCoord.x - 0.5) + 0.5);",
-                  "vec4 rotatedTexture = texture2D( texture,  rotatedUV );",
-                  "gl_FragColor = gl_FragColor * rotatedTexture;",
-                "}"
-                ].join("\n"),
-              transparent: true,
-              blending: THREE.NormalBlending, depthTest: true,
-              
-            });
+          // maps
+          const fireMap = new THREE.TextureLoader().load( 'https://threejs.org/examples/textures/sprites/firetorch_1.jpg' );
 
-          const body          = new THREE.Mesh(body_geometry, body_material);
+          // nodes
+          const targetPosition = new Nodes.AttributeNode( 'targetPosition', 'vec3' );
+          const particleSpeed = new Nodes.AttributeNode( 'particleSpeed', 'float' );
+          const particleIntensity = new Nodes.AttributeNode( 'particleIntensity', 'float' );
+          const particleSize = new Nodes.AttributeNode( 'particleSize', 'float' );
 
-          body.position.set(0, 0, 0);
-          body.dynamic = true;
-          body.sortParticles = true;
-          this.group.add(body);
+          const time = new Nodes.TimerNode();
+
+          const spriteSheetCount = new Nodes.ConstNode( new THREE.Vector2( 6, 6 ) );
+
+          const fireUV = new Nodes.SpriteSheetUVNode(
+            spriteSheetCount,
+            new Nodes.PointUVNode(),
+            new Nodes.OperatorNode( '*', time, particleSpeed )
+          );
+
+          const fireSprite = new Nodes.TextureNode( fireMap, fireUV );
+          const fire = new Nodes.OperatorNode( '*', fireSprite, particleIntensity );
+
+          const lerpPosition = new Nodes.UniformNode( 1 );
+
+          const positionNode = new Nodes.MathNode( Nodes.MathNode.MIX, new Nodes.PositionNode( Nodes.PositionNode.LOCAL ), targetPosition, lerpPosition );
+
+          const material = new Nodes.PointsNodeMaterial( {
+            depthWrite: false,
+            transparent: true,
+            sizeAttenuation: true,
+            blending: THREE.AdditiveBlending
+          } );
+
+          material.colorNode = fire;
+          material.sizeNode = particleSize;
+          material.positionNode = positionNode;
+
+          const particles = new THREE.Points( geometry, material );
+          particles.position.set(0, 0, 0);
+
+          this.group.add( particles );
 
           /**
           * eye
@@ -456,12 +439,11 @@
             group.add(eye_black);
 
           }
-          eye_content(0, 0, 162, 163, 100, 0, 0, this.group);
+          eye_content(0, -20, 150, 151, 100, 0, 0, this.group);
         }
         moveBody() {
           const bodyamplitude = 50;
           this.bodyangle += 0.05;
-
           this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
         }  
       }
@@ -573,17 +555,17 @@
           this.drawBody();
         }
         drawBody() {
-          const body_geometry = new THREE.SphereGeometry( 110, 64, 64 );
+          const body_geometry = new THREE.SphereGeometry( 150, 64, 64 );
           const body_material = new THREE.MeshPhongMaterial({transparent: true,opacity: 1,color: 0xffff91}); 
           const body          = new THREE.Mesh(body_geometry, body_material);
           body.position.set(0, 0, 0);
           this.group.add(body);
 
 
-          const dirLight = new THREE.DirectionalLight( 0xffffff, 0.05 );
-          dirLight.position.set( 0, - 1, 0 ).normalize();
-          dirLight.color.setHSL( 0.1, 0.7, 0.5 );
-          scene.add( dirLight );
+          const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+          dirLight.position.set( 0, 0, 0 ).normalize();
+          dirLight.color.setHSL( 0.7, 1.0, 0.7 );
+          this.group.add( dirLight );
 
           // lensflares
           const textureLoader = new THREE.TextureLoader();
@@ -591,24 +573,24 @@
           const textureFlare0 = textureLoader.load( 'lensflare0.png' );
           const textureFlare3 = textureLoader.load( 'lensflare3.png' );
 
-          addLight( 0.55, 0.9, 0.5, 5000, 0, - 1000 );
-          addLight( 0.08, 0.8, 0.5, 0, 0, - 1000 );
-          addLight( 0.995, 0.5, 0.9, 5000, 5000, - 1000 );
+          addLight( 0.8, 0.9, 1, 0, 200, 0, this.group );
+          addLight( 0.5, 0.8, 0.7, 0, 200, 0, this.group );
+          addLight( 0.995, 0.5, 0.9, 0, 200, 0, this.group );
 
-          function addLight( h, s, l, x, y, z ) {
+          function addLight( h, s, l, x, y, z, group ) {
 
             const light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
             light.color.setHSL( h, s, l );
             light.position.set( x, y, z );
-            scene.add( light );
+            group.add( light );
 
             const lensflare = new Lensflare();
-            lensflare.addElement( new LensflareElement( textureFlare0, 700, 0, light.color ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 60, 0.6 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 70, 0.7 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 120, 0.9 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 70, 1 ) );
-            light.add( lensflare );
+            lensflare.addElement( new LensflareElement( textureFlare0, 1500, 1, light.color ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 800, .8 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 400, .6 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 1500, .8 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 1200, .7 ) );
+            group.add( lensflare );
 
           }
 
@@ -692,10 +674,9 @@
           this.group.add(body);
         }
         moveBody() {
-          const bodyamplitude = 50;
           this.bodyangle += 0.05;
           this.group.rotation.y += 0.05;
-          this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
+          this.group.position.y = 200 - (Math.cos(this.bodyangle) * 50);
         }  
       }
       class BomMiracle {
@@ -734,7 +715,8 @@
           bom_cylinder( 25, 64, 64, 35, 64, 64, 160, 0, 60, this.group);
         }
         moveBody() {
-          this.group.rotation.z += 0.01;    
+          this.bodyangle += 0.05;
+          this.group.position.y = 200 - (Math.cos(this.bodyangle) * 10);
         }  
       }
 
