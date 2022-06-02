@@ -171,7 +171,7 @@
             miracle = new BomMiracle();
             break;
           default:
-            miracle = new Miracle();
+            miracle = new CutterMiracle();
             break;
         }
         scene.add(miracle.group);
@@ -549,7 +549,7 @@
       class SparkrMiracle {
         constructor() {
           this.group = new THREE.Group();
-          this.group.position.set(0, 0, 0);
+          this.group.position.set(5, 150, 0);
           this.group.rotation.set(0, 0, 0);
           this.wingangle = 0;
           this.bodyangle = 0;
@@ -557,16 +557,10 @@
         }
         drawBody() {
           const body_geometry = new THREE.SphereGeometry( 150, 64, 64 );
-          const body_material = new THREE.MeshPhongMaterial({transparent: true,opacity: 1,color: 0xffff91}); 
+          const body_material = new THREE.MeshPhongMaterial({transparent: true, opacity: .4,color: 0xffff91}); 
           const body          = new THREE.Mesh(body_geometry, body_material);
           body.position.set(0, 0, 0);
           this.group.add(body);
-
-
-          const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-          dirLight.position.set( 0, 0, 0 ).normalize();
-          dirLight.color.setHSL( 0.7, 1.0, 0.7 );
-          this.group.add( dirLight );
 
           // lensflares
           const textureLoader = new THREE.TextureLoader();
@@ -574,9 +568,9 @@
           const textureFlare0 = textureLoader.load( 'lensflare0.png' );
           const textureFlare3 = textureLoader.load( 'lensflare3.png' );
 
-          addLight( 0.8, 0.9, 1, 0, 200, 0, this.group );
-          addLight( 0.5, 0.8, 0.7, 0, 200, 0, this.group );
-          addLight( 0.995, 0.5, 0.9, 0, 200, 0, this.group );
+          addLight( 0.8, 0.9, 1, 0, 0, 700, this.group );
+          addLight( 0.5, 0.8, 0.7, 0, 0, 700, this.group );
+          addLight( 0.995, 0.5, 0.9, 0, 0, 700, this.group );
 
           function addLight( h, s, l, x, y, z, group ) {
 
@@ -587,12 +581,11 @@
 
             const lensflare = new Lensflare();
             lensflare.addElement( new LensflareElement( textureFlare0, 1500, 1, light.color ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 800, .8 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 400, .6 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 1500, .8 ) );
-            lensflare.addElement( new LensflareElement( textureFlare3, 1200, .7 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 1000, .8 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 800, .6 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 2000, .8 ) );
+            lensflare.addElement( new LensflareElement( textureFlare3, 1800, .7 ) );
             group.add( lensflare );
-
           }
 
 
@@ -600,7 +593,6 @@
         moveBody() {
           const bodyamplitude = 10;
           this.bodyangle += 0.05;
-          this.group.position.y = 200 - (Math.cos(this.bodyangle) * bodyamplitude);
         }  
       }
       class IceMiracle {
