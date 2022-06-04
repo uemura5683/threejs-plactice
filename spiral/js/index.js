@@ -23,7 +23,7 @@ function init() {
   * camera
   **/
   const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
-  camera.position.set( 400, 350, 5000 );
+  camera.position.set( 0, 0, 0 );
 
   /**
   * cloud
@@ -65,7 +65,7 @@ function init() {
     * cloud
     **/
     c_box.rotation.x = 500 * ( Math.PI / 1 );
-    c_box.position.y = 0;
+    c_box.position.y = 50;
     c_box.rotation.z = 500 * ( Math.PI / 1 );
 
     camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
