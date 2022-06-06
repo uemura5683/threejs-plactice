@@ -7,7 +7,6 @@
     return Math.random() * (max - min) + min;
   }
 
-
   function Resize() {
 
     let width = window.innerWidth,
@@ -16,10 +15,7 @@
     /**
     * renderer
     **/
-    let renderer = new THREE.WebGLRenderer({
-                      canvas: document.querySelector('#myCanvas'),
-                      alpha: true
-                   });
+    let renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#myCanvas'), alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(width, height);
 
@@ -37,25 +33,14 @@
     /**
     * controls
     **/
-    let controls = new THREE.OrbitControls(
-                       camera,
-                       document.querySelector('#myCanvas')
-                   );
+    let controls = new THREE.OrbitControls( camera, document.querySelector('#myCanvas') );
 
     /**
     * BoxGeometry
     **/
     let circle_size = 1500;
-    let circle = new THREE.BoxGeometry(
-                          circle_size,
-                          circle_size,
-                          circle_size
-                        );
-    let circle_mat = new THREE.MeshPhongMaterial( {
-                          transparent: true,
-                          opacity: 0.1,
-                          color: 0x000000
-                        } );
+    let circle = new THREE.BoxGeometry( circle_size, circle_size, circle_size );
+    let circle_mat = new THREE.MeshPhongMaterial( { transparent: true, opacity: 0.1, color: 0x000000 } );
 
     circle_box = new THREE.Mesh(circle, circle_mat);
     circle_box.position.x = 0;

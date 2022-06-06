@@ -79,5 +79,4 @@ function init() {
     renderer.render(scene,camera);
   }
   render();
-
 }
