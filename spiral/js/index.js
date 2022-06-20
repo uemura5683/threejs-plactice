@@ -1,10 +1,16 @@
 window.addEventListener( 'load', init );
+window.addEventListener( 'resize', init );
+
+let width = 940, height = 500; data = 0;
 
 function init() {
 
-  let width = 960
-    , height = 540
-    , rot = 0;
+  /**
+  * width height
+  **/
+  let width = window.innerWidth,
+      height = window.innerHeight,
+      rot = 0;
 
   /**
   * render
@@ -22,13 +28,13 @@ function init() {
   /**
   * camera
   **/
-  const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 10000 );
-  camera.position.set( 0, 0, 0 );
+  const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 1000 );
+  camera.position.set(0, 0, 300);
 
   /**
-  * cloud
+  * spiral
   **/
-  const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
+  const c_Geometry = new THREE.SphereGeometry( 64, 64, 64 );
   const c_texture = new THREE.TextureLoader().load('img/spiral.png');
   const c_materials = new THREE.MeshLambertMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
   const c_box = new THREE.Mesh( c_Geometry, c_materials  );
@@ -43,32 +49,14 @@ function init() {
   tick();
 
   function tick() {
-    rot += 5;
+
+    /**
+    * spiral
+    **/
+    data += 0.01;
+    scene.rotation.y += 0.02 - (Math.cos(data) * 0.01);
+
     renderer.render( scene, camera );
-
-    /**
-    * set
-    **/
-    const t = Date.now() / 1500
-        , r = 100.0
-        , lx = r * Math.cos(t)
-        , lz = r * Math.sin(t)
-        , ly = 0;
-
-    /**
-    * camera
-    **/
-    const radian = ( rot * Math.PI ) / 1000;          
-    camera.position.x = 1000 * Math.sin( radian );
-    camera.position.z = 1000 * Math.cos( radian );
-    /**
-    * cloud
-    **/
-    c_box.rotation.x = 500 * ( Math.PI / 1 );
-    c_box.position.y = 50;
-    c_box.rotation.z = 500 * ( Math.PI / 1 );
-
-    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
     requestAnimationFrame( tick );
   }
