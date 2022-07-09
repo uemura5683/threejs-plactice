@@ -38,7 +38,7 @@ function init(){
   * earch
   **/
   const e_Geometry = new THREE.SphereGeometry( 200, 200, 200 );
-  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
+  const e_texture = new THREE.TextureLoader().load('img/earch.jpg');
   const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
   const e_box = new THREE.Mesh(e_Geometry, e_materials );
   scene.add(e_box);
@@ -47,7 +47,7 @@ function init(){
   * sun
   **/
   const s_Geometry = new THREE.SphereGeometry( 200, 200, 200 );
-  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
+  const s_texture = new THREE.TextureLoader().load('img/sun.jpg');
   const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
   const s_box = new THREE.Mesh(s_Geometry, s_materials );
   scene.add(s_box);
@@ -142,7 +142,7 @@ function init(){
     stargeometry.setAttribute('customColor',new THREE.BufferAttribute(colors,3));
     stargeometry.setAttribute('size',new THREE.BufferAttribute(sizes,1));
     const uniforms = {
-      texture:{type:'t',value:new THREE.TextureLoader().load('https://uemu-engineer.com/images/three/var4/star.png')}
+      texture:{type:'t',value:new THREE.TextureLoader().load('img/star.png')}
     };
     const starmaterial = new THREE.RawShaderMaterial({
       uniforms:uniforms,

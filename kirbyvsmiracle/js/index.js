@@ -36,7 +36,7 @@ function init() {
   /**
   * smoke
   **/
-  const smokeTexture  = new THREE.TextureLoader().load('https://threejs-plactice.vercel.app/kirbyvsmiracle/smoke.png');
+  const smokeTexture  = new THREE.TextureLoader().load('img/smoke.png');
   const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.4, map: smokeTexture, transparent: true});
   const smokeGeo      = new THREE.PlaneGeometry(300,300);
 

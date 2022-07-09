@@ -441,7 +441,7 @@ class Floor {
   }
   drawBody() {
     const plane = new THREE.PlaneGeometry(3000, 3000, 64, 64);
-    const map1 = THREE.ImageUtils.loadTexture('floor.jpg');
+    const map1 = THREE.ImageUtils.loadTexture('img/floor.jpg');
     const plane_box =  new THREE.Mesh( plane, new THREE.MeshLambertMaterial({map: map1}));
     this.group.add(plane_box);
   }
@@ -459,7 +459,7 @@ class Moon {
   }
   drawBody() {
     const moon = new THREE.SphereBufferGeometry(50, 50, 50);
-    const moon_texture = new THREE.TextureLoader().load('https://threejs-plactice.vercel.app/earth/img/moon.jpg');
+    const moon_texture = new THREE.TextureLoader().load('img/moon.jpg');
     const moon_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:moon_texture } );
     const moon_box_mesh = new THREE.Mesh( moon, moon_materials );
     this.group.add(moon_box_mesh);

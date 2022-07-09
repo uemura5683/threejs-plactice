@@ -35,3 +35,14 @@ https://www.aura-office.co.jp/blog/browser-sync/
 * shader
 **/
 https://codepen.io/halvves/pen/RRoWyJ?editors=1010
+
+/**
+* other
+**/
+https://christinayan01.jp/architecture/archives/14067
+
+https://s3-ap-northeast-1.amazonaws.com/codegrid/2016-threejs/demo/threejs-1/pbr/demo2.html
+
+https://wgld.org/d/webgl/w044.html
+
+https://www.pentacreation.com/blog/2018/12/181215.html

@@ -73,7 +73,7 @@
         addLights(1,1,1);
 
         // smoke
-        const smokeTexture  = new THREE.TextureLoader().load('https://threejs-plactice.vercel.app/kirbyvsmiracle/smoke.png');
+        const smokeTexture  = new THREE.TextureLoader().load('img/smoke.png');
         const smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, opacity: 0.1, map: smokeTexture, transparent: true});
         const smokeGeo      = new THREE.PlaneGeometry(300,300);
 
@@ -352,7 +352,7 @@
           geometry.setAttribute( 'particleSize', new THREE.Float32BufferAttribute( size, 1 ) );
 
           // maps
-          const fireMap = new THREE.TextureLoader().load( 'https://threejs-plactice.vercel.app/kirbyvsmiracle_var2/fire.jpg' );
+          const fireMap = new THREE.TextureLoader().load( 'img/fire.jpg' );
 
           // nodes
           const targetPosition = new Nodes.AttributeNode( 'targetPosition', 'vec3' );
@@ -534,8 +534,8 @@
           this.group.add(body);
           // lensflares
           const textureLoader = new THREE.TextureLoader();
-          const textureFlare0 = textureLoader.load( 'https://threejs-plactice.vercel.app/kirbyvsmiracle_var2/lensflare.png' );
-          const textureFlare3 = textureLoader.load( 'https://threejs-plactice.vercel.app/kirbyvsmiracle_var2/lensflare1.png' );
+          const textureFlare0 = textureLoader.load( 'img/lensflare.png' );
+          const textureFlare3 = textureLoader.load( 'img/lensflare1.png' );
           addLight( 0.8, 0.9, 1, 0, 0, 700, this.group );
           addLight( 0.5, 0.8, 0.7, 0, 0, 700, this.group );
           addLight( 0.995, 0.5, 0.9, 0, 0, 700, this.group );

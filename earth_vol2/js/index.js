@@ -29,7 +29,7 @@ function init() {
   * earch
   **/
   const e_Geometry = new THREE.SphereGeometry( 200, 64, 64 );
-  const e_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/earch.jpg');
+  const e_texture = new THREE.TextureLoader().load('img/earch.jpg');
   const e_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:e_texture } );
   const e_box = new THREE.Mesh(e_Geometry, e_materials );
   scene.add(e_box);
@@ -38,7 +38,7 @@ function init() {
   * moon
   **/
   const m_Geometry = new THREE.SphereGeometry( 34, 64, 64 );
-  const m_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/moon.jpg');
+  const m_texture = new THREE.TextureLoader().load('img/moon.jpg');
   const m_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:m_texture } );
   const m_box = new THREE.Mesh( m_Geometry, m_materials );
   scene.add(m_box);
@@ -47,7 +47,7 @@ function init() {
   * cloud
   **/
   const c_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
-  const c_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/crowd.png');
+  const c_texture = new THREE.TextureLoader().load('img/crowd.png');
   const c_materials = new THREE.MeshStandardMaterial( { map:c_texture, transparent: true, side: THREE.DoubleSide } );
   const c_box = new THREE.Mesh( c_Geometry, c_materials  );
   scene.add(c_box);
@@ -56,7 +56,7 @@ function init() {
   * sun
   **/
   const s_Geometry = new THREE.SphereGeometry( 205, 64, 64 );
-  const s_texture = new THREE.TextureLoader().load('https://raw.githubusercontent.com/uemura5683/threejs_plactice/master/earth_vol2/img/sun.jpg');
+  const s_texture = new THREE.TextureLoader().load('img/sun.jpg');
   const s_materials = new THREE.MeshStandardMaterial( { color: 0xffffff, map:s_texture } );
   const s_box = new THREE.Mesh( s_Geometry, s_materials );
   scene.add(s_box);
