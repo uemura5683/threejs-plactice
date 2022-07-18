@@ -97,7 +97,68 @@
 	    font-size: 20px;
 	}
 	.element.element_num_0 .typing_one {
-	    top: calc(50%);
+		top: calc(50% + 5px);
+    	right: calc(50% + 20px);
+	}
+	.element.element_num_1{
+	    background-image: url(img/f1.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_2{
+	    background-image: url(img/f2.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_3{
+	    background-image: url(img/f3.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_4{
+	    background-image: url(img/f4.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_5{
+	    background-image: url(img/f5.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_6{
+	    background-image: url(img/f6.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_7{
+	    background-image: url(img/f7.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_8{
+	    background-image: url(img/f8.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_9{
+	    background-image: url(img/f9.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}
+	.element.element_num_10{
+	    background-image: url(img/f10.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}	
+	.element.element_num_11{
+	    background-image: url(img/f11.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
+	}	
+	.element.element_num_12{
+	    background-image: url(img/f12.png);
+	    background-repeat: no-repeat;
+        background-position: center 0px;
 	}
 	.element.element_num_13 {
 	    background-image: url(img/power.png);
@@ -123,10 +184,22 @@
 		width: 190px;
 	}
 	.element.element_num_55 .typing_three{
-		right: calc(50% + 40px);
+		right: calc(50% + 45px);
 	}
 	.element.element_num_67 .typing_three{
-		right: calc(50% - 40px);
+		right: calc(50% - 45px);
+	}
+	.element.element_num_69 .typing_one{
+		right: calc(50% - 25px);
+	}
+	.element.element_num_70,
+	.element.element_num_74{
+	    background-image: url(img/command.png);
+	    background-repeat: no-repeat;
+        background-position: 107px 10px;
+	}
+	.element.element_num_74{
+        background-position: 10px 10px;
 	}
 	.element.element_num_70,
 	.element.element_num_71,
@@ -226,7 +299,7 @@ var table = [
 	"_", "", "ろ", "", 12, 5,
 	"", "", "shift", "", 13, 5,
 	"", "", "caps", "", 1, 6,
-	"", "", "option", "", 2, 6,
+	"alt", "", "option", "", 2, 6,
 	"", "", "command", "", 3, 6,
 	"", "", "英数", "",4, 6,
 	"", "", "", "", 5, 6,
@@ -297,44 +370,44 @@ function init() {
 
 		var object = new THREE.Object3D();
 		if(num == 41) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330;
-			object.position.y = - ( table[ i + 5 ] * 164 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+			object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
 		} else if(num <= 13) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 880;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+			object.position.y = - ( table[ i + 5 ] * 60 ) + 880 - 400;
 		} else if(num == 55) {
-			object.position.x = ( table[ i + 4 ] * 190 ) - 1350;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 190 ) - 1350 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num >= 56 && num <= 66) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1265;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1265 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num == 67) {
-			object.position.x = ( table[ i + 4 ] * 190 ) - 1875;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num >= 70 && num <= 71) {
-			object.position.x = ( table[ i + 4 ] * 170 ) - 1405;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num == 72) {
-			object.position.x = ( table[ i + 4 ] * 440 ) - 2620;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num >= 73 && num <= 74) {
-			object.position.x = ( table[ i + 4 ] * 170 ) - 1135;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num >= 75 && num <= 76) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 910;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else if(num == 77) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 910;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 540;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+			object.position.y = - ( table[ i + 5 ] * 60 ) + 540 - 400;
 		} else if(num == 78) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1050;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 480;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+			object.position.y = - ( table[ i + 5 ] * 60 ) + 480 - 400;
 		} else if(num == 79) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1050;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		} else {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990;
+			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
 		}
 
 
@@ -350,7 +423,7 @@ function init() {
 	document.getElementById( 'container' ).appendChild( renderer.domElement );
 
 
-	transform( targets.table, 500 );
+	transform( targets.table, 1000 );
 
 
 	window.addEventListener( 'resize', onWindowResize, false );
