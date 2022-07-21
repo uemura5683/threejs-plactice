@@ -3,23 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-<title>three.js css3d - MAC</title>
+<title>three.js css - MAC</title>
 <style>
 	html, body {
 		height: 100%;
 	}
-	
 	body {
 		background-color: #000;
 		margin: 0;
 		font-family: Helvetica, sans-serif;;
 		overflow: hidden;
 	}
-	
 	a {
 		color: #ffffff;
 	}
-	
 	#info {
 		position: absolute;
 		width: 100%;
@@ -31,34 +28,32 @@
 		text-align: center;
 		z-index: 1;
 	}
-	
 	#menu {
 		position: absolute;
 		bottom: 20px;
 		width: 100%;
 		text-align: center;
 	}
-	
 	.element {
 		width: 120px;
 		height: 120px;
-		box-shadow: 0px 0px 12px rgba(255,255,255,0.5);
-		border: 1px solid rgba(255,255,255,0.75);
+		box-shadow: 0px 0px 12px rgba(255,255,255,.75);
+		border: 1px solid rgba(255,255,255,.75);
 		text-align: center;
 		cursor: default;
 		border-radius: 10px;
 	}
 	.element:hover {
-		box-shadow: 0px 0px 12px rgba(255,255,255,0.75);
-		border: 1px solid rgba(255,255,255,0.75);
+		box-shadow: 0px 0px 12px rgba(255,255,255,1);
+		border: 1px solid rgba(255,255,255,1);
 	}
 	.element .typing_one {
 		position: absolute;
 		top: calc(50% - 36px);
 		right: 50%;
 		font-size: 30px;
-		color: rgba(255,255,255,0.75);
-		text-shadow: 0 0 10px rgba(255,255,255,0.95);
+		color: rgba(255,255,255,.75);
+		text-shadow: 0 0 10px rgba(255,255,255,.75);
 		transform: translateY(-50%) translateX(50%);
 	}
 	.element .typing_two {
@@ -67,8 +62,8 @@
 		right: calc(50% + 36px);
 		font-size: 30px;
 		font-weight: bold;
-		color: rgba(255,255,255,0.75);
-		text-shadow: 0 0 10px rgba(255,255,255,0.95);
+		color: rgba(255,255,255,.75);
+		text-shadow: 0 0 10px rgba(255,255,255,.75);
 		transform: translateY(-50%) translateX(50%);
 	}
 	.element .typing_three {
@@ -76,8 +71,8 @@
 		top: calc(50% + 36px);
 		right: 50%;
 		font-size: 30px;
-		color: rgba(255,255,255,0.75);
-		text-shadow: 0 0 10px rgba(255,255,255,0.95);
+		color: rgba(255,255,255,.75);
+		text-shadow: 0 0 10px rgba(255,255,255,.75);
 		transform: translateY(-50%) translateX(50%);
 	}
 	.element .typing_four {
@@ -85,8 +80,8 @@
 		top: 50%;
 		right: calc(50% - 40px);
 		font-size: 30px;
-		color: rgba(255,255,255,0.75);
-		text-shadow: 0 0 10px rgba(255,255,255,0.95);
+		color: rgba(255,255,255,.75);
+		text-shadow: 0 0 10px rgba(255,255,255,.75);
 	    transform: translateY(-50%) translateX(50%);
 	}
 	.element:nth-child(-n+14) {
@@ -269,8 +264,8 @@ var table = [
 	"", "I", "に", "", 9, 3,
 	"", "O", "ら", "", 10, 3,
 	"", "P", "せ", "", 11, 3,
-	"", "@", "`", "゛", 12, 3,
-	"", "[", "{", "゜", 13, 3,
+	"`", "@", "〝", "", 12, 3,
+	"[", "{", "゜", "「", 13, 3,
 	"enter", "", "",  "return",14, 3,
 	"", "", "control", "",1, 4,
 	"", "A", "ち", "", 2, 4,
@@ -282,9 +277,9 @@ var table = [
 	"", "J", "ま", "", 8, 4,
 	"", "K", "の", "", 9, 4,
 	"", "L", "り", "", 10, 4,
-	"", ";", "れ", "+", 11, 4,
-	"", ":", "け", "*", 12, 4,
-	"", "]", "む", "}", 13, 4,
+	"+", ";", "れ", "", 11, 4,
+	"*", ":", "け", "", 12, 4,
+	"}", "]", "む", "」", 13, 4,
 	"", "", "shift", "", 1, 5,
 	"", "Z", "つ", "っ", 2, 5,
 	"", "X", "さ", "", 3, 5,
@@ -293,9 +288,9 @@ var table = [
 	"", "B", "こ", "", 6, 5,
 	"", "N", "み", "", 7, 5,
 	"", "M", "も", "", 8, 5,
-	"、", ",", "ね", "<", 9, 5,
-	"。", ".", "る", ">", 10, 5,
-	"・", "/", "め", "?", 11, 5,
+	"<", ",", "ね", "、", 9, 5,
+	">", ".", "る", "。", 10, 5,
+	"?", "/", "め", "・", 11, 5,
 	"_", "", "ろ", "", 12, 5,
 	"", "", "shift", "", 13, 5,
 	"", "", "caps", "", 1, 6,
