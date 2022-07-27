@@ -1,472 +1,484 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-<title>three.js css - MAC</title>
-<style>
-	html, body {
-		height: 100%;
-	}
-	body {
-		background-color: #000;
-		margin: 0;
-		font-family: Helvetica, sans-serif;;
-		overflow: hidden;
-	}
-	a {
-		color: #ffffff;
-	}
-	#info {
-		position: absolute;
-		width: 100%;
-		color: #ffffff;
-		padding: 5px;
-		font-family: Monospace;
-		font-size: 13px;
-		font-weight: bold;
-		text-align: center;
-		z-index: 1;
-	}
-	#menu {
-		position: absolute;
-		bottom: 20px;
-		width: 100%;
-		text-align: center;
-	}
-	.element {
-		width: 120px;
-		height: 120px;
-		box-shadow: 0px 0px 12px rgba(255,255,255,.75);
-		border: 1px solid rgba(255,255,255,.75);
-		text-align: center;
-		cursor: default;
-		border-radius: 10px;
-	}
-	.element:hover {
-		box-shadow: 0px 0px 12px rgba(255,255,255,1);
-		border: 1px solid rgba(255,255,255,1);
-	}
-	.element .typing_one {
-		position: absolute;
-		top: calc(50% - 36px);
-		right: 50%;
-		font-size: 30px;
-		color: rgba(255,255,255,.75);
-		text-shadow: 0 0 10px rgba(255,255,255,.75);
-		transform: translateY(-50%) translateX(50%);
-	}
-	.element .typing_two {
-		position: absolute;
-		top: 50%;
-		right: calc(50% + 36px);
-		font-size: 30px;
-		font-weight: bold;
-		color: rgba(255,255,255,.75);
-		text-shadow: 0 0 10px rgba(255,255,255,.75);
-		transform: translateY(-50%) translateX(50%);
-	}
-	.element .typing_three {
-		position: absolute;
-		top: calc(50% + 36px);
-		right: 50%;
-		font-size: 30px;
-		color: rgba(255,255,255,.75);
-		text-shadow: 0 0 10px rgba(255,255,255,.75);
-		transform: translateY(-50%) translateX(50%);
-	}
-	.element .typing_four {
-		position: absolute;
-		top: 50%;
-		right: calc(50% - 40px);
-		font-size: 30px;
-		color: rgba(255,255,255,.75);
-		text-shadow: 0 0 10px rgba(255,255,255,.75);
-	    transform: translateY(-50%) translateX(50%);
-	}
-	.element:nth-child(-n+14) {
-		height: 60px;
-	}
-	.element:nth-child(-n+14) .typing_three{
-	    top: calc(50% + 14px);
-	    font-size: 20px;
-	}
-	.element.element_num_0 .typing_one {
-		top: calc(50% + 5px);
-    	right: calc(50% + 20px);
-	}
-	.element.element_num_1{
-	    background-image: url(img/f1.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_2{
-	    background-image: url(img/f2.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_3{
-	    background-image: url(img/f3.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_4{
-	    background-image: url(img/f4.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_5{
-	    background-image: url(img/f5.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_6{
-	    background-image: url(img/f6.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_7{
-	    background-image: url(img/f7.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_8{
-	    background-image: url(img/f8.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_9{
-	    background-image: url(img/f9.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_10{
-	    background-image: url(img/f10.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}	
-	.element.element_num_11{
-	    background-image: url(img/f11.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}	
-	.element.element_num_12{
-	    background-image: url(img/f12.png);
-	    background-repeat: no-repeat;
-        background-position: center 0px;
-	}
-	.element.element_num_13 {
-	    background-image: url(img/power.png);
-	    background-repeat: no-repeat;
-	    background-position: center;
-	}
-	.element.element_num_28 .typing_three {
-		right: calc(50% + 25px);
-	}	
-	.element.element_num_41 {
-		height: 260px;
-	}
-	.element.element_num_41 .typing_one {
-	    right: calc(50%);
-	    top: calc(50% - 108px);
-	}
-	.element.element_num_41 .typing_four {
-	    right: calc(50%);
-	    top: calc(50% + 108px);
-	}
-	.element.element_num_55,
-	.element.element_num_67 {
-		width: 190px;
-	}
-	.element.element_num_55 .typing_three{
-		right: calc(50% + 45px);
-	}
-	.element.element_num_67 .typing_three{
-		right: calc(50% - 45px);
-	}
-	.element.element_num_69 .typing_one{
-		right: calc(50% - 25px);
-	}
-	.element.element_num_70,
-	.element.element_num_74{
-	    background-image: url(img/command.png);
-	    background-repeat: no-repeat;
-        background-position: 107px 10px;
-	}
-	.element.element_num_74{
-        background-position: 10px 10px;
-	}
-	.element.element_num_70,
-	.element.element_num_71,
-	.element.element_num_73,
-	.element.element_num_74 {
-		width: 150px;
-	}
-	.element.element_num_72 {
-		width: 420px;
-	}
-	.element.element_num_77,
-	.element.element_num_78 {
-		height: 60px;
-	}
-	.element.element_num_76 .typing_one,
-	.element.element_num_77 .typing_one,
-	.element.element_num_78 .typing_one,
-	.element.element_num_79 .typing_one {
-		top: 50%;
-	}
-</style>
-</head>
-<body>
-	<script src="https://threejs.org/build/three.min.js"></script>
-	<script src="Tween.js"></script>
-	<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>	
-	<div id="container"></div>
-<script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>three.js css - MAC</title>
+    <style>
+      html, body {
+        height: 100%;
+      }
+      body {
+        background-color: #000;
+        margin: 0;
+        font-family: Helvetica, sans-serif;;
+        overflow: hidden;
+      }
+      a {
+        color: #ffffff;
+      }
+      #info {
+        position: absolute;
+        width: 100%;
+        color: #ffffff;
+        padding: 5px;
+        font-family: Monospace;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        z-index: 1;
+      }
+      #menu {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+      .element {
+        width: 120px;
+        height: 120px;
+        box-shadow: 0px 0px 10px rgba(255,255,255,.5);
+        border: 1px solid rgba(255,255,255,.5);
+        text-align: center;
+        cursor: default;
+        border-radius: 10px;
+          transition: ease .3s all;
+      }
+      .element:hover {
+        box-shadow: 0px 0px 10px rgba(255,255,255,1);
+        border: 1px solid rgba(255,255,255,1);
+          transition: ease .3s all;
+      }
+      .element .typing_one {
+        position: absolute;
+        top: calc(50% - 36px);
+        right: 50%;
+        font-size: 30px;
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        transform: translateY(-50%) translateX(50%);
+          transition: ease .3s all;
+      }
+      .element:hover .typing_one {
+        color: rgba(255,255,255,1);
+        text-shadow: 0 0 10px rgba(255,255,255,1);
+          transition: ease .3s all;
+      }
+      .element .typing_two {
+        position: absolute;
+        top: 50%;
+        right: calc(50% + 36px);
+        font-size: 30px;
+        font-weight: bold;
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        transform: translateY(-50%) translateX(50%);
+          transition: ease .3s all;
+      }
+      .element:hover .typing_two {
+        color: rgba(255,255,255,1);
+        text-shadow: 0 0 10px rgba(255,255,255,1);
+          transition: ease .3s all;
+      }
+      .element .typing_three {
+        position: absolute;
+        top: calc(50% + 36px);
+        right: 50%;
+        font-size: 30px;
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        transform: translateY(-50%) translateX(50%);
+          transition: ease .3s all;
+      }
+      .element:hover .typing_three {
+        color: rgba(255,255,255,1);
+        text-shadow: 0 0 10px rgba(255,255,255,1);
+          transition: ease .3s all;
+      }
+      .element .typing_four {
+        position: absolute;
+        top: 50%;
+        right: calc(50% - 40px);
+        font-size: 30px;
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
+          transform: translateY(-50%) translateX(50%);
+          transition: ease .3s all;
+      }
+      .element:hover .typing_four {
+        color: rgba(255,255,255,1);
+        text-shadow: 0 0 10px rgba(255,255,255,1);
+          transition: ease .3s all;
+      }
+      .element:nth-child(-n+14) {
+        height: 60px;
+      }
+      .element:nth-child(-n+14) .typing_three{
+          top: calc(50% + 14px);
+          font-size: 20px;
+      }
+      .element.element_num_0 .typing_one {
+        top: calc(50% + 5px);
+          right: calc(50% + 20px);
+      }
+      .element.element_num_1{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f1.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_2{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f2.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_3{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f3.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_4{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f4.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_5{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f5.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_6{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f6.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_7{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f7.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_8{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f8.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_9{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f9.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_10{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f10.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_11{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f11.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_12{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f12.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_13 {
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/power.png);
+          background-repeat: no-repeat;
+          background-position: center;
+      }
+      .element.element_num_28 .typing_three {
+        right: calc(50% + 25px);
+      }
+      .element.element_num_41 {
+        height: 260px;
+      }
+      .element.element_num_41 .typing_one {
+          right: calc(50%);
+          top: calc(50% - 108px);
+      }
+      .element.element_num_41 .typing_four {
+          right: calc(50%);
+          top: calc(50% + 108px);
+      }
+      .element.element_num_55,
+      .element.element_num_67 {
+        width: 190px;
+      }
+      .element.element_num_55 .typing_three{
+        right: calc(50% + 45px);
+      }
+      .element.element_num_67 .typing_three{
+        right: calc(50% - 45px);
+      }
+      .element.element_num_69 .typing_one{
+        right: calc(50% - 25px);
+      }
+      .element.element_num_70,
+      .element.element_num_74{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/command.png);
+          background-repeat: no-repeat;
+            background-position: 107px 10px;
+      }
+      .element.element_num_74{
+            background-position: 10px 10px;
+      }
+      .element.element_num_70,
+      .element.element_num_71,
+      .element.element_num_73,
+      .element.element_num_74 {
+        width: 150px;
+      }
+      .element.element_num_72 {
+        width: 420px;
+      }
+      .element.element_num_77,
+      .element.element_num_78 {
+        height: 60px;
+      }
+      .element.element_num_76 .typing_one,
+      .element.element_num_77 .typing_one,
+      .element.element_num_78 .typing_one,
+      .element.element_num_79 .typing_one {
+        top: 50%;
+      }
+    </style>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs-plactice.vercel.app/mac/Tween.js"></script>
+    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
 
-var table = [
-	"esc", "", "", "",1, 1,
-	"", "", "F1", "", 2, 1,
-	"", "", "F2", "", 3, 1,
-	"", "", "F3", "", 4, 1,
-	"", "", "F4", "", 5, 1,
-	"", "", "F5", "", 6, 1,
-	"", "", "F6", "", 7, 1,
-	"", "", "F7", "", 8, 1,
-	"", "", "F8", "", 9, 1,
-	"", "", "F9", "", 10, 1,
-	"", "", "F10", "", 11, 1,
-	"", "", "F11", "", 12, 1,
-	"", "", "F12", "", 13, 1,
-	"", "", "", "", 14, 1,
- 	"!", "1", "ぬ", "", 1, 2,
-	'"', "2", "ふ", "", 2, 2,
-	"#", "3", "あ", "ぁ", 3, 2,
-	"$", "4", "う", "ぅ", 4, 2,
-	"%", "5", "え", "ぇ", 5, 2,
-	"&", "6", "お", "ぉ", 6, 2,
-	"'", "7", "や", "ゃ", 7, 2,
-	"(", "8", "ゆ", "ゅ", 8, 2,
-	")", "9", "よ", "ょ", 9, 2,
-	"", "0", "わ", "を", 10, 2,
-	"=", "-", "ほ", "", 11, 2,
-	"~", "^", "へ", "", 12, 2,
-	"|", "¥", "ー", "", 13, 2,
-	"", "", "delete", "", 14, 2,
-	"", "", "tab", "", 1, 3,
-	"", "Q", "た", "", 2, 3,
-	"", "W", "て", "", 3, 3,
-	"", "R", "い", "ぃ", 4, 3,
-	"", "T", "す", "", 5, 3,
-	"", "W", "か", "", 6, 3,
-	"", "Y", "ん", "", 7, 3,
-	"", "U", "な", "", 8, 3,
-	"", "I", "に", "", 9, 3,
-	"", "O", "ら", "", 10, 3,
-	"", "P", "せ", "", 11, 3,
-	"`", "@", "〝", "", 12, 3,
-	"[", "{", "゜", "「", 13, 3,
-	"enter", "", "",  "return",14, 3,
-	"", "", "control", "",1, 4,
-	"", "A", "ち", "", 2, 4,
-	"", "S", "と", "", 3, 4,
-	"", "D", "し", "", 4, 4,
-	"", "F", "は", "", 5, 4,
-	"", "G", "き", "", 6, 4,
-	"", "H", "く", "", 7, 4,
-	"", "J", "ま", "", 8, 4,
-	"", "K", "の", "", 9, 4,
-	"", "L", "り", "", 10, 4,
-	"+", ";", "れ", "", 11, 4,
-	"*", ":", "け", "", 12, 4,
-	"}", "]", "む", "」", 13, 4,
-	"", "", "shift", "", 1, 5,
-	"", "Z", "つ", "っ", 2, 5,
-	"", "X", "さ", "", 3, 5,
-	"", "C", "そ", "", 4, 5,
-	"", "V", "ひ", "", 5, 5,
-	"", "B", "こ", "", 6, 5,
-	"", "N", "み", "", 7, 5,
-	"", "M", "も", "", 8, 5,
-	"<", ",", "ね", "、", 9, 5,
-	">", ".", "る", "。", 10, 5,
-	"?", "/", "め", "・", 11, 5,
-	"_", "", "ろ", "", 12, 5,
-	"", "", "shift", "", 13, 5,
-	"", "", "caps", "", 1, 6,
-	"alt", "", "option", "", 2, 6,
-	"", "", "command", "", 3, 6,
-	"", "", "英数", "",4, 6,
-	"", "", "", "", 5, 6,
-	"", "", "かな", "", 6, 6,
-	"", "", "command", "", 7, 6,
-	"", "", "fn", "", 8, 6,
-	"←", "", "", "", 9, 6,
-	"↑︎", "", "", "", 10, 6,
-	"↓", "", "", "", 11, 6,
-	"→", "", "", "", 12, 6,
-];
+    var table = [
+      "esc", "", "", "",1, 1,
+      "", "", "F1", "", 2, 1,
+      "", "", "F2", "", 3, 1,
+      "", "", "F3", "", 4, 1,
+      "", "", "F4", "", 5, 1,
+      "", "", "F5", "", 6, 1,
+      "", "", "F6", "", 7, 1,
+      "", "", "F7", "", 8, 1,
+      "", "", "F8", "", 9, 1,
+      "", "", "F9", "", 10, 1,
+      "", "", "F10", "", 11, 1,
+      "", "", "F11", "", 12, 1,
+      "", "", "F12", "", 13, 1,
+      "", "", "", "", 14, 1,
+       "!", "1", "ぬ", "", 1, 2,
+      '"', "2", "ふ", "", 2, 2,
+      "#", "3", "あ", "ぁ", 3, 2,
+      "$", "4", "う", "ぅ", 4, 2,
+      "%", "5", "え", "ぇ", 5, 2,
+      "&", "6", "お", "ぉ", 6, 2,
+      "'", "7", "や", "ゃ", 7, 2,
+      "(", "8", "ゆ", "ゅ", 8, 2,
+      ")", "9", "よ", "ょ", 9, 2,
+      "", "0", "わ", "を", 10, 2,
+      "=", "-", "ほ", "", 11, 2,
+      "~", "^", "へ", "", 12, 2,
+      "|", "¥", "ー", "", 13, 2,
+      "", "", "delete", "", 14, 2,
+      "", "", "tab", "", 1, 3,
+      "", "Q", "た", "", 2, 3,
+      "", "W", "て", "", 3, 3,
+      "", "R", "い", "ぃ", 4, 3,
+      "", "T", "す", "", 5, 3,
+      "", "W", "か", "", 6, 3,
+      "", "Y", "ん", "", 7, 3,
+      "", "U", "な", "", 8, 3,
+      "", "I", "に", "", 9, 3,
+      "", "O", "ら", "", 10, 3,
+      "", "P", "せ", "", 11, 3,
+      "`", "@", "〝", "", 12, 3,
+      "[", "{", "゜", "「", 13, 3,
+      "enter", "", "",  "return",14, 3,
+      "", "", "control", "",1, 4,
+      "", "A", "ち", "", 2, 4,
+      "", "S", "と", "", 3, 4,
+      "", "D", "し", "", 4, 4,
+      "", "F", "は", "", 5, 4,
+      "", "G", "き", "", 6, 4,
+      "", "H", "く", "", 7, 4,
+      "", "J", "ま", "", 8, 4,
+      "", "K", "の", "", 9, 4,
+      "", "L", "り", "", 10, 4,
+      "+", ";", "れ", "", 11, 4,
+      "*", ":", "け", "", 12, 4,
+      "}", "]", "む", "」", 13, 4,
+      "", "", "shift", "", 1, 5,
+      "", "Z", "つ", "っ", 2, 5,
+      "", "X", "さ", "", 3, 5,
+      "", "C", "そ", "", 4, 5,
+      "", "V", "ひ", "", 5, 5,
+      "", "B", "こ", "", 6, 5,
+      "", "N", "み", "", 7, 5,
+      "", "M", "も", "", 8, 5,
+      "<", ",", "ね", "、", 9, 5,
+      ">", ".", "る", "。", 10, 5,
+      "?", "/", "め", "・", 11, 5,
+      "_", "", "ろ", "", 12, 5,
+      "", "", "shift", "", 13, 5,
+      "", "", "caps", "", 1, 6,
+      "alt", "", "option", "", 2, 6,
+      "", "", "command", "", 3, 6,
+      "", "", "英数", "",4, 6,
+      "", "", "", "", 5, 6,
+      "", "", "かな", "", 6, 6,
+      "", "", "command", "", 7, 6,
+      "", "", "fn", "", 8, 6,
+      "←", "", "", "", 9, 6,
+      "↑︎", "", "", "", 10, 6,
+      "↓", "", "", "", 11, 6,
+      "→", "", "", "", 12, 6,
+    ];
 
-var camera, scene, renderer;
-var controls;
+    let camera, scene, renderer, controls, objects = [], targets = { table: [] }, targetsdh = { table: [] };
 
-var objects = [];
-var targets = { table: [] };
-var targetsdh = { table: [] };
-init();
-animate();
+    init();
+    animate();
 
-function init() {
+    function init() {
+      camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 4000 );
+      camera.position.z = 3000;
+      scene = new THREE.Scene();
+      let num = 0;
+      for ( let i = 0; i < table.length; i += 6 ) {
 
-	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 4000 );
-	camera.position.z = 3000;
+        let element = document.createElement( 'div' );
+        element.className = 'element' + ' element_num_' + num;
+        element.style.backgroundColor = 'rgba(0,0,0,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
-	scene = new THREE.Scene();
+        let typing_one = document.createElement( 'div' );
+        typing_one.className = 'typing_one';
+        typing_one.textContent = table[ i ];
+        element.appendChild( typing_one );
 
-	let num = 0;
+        let typing_two = document.createElement( 'div' );
+        typing_two.className = 'typing_two';
+        typing_two.textContent = table[ i + 1 ];
+        element.appendChild( typing_two );
 
-	// table
-	for ( let i = 0; i < table.length; i += 6 ) {
+        let typing_three = document.createElement( 'div' );
+        typing_three.className = 'typing_three';
+        typing_three.innerHTML = table[ i + 2 ];
+        element.appendChild( typing_three );
 
-		var element = document.createElement( 'div' );
-		element.className = 'element' + ' element_num_' + num;
-		element.style.backgroundColor = 'rgba(0,0,0,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+        let typing_four = document.createElement( 'div' );
+        typing_four.className = 'typing_four';
+        typing_four.innerHTML = table[ i + 3 ];
+        element.appendChild( typing_four );
 
-		var typing_one = document.createElement( 'div' );
-		typing_one.className = 'typing_one';
-		typing_one.textContent = table[ i ];
-		element.appendChild( typing_one );
+        var object = new THREE.CSS3DObject( element );
+        object.position.x = Math.random() * 4000 - 2000;
+        object.position.y = Math.random() * 4000 - 2000;
+        object.position.z = Math.random() * 4000 - 2000;
+        scene.add( object );
 
-		var typing_two = document.createElement( 'div' );
-		typing_two.className = 'typing_two';
-		typing_two.textContent = table[ i + 1 ];
-		element.appendChild( typing_two );
+        objects.push( object );
 
-		var typing_three = document.createElement( 'div' );
-		typing_three.className = 'typing_three';
-		typing_three.innerHTML = table[ i + 2 ];
-		element.appendChild( typing_three );
-
-		var typing_four = document.createElement( 'div' );
-		typing_four.className = 'typing_four';
-		typing_four.innerHTML = table[ i + 3 ];
-		element.appendChild( typing_four );
-
-
-		var object = new THREE.CSS3DObject( element );
-		object.position.x = Math.random() * 4000 - 2000;
-		object.position.y = Math.random() * 4000 - 2000;
-		object.position.z = Math.random() * 4000 - 2000;
-		scene.add( object );
-
-		objects.push( object );
-
-		//
-
-		var object = new THREE.Object3D();
-		if(num == 41) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
-			object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
-		} else if(num <= 13) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 880 - 400;
-		} else if(num == 55) {
-			object.position.x = ( table[ i + 4 ] * 190 ) - 1350 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num >= 56 && num <= 66) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1265 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num == 67) {
-			object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num >= 70 && num <= 71) {
-			object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num == 72) {
-			object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num >= 73 && num <= 74) {
-			object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num >= 75 && num <= 76) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else if(num == 77) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 540 - 400;
-		} else if(num == 78) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
-			object.position.y = - ( table[ i + 5 ] * 60 ) + 480 - 400;
-		} else if(num == 79) {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		} else {
-			object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
-			object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
-		}
-
-
-		targets.table.push( object );
-
-		num++;
-	}
-
-
-	renderer = new THREE.CSS3DRenderer();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.domElement.style.position = 'absolute';
-	document.getElementById( 'container' ).appendChild( renderer.domElement );
+        var object = new THREE.Object3D();
+        switch(true) {
+          case num <= 13:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
+            break;
+            case num == 41:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
+            break;
+          case num == 55:
+            object.position.x = ( table[ i + 4 ] * 190 ) - 1345 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num >= 56 && num <= 66:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1260 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num == 67:
+            object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num >= 70 && num <= 71:
+            object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num == 72:
+            object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num >= 73 && num <= 74:
+            object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num >= 75 && num <= 76:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          case num == 77:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+            object.position.y = - ( table[ i + 5 ] * 60 ) + 540 - 400;
+            break;
+          case num == 78:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+            object.position.y = - ( table[ i + 5 ] * 60 ) + 480 - 400;
+            break;
+          case num == 79:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+          default:
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+            break;
+        }
+        targets.table.push( object );
+        num++;
+      }
 
 
-	transform( targets.table, 1000 );
+      renderer = new THREE.CSS3DRenderer();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      renderer.domElement.style.position = 'absolute';
+      document.getElementById( 'container' ).appendChild( renderer.domElement );
+      transform( targets.table, 500 );
+      window.addEventListener( 'resize', onWindowResize, false );
+    }
 
+    function transform( targets, duration ) {
+      TWEEN.removeAll();
+      for ( var i = 0; i < objects.length; i ++ ) {
+        var object = objects[ i ];
+        var target = targets[ i ];
+        new TWEEN.Tween( object.position )
+          .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+          .start();
+        new TWEEN.Tween( object.rotation )
+          .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+          .start();
+      }
+      
+      new TWEEN.Tween( this )
+        .to( {}, duration * 2 )
+        .onUpdate( render )
+        .start();
+    }
 
-	window.addEventListener( 'resize', onWindowResize, false );
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      render();
+    }
 
-}
+    function animate() {
+      requestAnimationFrame( animate );
+      TWEEN.update();
+    }
 
-function transform( targets, duration ) {
-
-	TWEEN.removeAll();
-
-	for ( var i = 0; i < objects.length; i ++ ) {
-
-		var object = objects[ i ];
-		var target = targets[ i ];
-
-		new TWEEN.Tween( object.position )
-			.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
-			.start();
-
-		new TWEEN.Tween( object.rotation )
-			.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
-			.start();
-
-	}
-	
-	new TWEEN.Tween( this )
-		.to( {}, duration * 2 )
-		.onUpdate( render )
-		.start();
-
-}
-
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	render();
-}
-
-function animate() {
-	requestAnimationFrame( animate );
-	TWEEN.update();
-}
-
-function render() {
-	renderer.render( scene, camera );
-}
-
-</script>
-</body>
+    function render() {
+      renderer.render( scene, camera );
+    }
+    </script>
+  </body>
 </html>
