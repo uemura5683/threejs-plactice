@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
+    <style type="text/css">
+      body {
+        margin: 0;
+        background-image:
+          radial-gradient(
+            ellipse at left,
+            #000000,
+            #000000
+          ),
+          radial-gradient(
+            ellipse at right,
+            #000000,
+            #000000
+          );
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myCanvas"></div>
+    <script type="module">
+    /**
+    * default
+    **/
+    let scene = null, camera = null, renderer = null, controls = null, xmastree  = null, snow = null, width = 0, height = 0;
+
+    /**
+    * init
+    **/
+    function init() {
+      width = window.innerWidth,
+      height = window.innerHeight;
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(45, width / height);
+      camera.position.set(0, 160, 1700);
+      renderer = new THREE.WebGLRenderer({
+        alpha: true
+      });
+      renderer.setPixelRatio(
+        window.devicePixelRatio
+      );
+      renderer.setSize(width, height);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      
+      addLights();
+      drawXmasTree();
+      drawSnow();
+
+      document.getElementById('myCanvas').appendChild(renderer.domElement);
+      window.addEventListener('resize',onResize,false);
+    }
+
+    /**
+    * lights
+    **/
+    function addLights() {
+      decorationlignt(1,1,1);
+      decorationlignt(-1,-1,-1);
+    }
+
+    function decorationlignt(px,py,pz) {
+      const directLight = new THREE.DirectionalLight(0xffffff);
+      directLight.castShadow = true;
+      directLight.position.set(px, py, pz);
+      scene.add(directLight);
+    }
+
+    /**
+    * draw
+    **/
+    function drawXmasTree() {
+      xmastree = new XmasTree();
+      scene.add(xmastree.group);
+    }
+
+    function drawSnow() {
+      snow = new Snow();
+      scene.add(snow.group);
+    }
+
+    /**
+    * resize
+    **/
+    function onResize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    /**
+    * degree
+    **/
+    function degree(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+
+    /**
+    * animate
+    **/
+    function animate() {
+      requestAnimationFrame(animate);
+      render();
+    }
+
+    /**
+    * render
+    **/
+    function render() {
+      xmastree.moveBody();
+      snow.moveBody();
+      renderer.render(scene, camera);
+    }
+
+    /**
+    * XmasTree
+    **/
+    class XmasTree {
+      constructor() {
+        this.group = new THREE.Group();
+        this.group.position.set(0, -150, 0);
+        this.group.rotation.set(degree(0), degree(45), degree(0));
+        this.wingangle = 0;
+        this.bodyangle = 0;
+        this.drawBody();
+      }
+      drawBody() {
+        function floor(px,py,pz,rx,ry,rz,width,height,thickness,radius,color,group) {
+          const floor = new THREE.CylinderGeometry(width, height, thickness, radius);
+          const floor_material = new THREE.MeshPhongMaterial({color: color});
+          const floor_mesh = new THREE.Mesh(floor, floor_material);
+          floor_mesh.position.set(px, py, pz);
+          floor_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
+          group.add(floor_mesh);
+        }
+        floor(0,100,0,0,0,0,30,30,1000,4,0x50232C,this.group);
+        floor(0,-320,0,0,0,0,300,250,300,4,0xf41322,this.group);
+        floor(0,100,0,0,0,0,100,300,200,100,0x238B4A,this.group);
+        floor(0,250,0,0,0,0,75,250,200,100,0x238B4A,this.group);
+        floor(0,400,0,0,0,0,50,200,200,100,0x238B4A,this.group);
+        floor(0,550,0,0,0,0,25,150,200,100,0x238B4A,this.group);
+      }
+      moveBody() {
+        this.group.rotation.y += 0.01;
+        scene.rotation.y += 0.01;
+      }  
+    }
+
+    class Snow {
+      constructor() {
+        this.group = new THREE.Group();
+        this.group.position.set(0,-500, 0);
+        this.group.rotation.set(degree(0), degree(0), degree(0));
+        this.wingangle = 0;
+        this.bodyangle = 0;
+        this.drawBody();
+      }
+      drawBody() {
+        for (let i = 0; i < 1000; i++) {
+          const snow_material = new THREE.SpriteMaterial({
+            map: new THREE.TextureLoader().load('snowflake2.png'),
+          });
+          snow_material.fog = true;
+
+          const snow_sprite = new THREE.Sprite(snow_material);
+          snow_sprite.position.x = 2000 * (Math.random() - 0.5);
+          snow_sprite.position.y = 2000 * Math.random() - 40;
+          snow_sprite.position.z = 2000 * (Math.random() - 0.5);
+          // 必要に応じてスケールを調整
+          snow_sprite.scale.set(10, 10, 10);
+          this.group.add(snow_sprite);
+        }
+
+      }
+      moveBody() {
+        this.group.rotation.y -= 0.01;
+        scene.rotation.y -= 0.01;
+      }  
+    }
+
+
+
+    init();
+    animate();
+
+    </script>
+
+    <!-- https://threejs.org/examples/#webgl_points_sprites // snow-->
+    <!-- https://threejs.org/examples/#webgl_custom_attributes_lines // neon-->
+    <!-- https://codepen.io/pehaa/pen/KKXMKMN?editors=0010 -->
+  </body>
+</html>
