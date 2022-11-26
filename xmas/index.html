@@ -166,8 +166,10 @@
       }
       drawBody() {
         for (let i = 0; i < 1000; i++) {
+          let star = ['snowflake1.png', 'snowflake2.png', 'snowflake3.png'];
+          let starNo = Math.floor( Math.random() * star.length);
           const snow_material = new THREE.SpriteMaterial({
-            map: new THREE.TextureLoader().load('snowflake2.png'),
+            map: new THREE.TextureLoader().load(star[starNo]),
           });
           snow_material.fog = true;
 
