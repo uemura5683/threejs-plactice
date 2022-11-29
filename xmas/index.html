@@ -8,10 +8,9 @@
       body {
         margin: 0;
         background-image:
-          radial-gradient(
-            ellipse at left,
-            #000000,
-            #000000
+          linear-gradient(
+            0deg,
+            #272d51 0%, #0c0e1b 40%, #000000 70%
           );
       }
     </style>
@@ -36,7 +35,7 @@
     /**
     * default
     **/
-    let scene = null, camera = null, renderer = null, controls = null, xmastree  = null, snow = null, snow2 = null, spark = null, width = 0, height = 0;
+    let scene = null, camera = null, renderer = null, controls = null, xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = 0, height = 0;
 
     /**
     * init
@@ -72,6 +71,7 @@
       drawSnow();
       drawSnow2();
       drawspark();
+      drawfont();
 
       document.getElementById('myCanvas').appendChild(renderer.domElement);
       window.addEventListener('resize',onResize,false);
@@ -115,6 +115,11 @@
       scene.add(spark.group);
     }
 
+    function drawfont() {
+      font = new Font();
+      scene.add(font.group);
+    }
+
     /**
     * resize
     **/
@@ -149,6 +154,7 @@
       snow.moveBody();
       snow2.moveBody();
       spark.moveBody();
+      font.moveBody();
       renderer.render(scene, camera);
     }
 
@@ -293,6 +299,73 @@
       moveBody() {
       }  
     }
+
+    /**
+    * Font
+    **/
+    class Font {
+      constructor() {
+        this.group = new THREE.Group();
+        this.group.position.set(0, 0, 0);
+        this.wingangle = 0;
+        this.fonts();
+      }
+      fonts() {
+        const loader = new THREE.FontLoader();
+        loader.load( 'https://threejs.org/examples/fonts/gentilis_bold.typeface.json', function ( font ) {
+            const matDark = new THREE.LineBasicMaterial( {
+                                  color: 0x50232C,
+                                  opacity: 1,
+                                  side: THREE.DoubleSide
+                                } );
+            const matLite = new THREE.MeshBasicMaterial( {
+                                  color: 0xf41322,
+                                  transparent: true,
+                                  opacity: 1,
+                                  side: THREE.DoubleSide
+                                } );
+            const message = 'Merry Xmas !!',
+                  shapes = font.generateShapes( message, 50 ),
+                  text_geometry = new THREE.ShapeGeometry( shapes ),
+                  size = 1000;
+
+            text_geometry.computeBoundingBox();
+
+            const xmid = - 0.5 * ( text_geometry.boundingBox.max.x - text_geometry.boundingBox.min.x );
+
+            text_geometry.translate( xmid, -200, 700, );
+
+            const text = new THREE.Mesh( text_geometry, matLite );
+                text.position.z = 20;
+                scene.add( text );
+                const holeShapes = [];
+                for ( let i = 0; i < shapes.length; i ++ ) {
+                  let shape = shapes[ i ];
+                  if ( shape.holes && shape.holes.length > 0 ) {
+                    for ( let j = 0; j < shape.holes.length; j ++ ) {
+                      let hole = shape.holes[ j ];
+                      holeShapes.push( hole );
+                    }
+                  }
+                }
+                shapes.push.apply( shapes, holeShapes );
+                const lineText = new THREE.Object3D();
+                for ( let i = 0; i < shapes.length; i ++ ) {
+                  let shape = shapes[ i ],
+                      points = shape.getPoints(),
+                      text_geometry = new THREE.BufferGeometry().setFromPoints( points );
+                  text_geometry.translate( xmid + 10, -210, 700, );
+                  let lineMesh = new THREE.Line( text_geometry, matDark );
+                  lineText.add( lineMesh );
+                }
+                scene.add( lineText );
+            }
+         );
+      }
+      moveBody() {
+      } 
+    }
+
 
     init();
     animate();
