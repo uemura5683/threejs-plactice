@@ -17,6 +17,28 @@
   </head>
   <body>
     <div id="myCanvas"></div>
+
+
+    <script type="x-shader/x-vertex" id="vertexshader">
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentshader">
+      uniform sampler2D baseTexture;
+      uniform sampler2D bloomTexture;
+      varying vec2 vUv;
+      void main() {
+        gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+      }
+
+    </script>
+
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
     <script type="importmap">
       {
         "imports": {
@@ -24,56 +46,119 @@
           "three/addons/": "https://threejs.org/examples/jsm/"
         }
       }
-    </script>    
+    </script>   
     <script type="module">
+
+    import * as THREE from 'three';
 
     import { Lensflare, LensflareElement } from 'https://threejs.org/examples/jsm/objects/Lensflare.js';
     import { EffectComposer } from 'https://threejs.org/examples/jsm/postprocessing/EffectComposer.js';
     import { RenderPass } from 'https://threejs.org/examples/jsm/postprocessing/RenderPass.js';
-    import { AfterimagePass } from 'https://threejs.org/examples/jsm/postprocessing/AfterimagePass.js';
+    import { ShaderPass } from 'https://threejs.org/examples/jsm/postprocessing/ShaderPass.js';
+    import { UnrealBloomPass } from 'https://threejs.org/examples/jsm/postprocessing/UnrealBloomPass.js';
 
     /**
     * default
     **/
-    let scene = null, camera = null, renderer = null, controls = null, xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = 0, height = 0;
+    let xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = window.innerWidth, height = window.innerHeight;
+    let ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
+
+    let bloomLayer = new THREE.Layers();
+    bloomLayer.set( BLOOM_SCENE );
+
+    let params = {
+      exposure: 1,
+      bloomStrength: 0,
+      bloomThreshold: 0,
+      bloomRadius: 0,
+      scene: 'Scene with Glow'
+    };
+
+    let materials = {};
+
+    let renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize(width, height);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    let scene = new THREE.Scene();
+
+    let camera = new THREE.PerspectiveCamera( 45, width / height );
+    camera.position.set( 0, 160, 1700 );
+
+
+    let renderScene = new RenderPass( scene, camera );
+
+    let bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.0, 0.4, 1.0 );
+    bloomPass.threshold = params.bloomThreshold;
+    bloomPass.strength = params.bloomStrength;
+    bloomPass.radius = params.bloomRadius;
+
+    let bloomComposer = new EffectComposer( renderer );
+    bloomComposer.renderToScreen = false;
+    bloomComposer.addPass( renderScene );
+    bloomComposer.addPass( bloomPass );
+
+    let finalPass = new ShaderPass(
+      new THREE.ShaderMaterial( {
+        uniforms: {
+          baseTexture: { value: null },
+          bloomTexture: { value: bloomComposer.renderTarget2.texture }
+        },
+        vertexShader: document.getElementById( 'vertexshader' ).textContent,
+        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+        defines: {}
+      } ), 'baseTexture'
+    );
+    finalPass.needsSwap = true;
+
+    const finalComposer = new EffectComposer( renderer );
+    finalComposer.addPass( renderScene );
+    finalComposer.addPass( finalPass );
+
+    // setupScene();
+
+    // function setupScene() {
+
+    //   scene.traverse( disposeMaterial );
+    //   scene.children.length = 0;
+
+    //   const geometry = new THREE.IcosahedronGeometry( 30, 15 );
+
+    //   for ( let i = 0; i < 10; i ++ ) {
+
+    //     const color = new THREE.Color();
+    //     color.setHSL( Math.random(), 0.7, Math.random() * 0.2 + 0.05 );
+
+    //     const material = new THREE.MeshBasicMaterial( { color: color } );
+    //     const sphere = new THREE.Mesh( geometry, material );
+    //     sphere.position.x = Math.random() * 10 - 5;
+    //     sphere.position.y = Math.random() * 10 - 5;
+    //     sphere.position.z = 400;
+    //     scene.add( sphere );
+    //     sphere.layers.enable( BLOOM_SCENE );
+    //   }
+    // }
+
+    // function disposeMaterial( obj ) {
+    //   if ( obj.material ) {
+    //     obj.material.dispose();
+    //   }
+    // }
 
     /**
     * init
     **/
     function init() {
-      width = window.innerWidth,
-      height = window.innerHeight;
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(45, width / height);
-      camera.position.set(0, 160, 1700);
-      renderer = new THREE.WebGLRenderer({
-        alpha: true
-      });
-      renderer.setPixelRatio(
-        window.devicePixelRatio
-      );
-      renderer.setSize(width, height);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-      let composer = new EffectComposer(renderer);
-      let renderPass = new RenderPass(scene, camera);
-      composer.addPass(renderPass);
-
-      let afterimagePass = new AfterimagePass();
-      composer.addPass( afterimagePass );
-
-      afterimagePass.uniforms[ "damp" ].value = .6;
-
-      
       addLights();
       drawXmasTree();
       drawSnow();
       drawSnow2();
       drawspark();
       drawfont();
-
       document.getElementById('myCanvas').appendChild(renderer.domElement);
+      window.addEventListener('load',onResize,false);
       window.addEventListener('resize',onResize,false);
     }
 
@@ -155,7 +240,8 @@
       snow2.moveBody();
       spark.moveBody();
       font.moveBody();
-      renderer.render(scene, camera);
+      bloomComposer.render();
+      finalComposer.render();
     }
 
     /**
@@ -164,7 +250,7 @@
     class XmasTree {
       constructor() {
         this.group = new THREE.Group();
-        this.group.position.set(0, -100, 0);
+        this.group.position.set(0, -200, 0);
         this.group.rotation.set(degree(0), degree(45), degree(0));
         this.wingangle = 0;
         this.bodyangle = 0;
@@ -179,16 +265,15 @@
           floor_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
           group.add(floor_mesh);
         }
-        floor(0,-220,0,0,0,0,200,150,200,4,0xf41322,this.group);
-        floor(0,-169,0,0,0,0,180,10,100,4,0x47232a,this.group);
-        floor(0,100,0,0,0,0,30,30,800,100,0x50232C,this.group);
-        floor(0,100,0,0,0,0,100,300,200,100,0x238B4A,this.group);
-        floor(0,250,0,0,0,0,75,250,200,100,0x238B4A,this.group);
-        floor(0,400,0,0,0,0,50,200,200,100,0x238B4A,this.group);
-        floor(0,550,0,0,0,0,10,150,200,100,0x238B4A,this.group);
+        floor(-220,0,220,0,0,0,200,150,200,4,0xf41322,this.group);
+        floor(-200,100,200,0,0,0,180,180,10,4,0x47232a,this.group);
+        floor(0,300,0,0,0,0,30,30,500,100,0x50232C,this.group);
+        floor(0,300,0,0,0,0,100,300,200,100,0x238B4A,this.group);
+        floor(0,450,0,0,0,0,75,250,200,100,0x238B4A,this.group);
+        floor(0,600,0,0,0,0,50,200,200,100,0x238B4A,this.group);
+        floor(0,750,0,0,0,0,10,150,200,100,0x238B4A,this.group);
       }
       moveBody() {
-        this.group.rotation.y += 0.01;
       }  
     }
 
@@ -280,7 +365,7 @@
         const body_geometry = new THREE.SphereGeometry( 30, 30, 30 );
         const body_material = new THREE.MeshPhongMaterial({transparent: true, opacity: .4,color: 0xffff91}); 
         const body          = new THREE.Mesh(body_geometry, body_material);
-        body.position.set(0, 570, 0);
+        body.position.set(0, 680, 0);
         this.group.add(body);
         const textureLoader = new THREE.TextureLoader();
         const textureFlare0 = textureLoader.load( 'lensflare.png' );
@@ -292,7 +377,7 @@
           group.add( light );
           const lensflare = new Lensflare();
           lensflare.addElement( new LensflareElement( textureFlare0, 200, 1, light.color ) );
-          lensflare.position.set(0, -205, 205);
+          lensflare.position.set(0, -260, 330);
           group.add( lensflare );
         }
       }
@@ -300,9 +385,6 @@
       }  
     }
 
-    /**
-    * Font
-    **/
     class Font {
       constructor() {
         this.group = new THREE.Group();
@@ -311,56 +393,56 @@
         this.fonts();
       }
       fonts() {
-        const loader = new THREE.FontLoader();
-        loader.load( 'https://threejs.org/examples/fonts/gentilis_bold.typeface.json', function ( font ) {
-            const matDark = new THREE.LineBasicMaterial( {
-                                  color: 0x50232C,
-                                  opacity: 1,
-                                  side: THREE.DoubleSide
-                                } );
-            const matLite = new THREE.MeshBasicMaterial( {
-                                  color: 0xf41322,
-                                  transparent: true,
-                                  opacity: 1,
-                                  side: THREE.DoubleSide
-                                } );
-            const message = 'Merry Xmas !!',
-                  shapes = font.generateShapes( message, 50 ),
-                  text_geometry = new THREE.ShapeGeometry( shapes ),
-                  size = 1000;
+        // const loader = new THREE.FontLoader();
+        // loader.load( 'https://threejs.org/examples/fonts/gentilis_bold.typeface.json', function ( font ) {
+        //     const matDark = new THREE.LineBasicMaterial( {
+        //                           color: 0x50232C,
+        //                           opacity: 1,
+        //                           side: THREE.DoubleSide
+        //                         } );
+        //     const matLite = new THREE.MeshBasicMaterial( {
+        //                           color: 0xf41322,
+        //                           transparent: true,
+        //                           opacity: 1,
+        //                           side: THREE.DoubleSide
+        //                         } );
+        //     const message = 'Merry Xmas !!',
+        //           shapes = font.generateShapes( message, 50 ),
+        //           text_geometry = new THREE.ShapeGeometry( shapes ),
+        //           size = 1000;
 
-            text_geometry.computeBoundingBox();
+        //     text_geometry.computeBoundingBox();
 
-            const xmid = - 0.5 * ( text_geometry.boundingBox.max.x - text_geometry.boundingBox.min.x );
+        //     const xmid = - 0.5 * ( text_geometry.boundingBox.max.x - text_geometry.boundingBox.min.x );
 
-            text_geometry.translate( xmid, -200, 700, );
+        //     text_geometry.translate( xmid, -200, 700, );
 
-            const text = new THREE.Mesh( text_geometry, matLite );
-                text.position.z = 20;
-                scene.add( text );
-                const holeShapes = [];
-                for ( let i = 0; i < shapes.length; i ++ ) {
-                  let shape = shapes[ i ];
-                  if ( shape.holes && shape.holes.length > 0 ) {
-                    for ( let j = 0; j < shape.holes.length; j ++ ) {
-                      let hole = shape.holes[ j ];
-                      holeShapes.push( hole );
-                    }
-                  }
-                }
-                shapes.push.apply( shapes, holeShapes );
-                const lineText = new THREE.Object3D();
-                for ( let i = 0; i < shapes.length; i ++ ) {
-                  let shape = shapes[ i ],
-                      points = shape.getPoints(),
-                      text_geometry = new THREE.BufferGeometry().setFromPoints( points );
-                  text_geometry.translate( xmid + 10, -210, 700, );
-                  let lineMesh = new THREE.Line( text_geometry, matDark );
-                  lineText.add( lineMesh );
-                }
-                scene.add( lineText );
-            }
-         );
+        //     const text = new THREE.Mesh( text_geometry, matLite );
+        //         text.position.z = 20;
+        //         scene.add( text );
+        //         const holeShapes = [];
+        //         for ( let i = 0; i < shapes.length; i ++ ) {
+        //           let shape = shapes[ i ];
+        //           if ( shape.holes && shape.holes.length > 0 ) {
+        //             for ( let j = 0; j < shape.holes.length; j ++ ) {
+        //               let hole = shape.holes[ j ];
+        //               holeShapes.push( hole );
+        //             }
+        //           }
+        //         }
+        //         shapes.push.apply( shapes, holeShapes );
+        //         const lineText = new THREE.Object3D();
+        //         for ( let i = 0; i < shapes.length; i ++ ) {
+        //           let shape = shapes[ i ],
+        //               points = shape.getPoints(),
+        //               text_geometry = new THREE.BufferGeometry().setFromPoints( points );
+        //           text_geometry.translate( xmid + 10, -210, 700, );
+        //           let lineMesh = new THREE.Line( text_geometry, matDark );
+        //           lineText.add( lineMesh );
+        //         }
+        //         scene.add( lineText );
+        //     }
+        //  );
       }
       moveBody() {
       } 
@@ -371,8 +453,5 @@
     animate();
 
     </script>
-
-    <!-- https://threejs.org/examples/#webgl_custom_attributes_lines // neon-->
-    <!-- https://codepen.io/pehaa/pen/KKXMKMN?editors=0010 -->
   </body>
 </html>

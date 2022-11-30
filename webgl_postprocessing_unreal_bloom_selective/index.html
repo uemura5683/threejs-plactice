@@ -217,7 +217,28 @@
 
 			const mouse = new THREE.Vector2();
 
+			window.addEventListener( 'pointerdown', onPointerDown );
+
+
+
 			setupScene();
+
+			function onPointerDown( event ) {
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				raycaster.setFromCamera( mouse, camera );
+				const intersects = raycaster.intersectObjects( scene.children, false );
+				if ( intersects.length > 0 ) {
+
+					const object = intersects[ 0 ].object;
+					object.layers.toggle( BLOOM_SCENE );
+					render();
+
+				}
+
+			}
 
 			window.onresize = function () {
 
@@ -257,7 +278,7 @@
 
 					scene.add( sphere );
 
-					sphere.layers.enable( BLOOM_SCENE );
+					if ( Math.random() < 0.25 ) sphere.layers.enable( BLOOM_SCENE );
 
 				}
 
