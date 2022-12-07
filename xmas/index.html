@@ -8,6 +8,16 @@
       body {
         margin: 0;
       }
+      #xmas:after {
+        background-color: black;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .3;
+      }
     </style>
   </head>
   <body>
@@ -300,8 +310,8 @@
           });
           snow_material.fog = true;
           const snow_sprite = new THREE.Sprite(snow_material);
-          snow_sprite.position.x = (window.innerWidth * 2) * (Math.random() - 0.5);
-          snow_sprite.position.y = (window.innerHeight * 2) * Math.random() - 40;
+          snow_sprite.position.x = 2000 * (Math.random() - 0.5);
+          snow_sprite.position.y = 2000 * Math.random() - 40;
           snow_sprite.position.z = 2000 * (Math.random() - 0.5);
           snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
           this.group.add(snow_sprite);
@@ -330,8 +340,8 @@
           const snow_material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load(star[starNo]),});
           snow_material.fog = true;
           const snow_sprite = new THREE.Sprite(snow_material);
-          snow_sprite.position.x = (window.innerWidth * 2) * (Math.random() - 0.5);
-          snow_sprite.position.y = (window.innerHeight * 2) * Math.random() - 40;
+          snow_sprite.position.x = 2000 * (Math.random() - 0.5);
+          snow_sprite.position.y = 2000 * Math.random() - 40;
           snow_sprite.position.z = 2000 * (Math.random() - 0.5);
           snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
           this.group.add(snow_sprite);
