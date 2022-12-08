@@ -74,6 +74,12 @@ h1 {
   .wrapper:before {
       z-index: 1000;
   }
+  .container-inner {
+      width: 90vw;
+      height: 90vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+  }
   #container {
       z-index: 1100;
   }
