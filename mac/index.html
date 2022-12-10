@@ -14,6 +14,14 @@
         font-family: Helvetica, sans-serif;;
         overflow: hidden;
       }
+      #container {
+        opacity: 1;
+        transition: ease .5s all;
+      }
+      #container.fadeout {
+        opacity: 0;
+        transition: ease .5s all;
+      }
       #container > div {
         width: 100% !important;
         height: 100vh !important;
@@ -41,8 +49,8 @@
       .element {
         width: 120px;
         height: 120px;
-        box-shadow: 0px 0px 10px rgba(255,255,255,.5);
-        border: 1px solid rgba(255,255,255,.5);
+        box-shadow: 0px 0px 10px rgba(255,255,255,.7);
+        border: 1px solid rgba(255,255,255,.7);
         text-align: center;
         cursor: default;
         border-radius: 10px;
@@ -58,8 +66,8 @@
         top: calc(50% - 36px);
         right: 50%;
         font-size: 30px;
-        color: rgba(255,255,255,.5);
-        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        color: rgba(255,255,255,.7);
+        text-shadow: 0 0 10px rgba(255,255,255,.7);
         transform: translateY(-50%) translateX(50%);
           transition: ease .3s all;
       }
@@ -74,8 +82,8 @@
         right: calc(50% + 36px);
         font-size: 30px;
         font-weight: bold;
-        color: rgba(255,255,255,.5);
-        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        color: rgba(255,255,255,.7);
+        text-shadow: 0 0 10px rgba(255,255,255,.7);
         transform: translateY(-50%) translateX(50%);
           transition: ease .3s all;
       }
@@ -89,8 +97,8 @@
         top: calc(50% + 36px);
         right: 50%;
         font-size: 30px;
-        color: rgba(255,255,255,.5);
-        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        color: rgba(255,255,255,.7);
+        text-shadow: 0 0 10px rgba(255,255,255,.7);
         transform: translateY(-50%) translateX(50%);
           transition: ease .3s all;
       }
@@ -104,8 +112,8 @@
         top: 50%;
         right: calc(50% - 40px);
         font-size: 30px;
-        color: rgba(255,255,255,.5);
-        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        color: rgba(255,255,255,.7);
+        text-shadow: 0 0 10px rgba(255,255,255,.7);
           transform: translateY(-50%) translateX(50%);
           transition: ease .3s all;
       }
@@ -343,9 +351,12 @@
     animate();
 
     function init() {
+      document.getElementById('container').classList.remove('fadeout');
       camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 4000 );
-      if(window.innerWidth < 1200) {
-        camera.position.z = 2900 + (1001 - window.innerWidth);
+      if(window.innerWidth > 767 && window.innerWidth < 1200) {
+        camera.position.z = 3000 + (1001 - window.innerWidth);
+      } else if(window.innerWidth < 766) {
+        camera.position.z = 2400 + (1001 - window.innerWidth);
       } else {
         camera.position.z = 2000;
       }
@@ -456,6 +467,15 @@
       window.addEventListener( 'resize', onWindowResize, false );
     }
 
+    let renderling = setInterval(()=> {
+      document.getElementById('container').classList.add('fadeout');
+      setTimeout(() => {
+        document.getElementById('container').innerHTML = '';
+        init();
+      }, 500);
+    }, 5000);
+
+
     function transform( targets, duration ) {
       TWEEN.removeAll();
       for ( var i = 0; i < objects.length; i ++ ) {
@@ -477,8 +497,10 @@
 
     function onWindowResize() {
 
-      if(window.innerWidth < 1200) {
-        camera.position.z = 2900 + (1001 - window.innerWidth);
+      if(window.innerWidth > 767 && window.innerWidth < 1200) {
+        camera.position.z = 3000 + (1001 - window.innerWidth);
+      } else if(window.innerWidth < 766) {
+        camera.position.z = 2400 + (1001 - window.innerWidth);
       } else {
         camera.position.z = 2000;
       }
@@ -487,7 +509,7 @@
       if(window.innerWidth < 1200) {
         renderer.setSize( window.innerWidth, window.innerWidth );
       } else {
-        renderer.setSize( window.innerWidth, window.innerHeight );        
+        renderer.setSize( window.innerWidth, window.innerHeight );
       }
       render();
     }
