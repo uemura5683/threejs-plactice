@@ -50,6 +50,7 @@ h1 {
   flex-wrap: wrap;
   margin: 0 -.5rem 1rem;
   font-size: 1.6rem;
+  align-items: center;
 }
 .card-wrap {
   margin: .5rem;
@@ -65,6 +66,11 @@ h1 {
   }
 }
 @media (max-width: 767px) {
+  h1 {
+    padding: 1rem;
+    font-size: 2.0rem;
+    margin: 0 0 1rem;
+  }
   .wrapper {
       overflow: hidden;
       clear: both;
@@ -73,6 +79,9 @@ h1 {
   }
   .wrapper:before {
       z-index: 1000;
+  }
+  .card-wrap {
+    margin: 1rem .5rem;
   }
   .container-inner {
       width: 90vw;

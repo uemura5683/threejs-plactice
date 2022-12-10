@@ -14,6 +14,10 @@
         font-family: Helvetica, sans-serif;;
         overflow: hidden;
       }
+      #container > div {
+        width: 100% !important;
+        height: 100vh !important;
+      }
       a {
         color: #ffffff;
       }
@@ -265,7 +269,7 @@
       "", "", "F11", "", 12, 1,
       "", "", "F12", "", 13, 1,
       "", "", "", "", 14, 1,
-       "!", "1", "ぬ", "", 1, 2,
+      "!", "1", "ぬ", "", 1, 2,
       '"', "2", "ふ", "", 2, 2,
       "#", "3", "あ", "ぁ", 3, 2,
       "$", "4", "う", "ぅ", 4, 2,
@@ -340,7 +344,11 @@
 
     function init() {
       camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 4000 );
-      camera.position.z = 3000;
+      if(window.innerWidth < 1200) {
+        camera.position.z = 2900 + (1001 - window.innerWidth);
+      } else {
+        camera.position.z = 2000;
+      }
       scene = new THREE.Scene();
       let num = 0;
       for ( let i = 0; i < table.length; i += 6 ) {
@@ -380,55 +388,55 @@
         var object = new THREE.Object3D();
         switch(true) {
           case num <= 13:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
             object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
             break;
             case num == 41:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
             object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
             break;
           case num == 55:
-            object.position.x = ( table[ i + 4 ] * 190 ) - 1345 + 250;
+            object.position.x = ( table[ i + 4 ] * 190 ) - 1345 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num >= 56 && num <= 66:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1260 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1260 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num == 67:
-            object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 250;
+            object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num >= 70 && num <= 71:
-            object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 250;
+            object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num == 72:
-            object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 250;
+            object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num >= 73 && num <= 74:
-            object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 250;
+            object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num >= 75 && num <= 76:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           case num == 77:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 275;
             object.position.y = - ( table[ i + 5 ] * 60 ) + 540 - 400;
             break;
           case num == 78:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 275;
             object.position.y = - ( table[ i + 5 ] * 60 ) + 480 - 400;
             break;
           case num == 79:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
           default:
-            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 250;
+            object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
             object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
             break;
         }
@@ -436,9 +444,12 @@
         num++;
       }
 
-
       renderer = new THREE.CSS3DRenderer();
-      renderer.setSize( window.innerWidth, window.innerHeight );
+      if(window.innerWidth < 1200) {
+        renderer.setSize( window.innerWidth, window.innerWidth );
+      } else {
+        renderer.setSize( window.innerWidth, window.innerHeight );        
+      }      
       renderer.domElement.style.position = 'absolute';
       document.getElementById( 'container' ).appendChild( renderer.domElement );
       transform( targets.table, 500 );
@@ -465,9 +476,19 @@
     }
 
     function onWindowResize() {
+
+      if(window.innerWidth < 1200) {
+        camera.position.z = 2900 + (1001 - window.innerWidth);
+      } else {
+        camera.position.z = 2000;
+      }
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize( window.innerWidth, window.innerHeight );
+      if(window.innerWidth < 1200) {
+        renderer.setSize( window.innerWidth, window.innerWidth );
+      } else {
+        renderer.setSize( window.innerWidth, window.innerHeight );        
+      }
       render();
     }
 
