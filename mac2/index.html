@@ -55,76 +55,204 @@
         text-align: center;
         cursor: default;
         border-radius: 10px;
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element:hover {
         box-shadow: 0px 0px 10px rgba(255,255,255,1);
         border: 1px solid rgba(255,255,255,1);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element .typing_one {
         position: absolute;
         top: calc(50% - 36px);
         right: 50%;
-        font-size: 22px;
+        font-size: 30px;
         color: rgba(255,255,255,.8);
         text-shadow: 0 0 10px rgba(255,255,255,.8);
         transform: translateY(-50%) translateX(50%);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element:hover .typing_one {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element .typing_two {
         position: absolute;
         top: 50%;
         right: calc(50% + 36px);
-        font-size: 22px;
+        font-size: 30px;
         font-weight: bold;
         color: rgba(255,255,255,.8);
         text-shadow: 0 0 10px rgba(255,255,255,.8);
         transform: translateY(-50%) translateX(50%);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element:hover .typing_two {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element .typing_three {
         position: absolute;
         top: calc(50% + 36px);
         right: 50%;
-        font-size: 22px;
+        font-size: 30px;
         color: rgba(255,255,255,.8);
         text-shadow: 0 0 10px rgba(255,255,255,.8);
         transform: translateY(-50%) translateX(50%);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element:hover .typing_three {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element .typing_four {
         position: absolute;
         top: 50%;
         right: calc(50% - 40px);
-        font-size: 22px;
+        font-size: 30px;
         color: rgba(255,255,255,.8);
         text-shadow: 0 0 10px rgba(255,255,255,.8);
           transform: translateY(-50%) translateX(50%);
-        transition: ease .3s all;
+          transition: ease .3s all;
       }
       .element:hover .typing_four {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-        transition: ease .3s all;
+          transition: ease .3s all;
+      }
+      .element:nth-child(-n+14) {
+        height: 60px;
       }
       .element:nth-child(-n+14) .typing_three{
-        font-size: 20px;
+          top: calc(50% + 14px);
+          font-size: 20px;
+      }
+      .element.element_num_0 .typing_one {
+        top: calc(50% + 5px);
+          right: calc(50% + 20px);
+      }
+      .element.element_num_1{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f1.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_2{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f2.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_3{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f3.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_4{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f4.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_5{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f5.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_6{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f6.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_7{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f7.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_8{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f8.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_9{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f9.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_10{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f10.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_11{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f11.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_12{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/f12.png);
+          background-repeat: no-repeat;
+            background-position: center 0px;
+      }
+      .element.element_num_13 {
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/power.png);
+          background-repeat: no-repeat;
+          background-position: center;
+      }
+      .element.element_num_28 .typing_three {
+        right: calc(50% + 25px);
+      }
+      .element.element_num_41 {
+        height: 260px;
+      }
+      .element.element_num_41 .typing_one {
+          right: calc(50%);
+          top: calc(50% - 108px);
+      }
+      .element.element_num_41 .typing_four {
+          right: calc(50%);
+          top: calc(50% + 108px);
+      }
+      .element.element_num_55,
+      .element.element_num_67 {
+        width: 190px;
+      }
+      .element.element_num_55 .typing_three{
+        right: calc(50% + 45px);
+      }
+      .element.element_num_67 .typing_three{
+        right: calc(50% - 45px);
+      }
+      .element.element_num_69 .typing_one{
+        right: calc(50% - 25px);
+      }
+      .element.element_num_70,
+      .element.element_num_74{
+          background-image: url(https://threejs-plactice.vercel.app/mac/img/command.png);
+          background-repeat: no-repeat;
+            background-position: 107px 10px;
+      }
+      .element.element_num_74{
+            background-position: 10px 10px;
+      }
+      .element.element_num_70,
+      .element.element_num_71,
+      .element.element_num_73,
+      .element.element_num_74 {
+        width: 150px;
+      }
+      .element.element_num_72 {
+        width: 420px;
+      }
+      .element.element_num_77,
+      .element.element_num_78 {
+        height: 60px;
+      }
+      .element.element_num_76 .typing_one,
+      .element.element_num_77 .typing_one,
+      .element.element_num_78 .typing_one,
+      .element.element_num_79 .typing_one {
+        top: 50%;
       }
     </style>
     <script src="https://threejs.org/build/three.min.js"></script>
@@ -177,7 +305,7 @@
         "", "P", "せ", "", 11, 3,
         "`", "@", "〝", "", 12, 3,
         "[", "{", "゜", "「", 13, 3,
-        "enter", "", "return",  "",14, 3,
+        "enter", "", "",  "return",14, 3,
         "", "", "control", "",1, 4,
         "", "A", "ち", "", 2, 4,
         "", "S", "と", "", 3, 4,
@@ -218,7 +346,7 @@
         "→", "", "", "", 12, 6,
       ];
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], grid: [] }, targetsdh = { table: [], sphere: [], helix: [], grid: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], grid: [], origin: [] }, targetsdh = { table: [], sphere: [], helix: [], grid: [], origin: [] };
 
       init();
       animate();
@@ -265,8 +393,60 @@
           objects.push( object );
 
           var object = new THREE.Object3D();
-          object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
-          object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+          switch(true) {
+            case num <= 13:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
+              object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
+              break;
+              case num == 41:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
+              object.position.y = - ( table[ i + 5 ] * 164 ) + 990 - 400;
+              break;
+            case num == 55:
+              object.position.x = ( table[ i + 4 ] * 190 ) - 1345 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num >= 56 && num <= 66:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1260 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num == 67:
+              object.position.x = ( table[ i + 4 ] * 190 ) - 1875 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num >= 70 && num <= 71:
+              object.position.x = ( table[ i + 4 ] * 170 ) - 1405 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num == 72:
+              object.position.x = ( table[ i + 4 ] * 440 ) - 2620 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num >= 73 && num <= 74:
+              object.position.x = ( table[ i + 4 ] * 170 ) - 1135 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num >= 75 && num <= 76:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            case num == 77:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 910 + 275;
+              object.position.y = - ( table[ i + 5 ] * 60 ) + 540 - 400;
+              break;
+            case num == 78:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 275;
+              object.position.y = - ( table[ i + 5 ] * 60 ) + 480 - 400;
+              break;
+            case num == 79:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1050 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+            default:
+              object.position.x = ( table[ i + 4 ] * 140 ) - 1330 + 275;
+              object.position.y = - ( table[ i + 5 ] * 140 ) + 990 - 400;
+              break;
+          }
           targets.table.push( object );
           num++;
         }
@@ -297,14 +477,15 @@
 
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
-          var phi = i * 0.175 + Math.PI;
+
+          var phi = i * 0.375 + Math.PI;
           var object = new THREE.Object3D();
           object.position.x = 900 * Math.sin( phi );
-          object.position.y = - ( i * 8 ) + 450;
+          object.position.y = - ( i * 15 ) + 650;
           object.position.z = 900 * Math.cos( phi );
-          vector.x = object.position.x * 2;
+          vector.x = object.position.x * 3;
           vector.y = object.position.y;
-          vector.z = object.position.z * 2;
+          vector.z = object.position.z * 3;
           object.lookAt( vector );
           targets.helix.push( object );
         }
@@ -320,6 +501,16 @@
         }
 
 
+        var vector = new THREE.Vector3();
+        for ( var i = 0; i < objects.length; i ++ ) {
+          var phi = i * 0.375 + Math.PI;
+          var object = new THREE.Object3D();
+          object.position.x = 700 * Math.cos( phi );
+          object.position.y = 700 * Math.sin( phi );
+          object.position.z = - ( i * 15 ) + 650;
+          targets.origin.push( object );
+        }
+
 
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );     
@@ -327,7 +518,7 @@
         document.getElementById( 'container' ).appendChild( renderer.domElement );
 
 
-        transform( targets.table, 1000 );
+        transform( targets.table, 500 );
         window.addEventListener( 'resize', onWindowResize, false );
       }
 
@@ -336,16 +527,16 @@
           count++;
           switch(true) {
             case count % 4 === 0:
-              transform( targets.table, 1000 );
+              transform( targets.table, 500 );
               break;
             case count % 4 === 1:
-              transform( targets.sphere, 1000 );
+              transform( targets.sphere, 500 );
               break;
             case count % 4 === 2:
-              transform( targets.helix, 1000 );
+              transform( targets.helix, 500 );
               break;
             default:
-              transform( targets.grid, 1000 );
+              transform( targets.origin, 500 );
               break;
           }
       }, 5000);
