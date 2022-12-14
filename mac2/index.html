@@ -10,7 +10,8 @@
         height: 100%;
       }
       body {
-        background-color: #000;
+        background-image: 
+          radial-gradient(#100f12, #030D14);
         margin: 0;
         font-family: Helvetica, sans-serif;;
         overflow: hidden;
@@ -346,7 +347,7 @@
         "→", "", "", "", 12, 6,
       ];
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], grid: [], origin: [] }, targetsdh = { table: [], sphere: [], helix: [], grid: [], origin: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], origin: [] }, targetsdh = { table: [], sphere: [], helix: [], origin: [] };
 
       init();
       animate();
@@ -354,7 +355,11 @@
       function init() {
 
         camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 4000 );
-        camera.position.z = 3000;
+        if(window.innerWidth < 1200) {
+          camera.position.z = 3000 + (2001 - window.innerWidth * 2);
+        } else {
+          camera.position.z = 2000;
+        }
         scene = new THREE.Scene();
         let num = 0;
 
@@ -458,17 +463,17 @@
           var theta = Math.sqrt( l * Math.PI ) * phi;
 
           var object = new THREE.Object3D();
-          object.position.x = 800 * Math.cos( theta ) * Math.sin( phi );
-          object.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
-          object.position.z = 800 * Math.cos( phi );
+          object.position.x = 600 * Math.cos( theta ) * Math.sin( phi );
+          object.position.y = 600 * Math.sin( theta ) * Math.sin( phi );
+          object.position.z = 600 * Math.cos( phi );
           vector.copy( object.position ).multiplyScalar( 2 );
           object.lookAt( vector );
           targets.sphere.push( object );
 
           var object = new THREE.Object3D();
-          object.position.x = 9000 * Math.cos( theta ) * Math.sin( phi );
-          object.position.y = 9000 * Math.sin( theta ) * Math.sin( phi );
-          object.position.z = 9000 * Math.cos( phi );
+          object.position.x = 7000 * Math.cos( theta ) * Math.sin( phi );
+          object.position.y = 7000 * Math.sin( theta ) * Math.sin( phi );
+          object.position.z = 7000 * Math.cos( phi );
           vector.copy( object.position ).multiplyScalar( 2 );
           object.lookAt( vector );
           targetsdh.sphere.push( object );
@@ -477,12 +482,11 @@
 
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
           var phi = i * 0.375 + Math.PI;
           var object = new THREE.Object3D();
-          object.position.x = 900 * Math.sin( phi );
-          object.position.y = - ( i * 15 ) + 650;
-          object.position.z = 900 * Math.cos( phi );
+          object.position.x = 800 * Math.sin( phi );
+          object.position.y = - ( i * 12 ) + 500;
+          object.position.z = 600 * Math.cos( phi );
           vector.x = object.position.x * 3;
           vector.y = object.position.y;
           vector.z = object.position.z * 3;
@@ -490,24 +494,13 @@
           targets.helix.push( object );
         }
 
-
-        var vector = new THREE.Vector3();
-        for ( var i = 0; i < objects.length; i ++ ) {
-          var object = new THREE.Object3D();
-          object.position.x = ( ( i % 5 ) * 400 ) - 800;
-          object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-          object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
-          targets.grid.push( object );
-        }
-
-
         var vector = new THREE.Vector3();
         for ( var i = 0; i < objects.length; i ++ ) {
           var phi = i * 0.375 + Math.PI;
           var object = new THREE.Object3D();
-          object.position.x = 700 * Math.cos( phi );
-          object.position.y = 700 * Math.sin( phi );
-          object.position.z = - ( i * 15 ) + 650;
+          object.position.x = 450 * Math.cos( phi );
+          object.position.y = 450 * Math.sin( phi );
+          object.position.z = - ( i * 10 ) + 450;
           targets.origin.push( object );
         }
 
@@ -541,7 +534,6 @@
           }
       }, 5000);
 
-
       function transform( targets, duration ) {
         TWEEN.removeAll();
         for ( var i = 0; i < objects.length; i ++ ) {
@@ -562,7 +554,11 @@
       }
 
       function onWindowResize() {
-        camera.position.z = 3000;
+        if(window.innerWidth < 1200) {
+          camera.position.z = 3000 + (2001 - window.innerWidth * 2);
+        } else {
+          camera.position.z = 2000;
+        }
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize( window.innerWidth, window.innerHeight );
