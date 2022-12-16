@@ -346,7 +346,7 @@
         "→", "", "", "", 12, 6,
       ];
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], circle: [] }, targetsdh = { table: [], sphere: [], helix: [], circle: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], grid: [], closs: [], circle: [] }, targetsdh = { table: [], grid: [], closs: [], circle: [] };
 
       init();
       animate();
@@ -457,40 +457,26 @@
 
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
-          var phi = Math.acos( -1 + ( 2 * i ) / l );
-          var theta = Math.sqrt( l * Math.PI ) * phi;
-
           var object = new THREE.Object3D();
-          object.position.x = 600 * Math.cos( theta ) * Math.sin( phi );
-          object.position.y = 600 * Math.sin( theta ) * Math.sin( phi );
-          object.position.z = 600 * Math.cos( phi );
-          vector.copy( object.position ).multiplyScalar( 2 );
-          object.lookAt( vector );
-          targets.sphere.push( object );
-
-          var object = new THREE.Object3D();
-          object.position.x = 7000 * Math.cos( theta ) * Math.sin( phi );
-          object.position.y = 7000 * Math.sin( theta ) * Math.sin( phi );
-          object.position.z = 7000 * Math.cos( phi );
-          vector.copy( object.position ).multiplyScalar( 2 );
-          object.lookAt( vector );
-          targetsdh.sphere.push( object );
+          object.position.x = ( ( i % 5 ) * 400 ) - 800;
+          object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+          object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 1500;
+          targets.grid.push( object );
         }
 
 
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
-          var phi = i * 0.325 + Math.PI;
+          var phi = i * 0.425 + Math.PI;
           var object = new THREE.Object3D();
-          object.position.x = 700 * Math.sin( phi );
-          object.position.y = - ( i * 12 ) + 500;
+          object.position.x = 1000 * Math.sin( phi );
+          object.position.y = 600 * Math.tan( phi );
           object.position.z = 600 * Math.cos( phi );
-          vector.x = object.position.x * 3;
-          vector.y = object.position.y;
-          vector.z = object.position.z * 3;
+          vector.x = object.position.x * 2;
+          vector.y = object.position.y * 1;
+          vector.z = object.position.z * 2;
           object.lookAt( vector );
-          targets.helix.push( object );
+          targets.closs.push( object );
         }
 
         var vector = new THREE.Vector3();
@@ -510,7 +496,7 @@
         document.getElementById( 'container' ).appendChild( renderer.domElement );
 
 
-        transform( targets.helix, 500 );
+        transform( targets.grid, 500 );
         window.addEventListener( 'resize', onWindowResize, false );
       }
 
@@ -522,13 +508,13 @@
               transform( targets.table, 500 );
               break;
             case count % 4 === 1:
-              transform( targets.sphere, 500 );
+              transform( targets.closs, 500 );
               break;
             case count % 4 === 2:
-              transform( targets.helix, 500 );
+              transform( targets.circle, 500 );
               break;
             default:
-              transform( targets.circle, 500 );
+              transform( targets.grid, 500 );
               break;
           }
       }, 5000);
