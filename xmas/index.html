@@ -30,7 +30,6 @@
         gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
       }
     </script>
-
     <script type="x-shader/x-fragment" id="fragmentshader">
       uniform sampler2D baseTexture;
       uniform sampler2D bloomTexture;
@@ -38,11 +37,8 @@
       void main() {
         gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
       }
-
     </script>
-
     <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
-
     <script type="importmap">
       {
         "imports": {
@@ -53,339 +49,327 @@
     </script>   
     <script type="module">
 
-    import * as THREE from 'three';
+      import * as THREE from 'three';
+      import { Lensflare, LensflareElement } from 'https://threejs.org/examples/jsm/objects/Lensflare.js';
+      import { EffectComposer } from 'https://threejs.org/examples/jsm/postprocessing/EffectComposer.js';
+      import { RenderPass } from 'https://threejs.org/examples/jsm/postprocessing/RenderPass.js';
+      import { ShaderPass } from 'https://threejs.org/examples/jsm/postprocessing/ShaderPass.js';
+      import { UnrealBloomPass } from 'https://threejs.org/examples/jsm/postprocessing/UnrealBloomPass.js';
 
-    import { Lensflare, LensflareElement } from 'https://threejs.org/examples/jsm/objects/Lensflare.js';
-    import { EffectComposer } from 'https://threejs.org/examples/jsm/postprocessing/EffectComposer.js';
-    import { RenderPass } from 'https://threejs.org/examples/jsm/postprocessing/RenderPass.js';
-    import { ShaderPass } from 'https://threejs.org/examples/jsm/postprocessing/ShaderPass.js';
-    import { UnrealBloomPass } from 'https://threejs.org/examples/jsm/postprocessing/UnrealBloomPass.js';
+      /**
+      * default
+      **/
+      let xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = window.innerWidth, height = window.innerHeight, entire_scene = 0, bloom_scene = 1;
+      let bloomLayer = new THREE.Layers();
+          bloomLayer.set( bloom_scene );
+      let params = { exposure: 1, bloomStrength: 2, bloomThreshold: 0, bloomRadius: 0 };
+      let materials = {};
 
-    /**
-    * default
-    **/
-    let xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = window.innerWidth, height = window.innerHeight, entire_scene = 0, bloom_scene = 1;
+      let renderer = new THREE.WebGLRenderer( { antialias: true } );
+          renderer.setPixelRatio( window.devicePixelRatio );
+          renderer.setSize(width, height);
+          renderer.shadowMap.enabled = true;
+          renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    let bloomLayer = new THREE.Layers();
-        bloomLayer.set( bloom_scene );
+      let scene = new THREE.Scene();
 
-    let params = {
-      exposure: 1,
-      bloomStrength: 2,
-      bloomThreshold: 0,
-      bloomRadius: 0
-    };
+      let camera = new THREE.PerspectiveCamera( 45, width / height );
+          camera.position.set( 0, 160, 1700 );
 
-    let materials = {};
+      let renderScene = new RenderPass( scene, camera );
 
-    let renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
+      let bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.0, 0.4, 1.0 );
+          bloomPass.threshold = params.bloomThreshold;
+          bloomPass.strength = params.bloomStrength;
+          bloomPass.radius = params.bloomRadius;
+
+      let bloomComposer = new EffectComposer( renderer );
+          bloomComposer.renderToScreen = false;
+          bloomComposer.addPass( renderScene );
+          bloomComposer.addPass( bloomPass );
+
+      let finalPass = new ShaderPass(
+          new THREE.ShaderMaterial( {
+            uniforms: {
+              baseTexture: { value: null },
+              bloomTexture: { value: bloomComposer.renderTarget2.texture }
+            },
+            vertexShader: document.getElementById( 'vertexshader' ).textContent,
+            fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+            defines: {}
+          } ), 'baseTexture'
+      );
+      finalPass.needsSwap = true;
+
+      let finalComposer = new EffectComposer( renderer );
+          finalComposer.addPass( renderScene );
+          finalComposer.addPass( finalPass );
+
+      /**
+      * init
+      **/
+      function init() {
+        addLights();
+        drawXmasTree();
+        drawSnow();
+        drawSnow2();
+        drawspark();
+        document.getElementById('xmas').appendChild(renderer.domElement);
+        window.addEventListener('load',onResize,false);
+        window.addEventListener('resize',onResize,false);
+      }
+
+      /**
+      * lights
+      **/
+      function addLights() {
+        decorationlignt(1,1,1);
+        decorationlignt(-1,-1,-1);
+      }
+
+      function decorationlignt(px,py,pz) {
+        const directLight = new THREE.DirectionalLight(0xffffff);
+        directLight.castShadow = true;
+        directLight.position.set(px, py, pz);
+        scene.add(directLight);
+      }
+
+      /**
+      * draw
+      **/
+      function drawXmasTree() {
+        xmastree = new XmasTree();
+        scene.add(xmastree.group);
+      }
+
+      function drawSnow() {
+        snow = new Snow();
+        scene.add(snow.group);
+      }
+
+      function drawSnow2() {
+        snow2 = new Snow2();
+        scene.add(snow2.group);
+      }
+
+      function drawspark() {
+        spark = new Spark();
+        scene.add(spark.group);
+      }
+
+      /**
+      * resize
+      **/
+      function onResize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
         renderer.setSize(width, height);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    let scene = new THREE.Scene();
-
-    let camera = new THREE.PerspectiveCamera( 45, width / height );
-    camera.position.set( 0, 160, 1700 );
-
-    let renderScene = new RenderPass( scene, camera );
-
-    let bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.0, 0.4, 1.0 );
-    bloomPass.threshold = params.bloomThreshold;
-    bloomPass.strength = params.bloomStrength;
-    bloomPass.radius = params.bloomRadius;
-
-    let bloomComposer = new EffectComposer( renderer );
-    bloomComposer.renderToScreen = false;
-    bloomComposer.addPass( renderScene );
-    bloomComposer.addPass( bloomPass );
-
-    let finalPass = new ShaderPass(
-      new THREE.ShaderMaterial( {
-        uniforms: {
-          baseTexture: { value: null },
-          bloomTexture: { value: bloomComposer.renderTarget2.texture }
-        },
-        vertexShader: document.getElementById( 'vertexshader' ).textContent,
-        fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-        defines: {}
-      } ), 'baseTexture'
-    );
-    finalPass.needsSwap = true;
-
-    let finalComposer = new EffectComposer( renderer );
-    finalComposer.addPass( renderScene );
-    finalComposer.addPass( finalPass );
-
-    /**
-    * init
-    **/
-    function init() {
-      addLights();
-      drawXmasTree();
-      drawSnow();
-      drawSnow2();
-      drawspark();
-      document.getElementById('xmas').appendChild(renderer.domElement);
-      window.addEventListener('load',onResize,false);
-      window.addEventListener('resize',onResize,false);
-    }
-
-    /**
-    * lights
-    **/
-    function addLights() {
-      decorationlignt(1,1,1);
-      decorationlignt(-1,-1,-1);
-    }
-
-    function decorationlignt(px,py,pz) {
-      const directLight = new THREE.DirectionalLight(0xffffff);
-      directLight.castShadow = true;
-      directLight.position.set(px, py, pz);
-      scene.add(directLight);
-    }
-
-    /**
-    * draw
-    **/
-    function drawXmasTree() {
-      xmastree = new XmasTree();
-      scene.add(xmastree.group);
-    }
-
-    function drawSnow() {
-      snow = new Snow();
-      scene.add(snow.group);
-    }
-
-    function drawSnow2() {
-      snow2 = new Snow2();
-      scene.add(snow2.group);
-    }
-
-    function drawspark() {
-      spark = new Spark();
-      scene.add(spark.group);
-    }
-
-    /**
-    * resize
-    **/
-    function onResize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    }
-
-    /**
-    * degree
-    **/
-    function degree(degrees) {
-      return degrees * (Math.PI / 180);
-    }
-
-    /**
-    * animate
-    **/
-    function animate() {
-      requestAnimationFrame(animate);
-      render();
-    }
-
-    /**
-    * render
-    **/
-    function render() {
-      xmastree.moveBody();
-      snow.moveBody();
-      snow2.moveBody();
-      bloomComposer.render();
-      finalComposer.render();
-    }
-
-    /**
-    * XmasTree
-    **/
-    class XmasTree {
-      constructor() {
-        this.group = new THREE.Group();
-        this.group.position.set(0, -200, 0);
-        this.group.rotation.set(degree(0), degree(45), degree(0));
-        this.wingangle = 0;
-        this.bodyangle = 0;
-        this.drawBody();
       }
-      drawBody() {
-        function floor(px,py,pz, rx,ry,rz, width,height, thickness,radius, colorH,colorS,colorL, group) {
-          const floor = new THREE.CylinderGeometry(width, height, thickness, radius);
-          const colors = new THREE.Color();
-          colors.setHSL( colorH, colorS, colorL );
-          const floor_material = new THREE.MeshBasicMaterial({color: colors});
-          const floor_mesh = new THREE.Mesh(floor, floor_material);
-          floor_mesh.position.set(px, py, pz);
-          floor_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
-          group.add(floor_mesh);
+
+      /**
+      * degree
+      **/
+      function degree(degrees) {
+        return degrees * (Math.PI / 180);
+      }
+
+      /**
+      * animate
+      **/
+      function animate() {
+        requestAnimationFrame(animate);
+        render();
+      }
+
+      /**
+      * render
+      **/
+      function render() {
+        xmastree.moveBody();
+        snow.moveBody();
+        snow2.moveBody();
+        bloomComposer.render();
+        finalComposer.render();
+      }
+
+      /**
+      * XmasTree
+      **/
+      class XmasTree {
+        constructor() {
+          this.group = new THREE.Group();
+          this.group.position.set(0, -200, 0);
+          this.group.rotation.set(degree(0), degree(45), degree(0));
+          this.wingangle = 0;
+          this.bodyangle = 0;
+          this.drawBody();
         }
-        floor(0,0,0, 0,0,0, 200,150, 200,4,  0.95, 0.9, 0.1, this.group);
-        floor(0,300,0, 0,0,0, 30,30, 500,100, 0.7, 0.2, 0.05, this.group);
-        floor(0,300,0, 0,0,0, 100,300, 200,100, 0.46, 0.7, 0.05, this.group);
-        floor(0,450,0, 0,0,0, 75,250, 200,100, 0.46, 0.7, 0.05, this.group);
-        floor(0,600,0, 0,0,0, 50,200, 200,100, 0.46, 0.7, 0.05, this.group);
-        floor(0,750,0, 0,0,0, 10,150, 200,100, 0.46, 0.7, 0.05, this.group);
+        drawBody() {
+          function floor(px,py,pz, rx,ry,rz, width,height, thickness,radius, colorH,colorS,colorL, group) {
+            const floor = new THREE.CylinderGeometry(width, height, thickness, radius);
+            const colors = new THREE.Color();
+            colors.setHSL( colorH, colorS, colorL );
+            const floor_material = new THREE.MeshBasicMaterial({color: colors});
+            const floor_mesh = new THREE.Mesh(floor, floor_material);
+            floor_mesh.position.set(px, py, pz);
+            floor_mesh.rotation.set(degree(rx), degree(ry), degree(rz));
+            group.add(floor_mesh);
+          }
+          floor(0,0,0, 0,0,0, 200,150, 200,4,  0.95, 0.9, 0.1, this.group);
+          floor(0,300,0, 0,0,0, 30,30, 500,100, 0.7, 0.2, 0.05, this.group);
+          floor(0,300,0, 0,0,0, 100,300, 200,100, 0.46, 0.7, 0.05, this.group);
+          floor(0,450,0, 0,0,0, 75,250, 200,100, 0.46, 0.7, 0.05, this.group);
+          floor(0,600,0, 0,0,0, 50,200, 200,100, 0.46, 0.7, 0.05, this.group);
+          floor(0,750,0, 0,0,0, 10,150, 200,100, 0.46, 0.7, 0.05, this.group);
 
-        let bowl_geometry = new THREE.IcosahedronGeometry( 15, 15 );
+          let bowl_geometry = new THREE.IcosahedronGeometry( 15, 15 );
 
-        let timer = null;
+          for ( let i = 0; i < 75; i ++ ) {
+            let color = new THREE.Color();
+            color.setHSL( Math.random(), 0.7, Math.random() * 0.2 + 0.05 );
 
-        for ( let i = 0; i < 75; i ++ ) {
-          let color = new THREE.Color();
-          color.setHSL( Math.random(), 0.7, Math.random() * 0.2 + 0.05 );
+            let material = new THREE.MeshBasicMaterial( { color: color } );
+            let sphere = new THREE.Mesh( bowl_geometry, material );
+            sphere.position.y = ((Math.random() * 5) + 2 ) * 100;
+            switch(true) {
+              case sphere.position.y >= 630 && sphere.position.y <= 800:
+                var adjustment = ((800 - sphere.position.y) / 12.3) > 1 ? (800 - sphere.position.y) / 12.3 + 5 : 6;
+                break;
+              case sphere.position.y >= 500 && sphere.position.y <= 630:
+                var adjustment = ((630 - sphere.position.y) / 9.5) > 1 ? (630 - sphere.position.y) / 9.5 + 11 : 12;
+                break;
+              case sphere.position.y >= 370 && sphere.position.y <= 499:
+                var adjustment = ((499 - sphere.position.y) / 9.91) > 1 ? (499 - sphere.position.y) / 9.91 + 15 : 16;
+                break;
+              case sphere.position.y >= 200 && sphere.position.y <= 370:
+                var adjustment = ((370 - sphere.position.y) / 12.61) > 1 ? (370 - sphere.position.y) / 12.61 + 18 : 20;
+                break;
+            }
 
-          let material = new THREE.MeshBasicMaterial( { color: color } );
-          let sphere = new THREE.Mesh( bowl_geometry, material );
-          sphere.position.y = ((Math.random() * 5) + 2 ) * 100;
-          switch(true) {
-            case sphere.position.y >= 630 && sphere.position.y <= 800:
-              var adjustment = ((800 - sphere.position.y) / 12.3) > 1 ? (800 - sphere.position.y) / 12.3 + 5 : 6;
-              break;
-            case sphere.position.y >= 500 && sphere.position.y <= 630:
-              var adjustment = ((630 - sphere.position.y) / 9.5) > 1 ? (630 - sphere.position.y) / 9.5 + 11 : 12;
-              break;
-            case sphere.position.y >= 370 && sphere.position.y <= 499:
-              var adjustment = ((499 - sphere.position.y) / 9.91) > 1 ? (499 - sphere.position.y) / 9.91 + 15 : 16;
-              break;
-            case sphere.position.y >= 200 && sphere.position.y <= 370:
-              var adjustment = ((370 - sphere.position.y) / 12.61) > 1 ? (370 - sphere.position.y) / 12.61 + 18 : 20;
-              break;
+            switch(true) {
+              case i % 4 === 0:
+                sphere.position.x = ((Math.random() * 5) + 3 ) * adjustment;          
+                sphere.position.z = ((Math.random() * 5) + 3 ) * adjustment;
+                break;
+              case i % 4 === 1:
+                sphere.position.x = -((Math.random() * 5) + 3 ) * adjustment;
+                sphere.position.z = ((Math.random() * 5) + 3 ) * adjustment;
+                break;
+              case i % 4 === 2:
+                sphere.position.x = ((Math.random() * 5) + 3 ) * adjustment;          
+                sphere.position.z = -((Math.random() * 5) + 3 ) * adjustment;
+                break;
+              default:
+                sphere.position.x = -((Math.random() * 5) + 3 ) * adjustment;          
+                sphere.position.z = -((Math.random() * 5) + 3 ) * adjustment;
+                break;
+            }
+            this.group.add( sphere );
           }
 
-          switch(true) {
-            case i % 4 === 0:
-              sphere.position.x = ((Math.random() * 5) + 3 ) * adjustment;          
-              sphere.position.z = ((Math.random() * 5) + 3 ) * adjustment;
-              break;
-            case i % 4 === 1:
-              sphere.position.x = -((Math.random() * 5) + 3 ) * adjustment;
-              sphere.position.z = ((Math.random() * 5) + 3 ) * adjustment;
-              break;
-            case i % 4 === 2:
-              sphere.position.x = ((Math.random() * 5) + 3 ) * adjustment;          
-              sphere.position.z = -((Math.random() * 5) + 3 ) * adjustment;
-              break;
-            default:
-              sphere.position.x = -((Math.random() * 5) + 3 ) * adjustment;          
-              sphere.position.z = -((Math.random() * 5) + 3 ) * adjustment;
-              break;
+        }
+        moveBody() {
+          this.group.rotation.y += 0.01;
+        }  
+      }
+
+      class Snow {
+        constructor() {
+          this.group = new THREE.Group();
+          this.group.position.set(0, -window.innerHeight, 0);
+          this.group.rotation.set(degree(0), degree(0), degree(0));
+          this.wingangle = 0;
+          this.bodyangle = 0;
+          this.drawBody();
+        }
+        drawBody() {
+          for (let i = 0; i < 750; i++) {
+            let star = ['snowflake1.png', 'snowflake2.png'];
+            let starNo = Math.floor( Math.random() * star.length);
+            let size = [20, 15, 10, 8, 5];
+            let sizeNo = Math.floor( Math.random() * size.length);
+            const snow_material = new THREE.SpriteMaterial({
+              map: new THREE.TextureLoader().load(star[starNo]),
+            });
+            snow_material.fog = true;
+            const snow_sprite = new THREE.Sprite(snow_material);
+            snow_sprite.position.x = 2000 * (Math.random() - 0.5);
+            snow_sprite.position.y = 2000 * Math.random() - 40;
+            snow_sprite.position.z = 2000 * (Math.random() - 0.5);
+            snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
+            this.group.add(snow_sprite);
           }
-          this.group.add( sphere );
         }
-
+        moveBody() {
+          this.group.rotation.y += 0.005;
+        }  
       }
-      moveBody() {
-        this.group.rotation.y += 0.01;
-      }  
-    }
 
-    class Snow {
-      constructor() {
-        this.group = new THREE.Group();
-        this.group.position.set(0, -window.innerHeight, 0);
-        this.group.rotation.set(degree(0), degree(0), degree(0));
-        this.wingangle = 0;
-        this.bodyangle = 0;
-        this.drawBody();
-      }
-      drawBody() {
-        for (let i = 0; i < 750; i++) {
-          let star = ['snowflake1.png', 'snowflake2.png'];
-          let starNo = Math.floor( Math.random() * star.length);
-          let size = [20, 15, 10, 8, 5];
-          let sizeNo = Math.floor( Math.random() * size.length);
-          const snow_material = new THREE.SpriteMaterial({
-            map: new THREE.TextureLoader().load(star[starNo]),
-          });
-          snow_material.fog = true;
-          const snow_sprite = new THREE.Sprite(snow_material);
-          snow_sprite.position.x = 2000 * (Math.random() - 0.5);
-          snow_sprite.position.y = 2000 * Math.random() - 40;
-          snow_sprite.position.z = 2000 * (Math.random() - 0.5);
-          snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
-          this.group.add(snow_sprite);
+      class Snow2 {
+        constructor() {
+          this.group = new THREE.Group();
+          this.group.position.set(0, -window.innerHeight, 0);
+          this.group.rotation.set(degree(0), degree(0), degree(0));
+          this.wingangle = 0;
+          this.bodyangle = 0;
+          this.drawBody();
         }
-      }
-      moveBody() {
-        this.group.rotation.y += 0.005;
-      }  
-    }
-
-    class Snow2 {
-      constructor() {
-        this.group = new THREE.Group();
-        this.group.position.set(0, -window.innerHeight, 0);
-        this.group.rotation.set(degree(0), degree(0), degree(0));
-        this.wingangle = 0;
-        this.bodyangle = 0;
-        this.drawBody();
-      }
-      drawBody() {
-        for (let i = 0; i < 750; i++) {
-          let star = ['snowflake3.png'];
-          let starNo = Math.floor( Math.random() * star.length);
-          let size = [20, 15, 10, 8, 5]
-          let sizeNo = Math.floor( Math.random() * size.length);
-          const snow_material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load(star[starNo]),});
-          snow_material.fog = true;
-          const snow_sprite = new THREE.Sprite(snow_material);
-          snow_sprite.position.x = 2000 * (Math.random() - 0.5);
-          snow_sprite.position.y = 2000 * Math.random() - 40;
-          snow_sprite.position.z = 2000 * (Math.random() - 0.5);
-          snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
-          this.group.add(snow_sprite);
+        drawBody() {
+          for (let i = 0; i < 750; i++) {
+            let star = ['snowflake3.png'];
+            let starNo = Math.floor( Math.random() * star.length);
+            let size = [20, 15, 10, 8, 5]
+            let sizeNo = Math.floor( Math.random() * size.length);
+            const snow_material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load(star[starNo]),});
+            snow_material.fog = true;
+            const snow_sprite = new THREE.Sprite(snow_material);
+            snow_sprite.position.x = 2000 * (Math.random() - 0.5);
+            snow_sprite.position.y = 2000 * Math.random() - 40;
+            snow_sprite.position.z = 2000 * (Math.random() - 0.5);
+            snow_sprite.scale.set(size[sizeNo], size[sizeNo], size[sizeNo]);
+            this.group.add(snow_sprite);
+          }
         }
+        moveBody() {
+          this.group.rotation.y -= 0.005;
+        }  
       }
-      moveBody() {
-        this.group.rotation.y -= 0.005;
-      }  
-    }
 
-    class Spark {
-      constructor() {
-        this.group = new THREE.Group();
-        this.group.position.set(0, 0, 0);
-        this.group.rotation.set(0, 0, 0);
-        this.wingangle = 0;
-        this.bodyangle = 0;
-        this.drawBody();
-      }
-      drawBody() {
-        const body_geometry = new THREE.SphereGeometry( 30, 30, 30 );
-        const body_material = new THREE.MeshPhongMaterial({transparent: true, opacity: .2,color: 0xffff91}); 
-        const body          = new THREE.Mesh(body_geometry, body_material);
-        body.position.set(0, 680, 0);
-        this.group.add(body);
-        const textureLoader = new THREE.TextureLoader();
-        const textureFlare0 = textureLoader.load( 'lensflare.png' );
-        addLight( 0.8, 0.9, 1, 0, 0, 0, this.group );
-        function addLight( h, s, l, x, y, z, group ) {
-          const light = new THREE.PointLight( 0xffffff, .2, 1000 );
-          light.color.setHSL( h, s, l );
-          light.position.set( x, y, z );
-          group.add( light );
-          const lensflare = new Lensflare();
-          lensflare.addElement( new LensflareElement( textureFlare0, 100, 1, light.color ) );
-          lensflare.position.set(0, -260, 330);
-          group.add( lensflare );
+      class Spark {
+        constructor() {
+          this.group = new THREE.Group();
+          this.group.position.set(0, 0, 0);
+          this.group.rotation.set(0, 0, 0);
+          this.wingangle = 0;
+          this.bodyangle = 0;
+          this.drawBody();
+        }
+        drawBody() {
+          const body_geometry = new THREE.SphereGeometry( 30, 30, 30 );
+          const body_material = new THREE.MeshPhongMaterial({transparent: true, opacity: .2,color: 0xffff91}); 
+          const body          = new THREE.Mesh(body_geometry, body_material);
+          body.position.set(0, 680, 0);
+          this.group.add(body);
+          const textureLoader = new THREE.TextureLoader();
+          const textureFlare0 = textureLoader.load( 'lensflare.png' );
+          addLight( 0.8, 0.9, 1, 0, 0, 0, this.group );
+          function addLight( h, s, l, x, y, z, group ) {
+            const light = new THREE.PointLight( 0xffffff, .2, 1000 );
+            light.color.setHSL( h, s, l );
+            light.position.set( x, y, z );
+            group.add( light );
+            const lensflare = new Lensflare();
+            lensflare.addElement( new LensflareElement( textureFlare0, 100, 1, light.color ) );
+            lensflare.position.set(0, -260, 330);
+            group.add( lensflare );
+          }
         }
       }
-    }
 
-    init();
-    animate();
-
+      init();
+      animate();
     </script>
   </body>
 </html>

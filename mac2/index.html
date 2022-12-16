@@ -135,67 +135,67 @@
           right: calc(50% + 20px);
       }
       .element.element_num_1{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f1.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f1.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_2{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f2.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f2.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_3{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f3.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f3.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_4{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f4.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f4.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_5{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f5.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f5.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_6{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f6.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f6.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_7{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f7.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f7.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_8{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f8.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f8.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_9{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f9.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f9.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_10{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f10.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f10.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_11{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f11.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f11.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_12{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/f12.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/f12.png);
           background-repeat: no-repeat;
             background-position: center 0px;
       }
       .element.element_num_13 {
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/power.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/power.png);
           background-repeat: no-repeat;
           background-position: center;
       }
@@ -228,7 +228,7 @@
       }
       .element.element_num_70,
       .element.element_num_74{
-          background-image: url(https://threejs-plactice.vercel.app/mac/img/command.png);
+          background-image: url(https://threejs-plactice.vercel.app/mac2/img/command.png);
           background-repeat: no-repeat;
             background-position: 107px 10px;
       }
@@ -256,7 +256,7 @@
       }
     </style>
     <script src="https://threejs.org/build/three.min.js"></script>
-    <script src="https://threejs-plactice.vercel.app/mac/Tween.js"></script>
+    <script src="https://threejs-plactice.vercel.app/mac2/Tween.js"></script>
     <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
   </head>
   <body>
@@ -346,7 +346,7 @@
         "→", "", "", "", 12, 6,
       ];
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], origin: [] }, targetsdh = { table: [], sphere: [], helix: [], origin: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], sphere: [], helix: [], circle: [] }, targetsdh = { table: [], sphere: [], helix: [], circle: [] };
 
       init();
       animate();
@@ -481,9 +481,9 @@
 
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
-          var phi = i * 0.375 + Math.PI;
+          var phi = i * 0.325 + Math.PI;
           var object = new THREE.Object3D();
-          object.position.x = 800 * Math.sin( phi );
+          object.position.x = 700 * Math.sin( phi );
           object.position.y = - ( i * 12 ) + 500;
           object.position.z = 600 * Math.cos( phi );
           vector.x = object.position.x * 3;
@@ -495,12 +495,12 @@
 
         var vector = new THREE.Vector3();
         for ( var i = 0; i < objects.length; i ++ ) {
-          var phi = i * 0.375 + Math.PI;
+          var phi = i * 0.275 + Math.PI;
           var object = new THREE.Object3D();
-          object.position.x = 450 * Math.cos( phi );
-          object.position.y = 450 * Math.sin( phi );
-          object.position.z = - ( i * 10 ) + 450;
-          targets.origin.push( object );
+          object.position.x = 600 * Math.cos( phi );
+          object.position.y = 600 * Math.sin( phi );
+          object.position.z = - ( i * 40 );
+          targets.circle.push( object );
         }
 
 
@@ -510,7 +510,7 @@
         document.getElementById( 'container' ).appendChild( renderer.domElement );
 
 
-        transform( targets.table, 500 );
+        transform( targets.helix, 500 );
         window.addEventListener( 'resize', onWindowResize, false );
       }
 
@@ -528,7 +528,7 @@
               transform( targets.helix, 500 );
               break;
             default:
-              transform( targets.origin, 500 );
+              transform( targets.circle, 500 );
               break;
           }
       }, 5000);
