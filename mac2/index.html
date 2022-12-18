@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" async="" defer=""></script>
-    <title>three.js css - MAC</title>
+    <title>three.js css - MAC2</title>
     <style>
       html, body {
         height: 100%;
@@ -50,32 +50,33 @@
       .element {
         width: 120px;
         height: 120px;
-        box-shadow: 0px 0px 10px rgba(255,255,255,.8);
-        border: 1px solid rgba(255,255,255,.8);
+        box-shadow: 0px 0px 10px rgba(255,255,255,.5);
+        border: 1px solid rgba(255,255,255,.5);
         text-align: center;
         cursor: default;
         border-radius: 10px;
-          transition: ease .3s all;
+        animation: animate1 1s linear 0s infinite;
       }
-      .element:hover {
+      .element:nth-child(even) {
         box-shadow: 0px 0px 10px rgba(255,255,255,1);
         border: 1px solid rgba(255,255,255,1);
-          transition: ease .3s all;
+        animation: animate2 1s linear 0s infinite;
       }
       .element .typing_one {
         position: absolute;
         top: calc(50% - 36px);
         right: 50%;
         font-size: 30px;
-        color: rgba(255,255,255,.8);
-        text-shadow: 0 0 10px rgba(255,255,255,.8);
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
         transform: translateY(-50%) translateX(50%);
-          transition: ease .3s all;
+        transition: ease .3s all;
+        animation: animate_inr1 1s linear 0s infinite;
       }
-      .element:hover .typing_one {
+      .element:nth-child(even) .typing_one {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-          transition: ease .3s all;
+        animation: animate_inr2 1s linear 0s infinite;
       }
       .element .typing_two {
         position: absolute;
@@ -83,45 +84,65 @@
         right: calc(50% + 36px);
         font-size: 30px;
         font-weight: bold;
-        color: rgba(255,255,255,.8);
-        text-shadow: 0 0 10px rgba(255,255,255,.8);
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
         transform: translateY(-50%) translateX(50%);
-          transition: ease .3s all;
+        animation: animate_inr1 1s linear 0s infinite;
       }
-      .element:hover .typing_two {
+      .element:nth-child(even) .typing_two {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-          transition: ease .3s all;
+        animation: animate_inr2 1s linear 0s infinite;
       }
       .element .typing_three {
         position: absolute;
         top: calc(50% + 36px);
         right: 50%;
         font-size: 30px;
-        color: rgba(255,255,255,.8);
-        text-shadow: 0 0 10px rgba(255,255,255,.8);
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
         transform: translateY(-50%) translateX(50%);
-          transition: ease .3s all;
+        animation: animate_inr1 1s linear 0s infinite;
       }
-      .element:hover .typing_three {
+      .element:nth-child(even) .typing_three {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-          transition: ease .3s all;
+        animation: animate_inr2 1s linear 0s infinite;
       }
       .element .typing_four {
         position: absolute;
         top: 50%;
         right: calc(50% - 40px);
         font-size: 30px;
-        color: rgba(255,255,255,.8);
-        text-shadow: 0 0 10px rgba(255,255,255,.8);
-          transform: translateY(-50%) translateX(50%);
-          transition: ease .3s all;
+        color: rgba(255,255,255,.5);
+        text-shadow: 0 0 10px rgba(255,255,255,.5);
+        transform: translateY(-50%) translateX(50%);
+        animation: animate_inr1 1s linear 0s infinite;
       }
-      .element:hover .typing_four {
+      .element:nth-child(even) .typing_four {
         color: rgba(255,255,255,1);
         text-shadow: 0 0 10px rgba(255,255,255,1);
-          transition: ease .3s all;
+        animation: animate_inr2 1s linear 0s infinite;
+      }
+      @keyframes animate1 {
+        0% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.5);}
+        60% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1); border: 1px solid rgba(255,255,255,1);}
+        100% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.5);}
+      }
+      @keyframes animate2 {
+        0% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1); border: 1px solid rgba(255,255,255,1);}
+        60% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.5);}
+        100% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1); border: 1px solid rgba(255,255,255,1);}
+      }
+      @keyframes animate_inr1 {
+        0% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5);}
+        60% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1);}
+        100% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5);}
+      }
+      @keyframes animate_inr2 {
+        0% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1);}
+        60% { color: rgba(255,255,255,.5); text-shadow: 0 0 10px rgba(255,255,255,.5);}
+        100% { color: rgba(255,255,255,1); text-shadow: 0 0 10px rgba(255,255,255,1);}
       }
       .element:nth-child(-n+14) {
         height: 60px;
@@ -137,7 +158,7 @@
       .element.element_num_1{
           background-image: url(https://threejs-plactice.vercel.app/mac2/img/f1.png);
           background-repeat: no-repeat;
-            background-position: center 0px;
+          background-position: center 0px;
       }
       .element.element_num_2{
           background-image: url(https://threejs-plactice.vercel.app/mac2/img/f2.png);
@@ -464,7 +485,6 @@
           targets.grid.push( object );
         }
 
-
         var vector = new THREE.Vector3();
         for ( var i = 0, l = objects.length; i < l; i ++ ) {
           var phi = i * 0.425 + Math.PI;
@@ -496,10 +516,13 @@
         document.getElementById( 'container' ).appendChild( renderer.domElement );
 
 
-        transform( targets.grid, 500 );
+        transform( targets.table, 500 );
         window.addEventListener( 'resize', onWindowResize, false );
       }
 
+      /**
+      * 5秒ごとに トランスフォームを実行する
+      **/
       let count = 0;
       let renderling = setInterval(()=> {
           count++;
@@ -519,6 +542,9 @@
           }
       }, 5000);
 
+      /**
+      * トランスフォーム
+      **/
       function transform( targets, duration ) {
         TWEEN.removeAll();
         for ( var i = 0; i < objects.length; i ++ ) {
@@ -531,13 +557,15 @@
             .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
             .start();
         }
-        
         new TWEEN.Tween( this )
           .to( {}, duration * 2 )
           .onUpdate( render )
           .start();
       }
 
+      /**
+      * リサイズ
+      **/
       function onWindowResize() {
         if(window.innerWidth < 1200) {
           camera.position.z = 3000 + (2001 - window.innerWidth * 2);
@@ -550,11 +578,17 @@
         render();
       }
 
+      /**
+      * アニメーション
+      **/
       function animate() {
         requestAnimationFrame( animate );
         TWEEN.update();
       }
 
+      /**
+      * レンダリング
+      **/
       function render() {
         renderer.render( scene, camera );
       }
