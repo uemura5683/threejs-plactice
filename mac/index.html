@@ -254,13 +254,25 @@
         top: 50%;
       }
     </style>
-    <script src="https://threejs.org/build/three.min.js"></script>
-    <script src="https://threejs-plactice.vercel.app/mac/Tween.js"></script>
-    <script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
   </head>
   <body>
     <div id="container"></div>
-    <script>
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://threejs.org/build/three.module.js",
+          "three/addons/": "https://threejs.org/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+
+      import * as THREE from 'three';
+
+      import { TWEEN } from 'https://threejs.org/examples/jsm/libs/tween.module.min.js';
+      import { CSS3DRenderer, CSS3DObject } from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';    
 
     var table = [
       "esc", "", "", "",1, 1,
@@ -388,7 +400,7 @@
         typing_four.innerHTML = table[ i + 3 ];
         element.appendChild( typing_four );
 
-        var object = new THREE.CSS3DObject( element );
+        var object = new CSS3DObject( element );
         object.position.x = Math.random() * 4000 - 2000;
         object.position.y = Math.random() * 4000 - 2000;
         object.position.z = Math.random() * 4000 - 2000;
@@ -455,7 +467,7 @@
         num++;
       }
 
-      renderer = new THREE.CSS3DRenderer();
+      renderer = new CSS3DRenderer();
       if(window.innerWidth < 1200) {
         renderer.setSize( window.innerWidth, window.innerWidth );
       } else {
