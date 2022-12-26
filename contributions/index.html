@@ -95,7 +95,7 @@
       }
       request();
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], grid: [], closs: [], circle: [] }, targetsdh = { table: [], grid: [], closs: [], circle: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], grid: [], closs: [], sphere: [], helix: [], circle: [] }, targetsdh = { table: [], grid: [], closs: [], circle: [] };
 
       function is_data(data) {
         var contributions = data.contributions;
@@ -202,12 +202,39 @@
           targets.circle.push( object );
         }
 
+        var vector = new THREE.Vector3();
+        for ( var i = 0, l = objects.length; i < l; i ++ ) {
+          var phi = Math.acos( -1 + ( 2 * i ) / l );
+          var theta = Math.sqrt( l * Math.PI ) * phi;
+          var object = new THREE.Object3D();
+          object.position.x = 600 * Math.cos( theta ) * Math.sin( phi );
+          object.position.y = 600 * Math.sin( theta ) * Math.sin( phi );
+          object.position.z = 600 * Math.cos( phi );
+          vector.copy( object.position ).multiplyScalar( 2 );
+          object.lookAt( vector );
+          targets.sphere.push( object );
+        }
+
+        var vector = new THREE.Vector3();
+        for ( var i = 0, l = objects.length; i < l; i ++ ) {
+          var phi = i * 0.325 + Math.PI;
+          var object = new THREE.Object3D();
+          object.position.x = 700 * Math.sin( phi );
+          object.position.y = - ( i * 2 ) + 350;
+          object.position.z = 600 * Math.cos( phi );
+          vector.x = object.position.x * 3;
+          vector.y = object.position.y;
+          vector.z = object.position.z * 3;
+          object.lookAt( vector );
+          targets.helix.push( object );
+        }
+
         renderer = new CSS3DRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );     
         renderer.domElement.style.position = 'absolute';
         document.getElementById( 'container' ).appendChild( renderer.domElement );
 
-        transform( targets.table, 500 );
+        transform( targets.helix, 500 );
         window.addEventListener( 'resize', onWindowResize, false );
       }
 
@@ -218,15 +245,21 @@
       let renderling = setInterval(()=> {
           count++;
           switch(true) {
-            case count % 4 === 0:
-              transform( targets.table, 500 );
+            case count % 6 === 0:
+              transform( targets.helix, 500 );
               break;
-            case count % 4 === 1:
+            case count % 6 === 1:
               transform( targets.closs, 500 );
               break;
-            case count % 4 === 2:
+            case count % 6 === 2:
               transform( targets.circle, 500 );
               break;
+            case count % 6 === 3:
+              transform( targets.sphere, 500 );
+              break;
+            case count % 6 === 4:
+              transform( targets.table, 500 );
+              break;              
             default:
               transform( targets.grid, 500 );
               break;
