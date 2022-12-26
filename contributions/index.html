@@ -79,7 +79,15 @@
 
       // https://github-contributions-api.deno.dev/uemura5683.json
       async function request() {
-        fetch('uemura5683.json')
+        fetch('uemura5683.json', { 
+        method: "GET",
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, PUT, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+            "Content-Type": "application/json"
+        }
+        })
         .then(response => response.json())
         .then(data => {
           is_data(data);
@@ -87,7 +95,7 @@
       }
       request();
 
-      let camera, scene, renderer, controls, objects = [], targets = { table: [], grid: [] }, targetsdh = { table: [], grid: [] };
+      let camera, scene, renderer, controls, objects = [], targets = { table: [], grid: [], closs: [], circle: [] }, targetsdh = { table: [], grid: [], closs: [], circle: [] };
 
       function is_data(data) {
         var contributions = data.contributions;
@@ -161,6 +169,39 @@
 
         }
 
+        var vector = new THREE.Vector3();
+        for ( var i = 0, l = objects.length; i < l; i ++ ) {
+          var object = new THREE.Object3D();
+          object.position.x = ( ( i % 7 ) * 400 ) - 800;
+          object.position.y = ( - ( Math.floor( i / 7 ) % 7 ) * 400 ) + 800;
+          object.position.z = ( Math.floor( i / 49 ) ) * 1000 - 1500;
+          targets.grid.push( object );
+        }
+
+        var vector = new THREE.Vector3();
+        for ( var i = 0, l = objects.length; i < l; i ++ ) {
+          var phi = i * 0.425 + Math.PI;
+          var object = new THREE.Object3D();
+          object.position.x = 1000 * Math.sin( phi );
+          object.position.y = 600 * Math.tan( phi );
+          object.position.z = 600 * Math.cos( phi );
+          vector.x = object.position.x * 2;
+          vector.y = object.position.y * 1;
+          vector.z = object.position.z * 2;
+          object.lookAt( vector );
+          targets.closs.push( object );
+        }
+
+        var vector = new THREE.Vector3();
+        for ( var i = 0; i < objects.length; i ++ ) {
+          var phi = i * 0.275 + Math.PI;
+          var object = new THREE.Object3D();
+          object.position.x = 600 * Math.cos( phi );
+          object.position.y = 600 * Math.sin( phi );
+          object.position.z = - ( i * 40 );
+          targets.circle.push( object );
+        }
+
         renderer = new CSS3DRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );     
         renderer.domElement.style.position = 'absolute';
@@ -175,7 +216,21 @@
       **/
       let count = 0;
       let renderling = setInterval(()=> {
-        transform( targets.table, 500 );
+          count++;
+          switch(true) {
+            case count % 4 === 0:
+              transform( targets.table, 500 );
+              break;
+            case count % 4 === 1:
+              transform( targets.closs, 500 );
+              break;
+            case count % 4 === 2:
+              transform( targets.circle, 500 );
+              break;
+            default:
+              transform( targets.grid, 500 );
+              break;
+          }
       }, 5000);
 
       /**
