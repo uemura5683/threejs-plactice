@@ -15,33 +15,14 @@
       position: relative;
       height: 100vh;
     }
-    main:after {
-      content: '';
-      background: linear-gradient(to bottom right, rgba(255,255,255,0) 50%, #F0F0F0 50.5%) no-repeat top left/100% 100%;
-      width: 100%;
-      height: 20%;
-      display: block;
-      bottom: 0;
-      position: absolute;
-    }
-    main img {
-      position: absolute;
-      top: 50%;
-      left: 25%;
-      z-index: 1000;
-      transform: translate(-50%, -50%);
-    }
     canvas {
       position: absolute;
-      transform: translate(50%, 0);
+      transform: translate(0, 0);
       top: 0;
     }
   </style>
 </head>
 <body>
-  <main>
-    <a href="/"><img src="https://threejs-plactice.vercel.app/mainvisual/img/logo.png"></a>
-  </main>
   <canvas id="myCanvas"></canvas>
 </body>
 </html>
