@@ -62,7 +62,7 @@
       let xmastree  = null, snow = null, snow2 = null, spark = null, font = null, width = window.innerWidth, height = window.innerHeight, entire_scene = 0, bloom_scene = 1;
       let bloomLayer = new THREE.Layers();
           bloomLayer.set( bloom_scene );
-      let params = { exposure: 1, bloomStrength: 2, bloomThreshold: 0, bloomRadius: 0 };
+      let params = { exposure: 1, bloomStrength: 0.7, bloomThreshold: 0, bloomRadius: 0 };
       let materials = {};
 
       let renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -78,7 +78,7 @@
 
       let renderScene = new RenderPass( scene, camera );
 
-      let bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.0, 0.4, 1.0 );
+      let bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 0.4, 0.4, 0.4 );
           bloomPass.threshold = params.bloomThreshold;
           bloomPass.strength = params.bloomStrength;
           bloomPass.radius = params.bloomRadius;
@@ -288,7 +288,7 @@
           for (let i = 0; i < 750; i++) {
             let star = ['snowflake1.png', 'snowflake2.png'];
             let starNo = Math.floor( Math.random() * star.length);
-            let size = [20, 15, 10, 8, 5];
+            let size = [10, 5, 10, 15, 5];
             let sizeNo = Math.floor( Math.random() * size.length);
             const snow_material = new THREE.SpriteMaterial({
               map: new THREE.TextureLoader().load(star[starNo]),
@@ -320,7 +320,7 @@
           for (let i = 0; i < 750; i++) {
             let star = ['snowflake3.png'];
             let starNo = Math.floor( Math.random() * star.length);
-            let size = [20, 15, 10, 8, 5]
+            let size = [15, 5, 15, 10, 5]
             let sizeNo = Math.floor( Math.random() * size.length);
             const snow_material = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load(star[starNo]),});
             snow_material.fog = true;
