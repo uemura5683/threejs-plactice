@@ -42,22 +42,11 @@ function init() {
     c_ring_mesh_three.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
   scene.add(c_ring_mesh_three);
 
-  let c_geometry_four = new THREE.TorusGeometry( (Math.random() + .65) * 400, 16, 2, 200)
-    , c_ring_four = new THREE.MeshBasicMaterial({color: 0X015D8F})
-    , c_ring_mesh_four = new THREE.Mesh(c_geometry_four, c_ring_four)
-    c_ring_mesh_four.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(c_ring_mesh_four);
-
-  let c_geometry_five = new THREE.TorusGeometry( (Math.random() + .7) * 400, 18, 2, 200)
-    , c_ring_five = new THREE.MeshBasicMaterial({color: 0X0ADBF8})
-    , c_ring_mesh_five = new THREE.Mesh(c_geometry_five, c_ring_five);
-    c_ring_mesh_five.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  scene.add(c_ring_mesh_five);
 
   //　クリスタルの粒を作成する
   const c_group = new THREE.Group();
   scene.add(c_group);
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 500; i++) {
     let geometry = new THREE.SphereBufferGeometry(4, 3, 4),
         size = 1,
         christal = [0xFFA5FF, 0X3CA3D2, 0X05296F, 0X5EE1F1, 0X015D8F, 0X033161, 0X0ADBF8]
@@ -122,10 +111,6 @@ function init() {
     c_ring_mesh_two.rotation.y -= 0.01;
     c_ring_mesh_three.rotation.x += 0.01;
     c_ring_mesh_three.rotation.y += 0.01;
-    c_ring_mesh_four.rotation.x -= 0.01;
-    c_ring_mesh_four.rotation.y += 0.01;
-    c_ring_mesh_five.rotation.x -= 0.01;
-    c_ring_mesh_five.rotation.y -= 0.01;
     c_group.rotation.x -= 0.01;
     c_group.rotation.y -= 0.01;
     c_group.rotation.z -= 0.01;
